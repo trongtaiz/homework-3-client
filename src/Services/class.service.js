@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:4300";
+const baseURL = "https://homework-3-server.herokuapp.com";
 
 export const getAllClass = async () => {
   return axios.get(`${baseURL}/classes/all`);
