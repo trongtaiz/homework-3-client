@@ -5,27 +5,26 @@ import Class from "../../Components/Class";
 import * as classService from "../../Services/class.service";
 
 function Home() {
-  const [listOfClass, setListOfClass] = useState([]);
+	const [listOfClass, setListOfClass] = useState([]);
 
-  const handleGetClassList = async () => {
-    const { data } = await classService.getAllClass();
-    console.log(data);
-    setListOfClass(data);
-  };
-  useEffect(() => {
-    handleGetClassList();
-  }, []);
+	const handleGetClassList = async () => {
+		const { data } = await classService.getAllClass();
+		setListOfClass(data);
+	};
+	useEffect(() => {
+		handleGetClassList();
+	}, []);
 
-  return (
-    <div>
-      <Header />
-      <Styled.Wrapper>
-        {listOfClass.map((eachClass) => (
-          <Class key={eachClass.id} name={eachClass.name} />
-        ))}
-      </Styled.Wrapper>
-    </div>
-  );
+	return (
+		<div>
+			<Header />
+			<Styled.Wrapper>
+				{listOfClass.map((eachClass) => (
+					<Class key={eachClass.id} name={eachClass.name} />
+				))}
+			</Styled.Wrapper>
+		</div>
+	);
 }
 
 export default Home;
