@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from "react";
-import Header from "../../Components/Header";
-import * as Styled from "./Home.styled";
-import Class from "../../Components/Class";
-import * as classService from "../../Services/class.service";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import Class from "Components/Class";
+
+import { fetchAndSetClass } from "Redux/actions/classes";
 
 function Home() {
-	const [listOfClass, setListOfClass] = useState([]);
+	const dispatch = useDispatch();
+	const { classes } = useSelector((state) => state.classes);
+	// eslint-disable-next-line no-undef
 
-	const handleGetClassList = async () => {
-		const { data } = await classService.getAllClass();
-		setListOfClass(data);
-	};
 	useEffect(() => {
-		handleGetClassList();
+		dispatch(fetchAndSetClass());
 	}, []);
 
 	return (
-		<div>
-			<Header />
-			<Styled.Wrapper>
-				{listOfClass.map((eachClass) => (
-					<Class key={eachClass.id} name={eachClass.name} />
-				))}
-			</Styled.Wrapper>
-		</div>
+		<>
+			{classes.map((eachClass) => (
+				<Class key={eachClass.id} name={eachClass.name} />
+			))}
+		</>
 	);
 }
 

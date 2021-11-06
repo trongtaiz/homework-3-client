@@ -1,6 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
-
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -9,25 +7,23 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const propTypes = {
-	isOpenAddModal: PropTypes.bool,
-	setIsOpenAddModal: PropTypes.func,
-};
+export default function FormDialog() {
+	const [open, setOpen] = React.useState(false);
 
-const defaultProps = {
-	isOpenAddModal: false,
-	setIsOpenAddModal: () => {},
-};
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
 
-function AddClassModal(props) {
-	const { isOpenAddModal, setIsOpenAddModal } = props;
+	const handleClose = () => {
+		setOpen(false);
+	};
 
 	return (
 		<div>
-			<Dialog
-				open={isOpenAddModal}
-				onClose={() => setIsOpenAddModal(false)}
-			>
+			<Button variant="outlined" onClick={handleClickOpen}>
+				Open form dialog
+			</Button>
+			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle>Subscribe</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
@@ -45,19 +41,10 @@ function AddClassModal(props) {
 					/>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setIsOpenAddModal(false)}>
-						Cancel
-					</Button>
-					<Button onClick={() => setIsOpenAddModal(false)}>
-						Create
-					</Button>
+					<Button onClick={handleClose}>Cancel</Button>
+					<Button onClick={handleClose}>Subscribe</Button>
 				</DialogActions>
 			</Dialog>
 		</div>
 	);
 }
-
-AddClassModal.propTypes = propTypes;
-AddClassModal.defaultProps = defaultProps;
-
-export default AddClassModal;
