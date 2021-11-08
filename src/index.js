@@ -4,6 +4,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import App from "Components/App";
 import * as serviceWorker from "./serviceWorker";
 
+// mui color
+import theme from "Utils/theme";
+import { ThemeProvider } from "@mui/material/styles";
+
+// redux
 import { createStore, applyMiddleware } from "redux";
 import allReducers from "Redux/reducers";
 import thunk from "redux-thunk";
@@ -20,9 +25,11 @@ const store = createStore(
 ReactDOM.render(
 	<Provider store={store}>
 		<React.Fragment>
-			{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-			<CssBaseline />
-			<App />
+			<ThemeProvider theme={theme}>
+				{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+				<CssBaseline />
+				<App />
+			</ThemeProvider>
 		</React.Fragment>
 	</Provider>,
 	// eslint-disable-next-line no-undef

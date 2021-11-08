@@ -45,7 +45,7 @@ function AppHeader(props) {
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="static">
+			<AppBar color="primary" position="static">
 				<Toolbar>
 					<IconButton
 						size="large"
