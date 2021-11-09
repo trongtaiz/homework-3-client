@@ -1,6 +1,7 @@
 import axios from "axios";
 import "dotenv/config";
 
+// eslint-disable-next-line no-undef
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
 export const getAllClass = async () => {
