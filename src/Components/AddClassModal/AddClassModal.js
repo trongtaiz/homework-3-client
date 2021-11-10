@@ -17,6 +17,9 @@ import { addClass } from "Redux/actions/classes";
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string().trim().required("Name of class is require"),
+	section: Yup.string().trim(),
+	subject: Yup.string().trim(),
+	room: Yup.string().trim(),
 });
 
 const propTypes = {
@@ -38,42 +41,80 @@ function AddClassModal(props) {
 		reValidateMode: "onChange",
 		defaultValues: {
 			name: "",
+			section: "",
+			subject: "",
+			room: "",
 		},
 		resolver: yupResolver(validationSchema),
 	});
 
-	const onSubmit = async ({ name }) => {
-		dispatch(addClass({ name }));
-		reset({ name: "" });
+	const onSubmit = async ({ name, subject, section, room }) => {
+		dispatch(addClass({ name, subject, section, room }));
+		reset();
+		setIsOpenAddModal(false);
+	};
+
+	const closeModal = () => {
+		reset();
 		setIsOpenAddModal(false);
 	};
 
 	return (
 		<div>
 			<Dialog
+				sx={{
+					"& .MuiPaper-root": {
+						borderRadius: "8px",
+					},
+				}}
 				open={isOpenAddModal}
-				onClose={() => setIsOpenAddModal(false)}
+				onClose={closeModal}
 			>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<DialogTitle>Create a class</DialogTitle>
-					<DialogContent sx={{ width: "40ch" }}>
+					<DialogContent>
 						<TextField
 							fullWidth
 							autoFocus
-							variant="standard"
+							variant="filled"
 							type="text"
 							margin="dense"
 							id="name"
-							label="Class name:"
+							label="Class name (*)"
 							error={!!formState.errors.name?.message}
 							helperText={formState.errors.name?.message}
 							{...register("name")}
 						/>
+						<TextField
+							fullWidth
+							variant="filled"
+							type="text"
+							margin="dense"
+							id="name"
+							label="Section"
+							{...register("section")}
+						/>
+						<TextField
+							fullWidth
+							variant="filled"
+							type="text"
+							margin="dense"
+							id="name"
+							label="Subject"
+							{...register("subject")}
+						/>
+						<TextField
+							fullWidth
+							variant="filled"
+							type="text"
+							margin="dense"
+							id="name"
+							label="room"
+							{...register("room")}
+						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={() => setIsOpenAddModal(false)}>
-							Cancel
-						</Button>
+						<Button onClick={closeModal}>Cancel</Button>
 						<Button
 							disabled={
 								!formState.isValid || formState.isSubmitting
