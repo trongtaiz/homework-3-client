@@ -9,18 +9,8 @@ import theme from "Utils/theme";
 import { ThemeProvider } from "@mui/material/styles";
 
 // redux
-import { createStore, applyMiddleware } from "redux";
-import allReducers from "Redux/reducers";
-import thunk from "redux-thunk";
 import { Provider } from "react-redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-
-const middleware = [thunk];
-
-const store = createStore(
-	allReducers,
-	composeWithDevTools(applyMiddleware(...middleware))
-);
+import store from "Redux/store";
 
 ReactDOM.render(
 	<Provider store={store}>
