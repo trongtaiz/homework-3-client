@@ -9,10 +9,18 @@
     "sourceType": "module",
     "ecmaVersion": 6
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react"
+  ],
   "rules": {
     "indent": "off",
-    "prettier/prettier": [2, { "useTabs": true }],
-    "react/prop-types": 0
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "react/prop-types": 0,
+    "no-unused-vars": "off"
   }
 }

@@ -76,7 +76,7 @@ function AddClassModal(props) {
 						<TextField
 							fullWidth
 							autoFocus
-							variant="filled"
+							variant="outlined"
 							type="text"
 							margin="dense"
 							id="name"
@@ -87,7 +87,7 @@ function AddClassModal(props) {
 						/>
 						<TextField
 							fullWidth
-							variant="filled"
+							variant="outlined"
 							type="text"
 							margin="dense"
 							id="name"
@@ -96,7 +96,7 @@ function AddClassModal(props) {
 						/>
 						<TextField
 							fullWidth
-							variant="filled"
+							variant="outlined"
 							type="text"
 							margin="dense"
 							id="name"
@@ -105,7 +105,7 @@ function AddClassModal(props) {
 						/>
 						<TextField
 							fullWidth
-							variant="filled"
+							variant="outlined"
 							type="text"
 							margin="dense"
 							id="name"
