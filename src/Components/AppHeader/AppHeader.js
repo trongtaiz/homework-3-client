@@ -158,6 +158,7 @@ function AppHeader(props) {
 				isOpen={isOpenSignInOrSignUpModal}
 				onClose={closeSignInOrSignUpModal}
 				isSignUpModal={isSignUpModal}
+				setIsSignUpModal={setIsSignUpModal}
 			/>
 		</Box>
 	);

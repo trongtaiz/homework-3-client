@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { login } from "Redux/actions/auth";
 import { authRequest, request } from "../../Utils/request";
 
-export const useSignIn = () => {
+export const useSignInOrSignUpModal = () => {
 	const dispatch = useDispatch();
 
 	const onLoginSuccess = ({ accessToken, refreshToken, user }) => {
@@ -19,9 +19,24 @@ export const useSignIn = () => {
 		dispatch(login({ user }));
 	};
 
-	const signIn = async (username, password, onSuccess, onFail) => {
+	const signIn = async ({ username, password }, onSuccess, onFail) => {
 		await request
 			.post("/auth/sign-in", {
+				username,
+				password,
+			})
+			.then(({ data: { data } }) => {
+				onLoginSuccess(data);
+				onSuccess(data);
+			})
+			.catch((err) => {
+				onFail(err);
+			});
+	};
+
+	const signUp = async ({ username, password }, onSuccess, onFail) => {
+		await request
+			.post("/auth/sign-up", {
 				username,
 				password,
 			})
@@ -49,5 +64,5 @@ export const useSignIn = () => {
 			});
 	};
 
-	return { signIn, socialLogin };
+	return { signIn, signUp, socialLogin };
 };

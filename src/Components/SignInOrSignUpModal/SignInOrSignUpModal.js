@@ -15,16 +15,21 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
-import { useSignIn } from "./hooks";
+import { useSignInOrSignUpModal } from "./hooks";
 
 const validationSchema = Yup.object().shape({
 	username: Yup.string().trim().required("Username is required"),
 	password: Yup.string().trim().required("Password is required"),
 });
 
-function SignInOrSignUpModal({ isOpen, onClose, isSignUpModal }) {
+function SignInOrSignUpModal({
+	isOpen,
+	onClose,
+	isSignUpModal,
+	setIsSignUpModal,
+}) {
 	const dispatch = useDispatch();
-	const { signIn, socialLogin } = useSignIn();
+	const { signIn, signUp, socialLogin } = useSignInOrSignUpModal();
 	const [error, setError] = useState("");
 
 	const { handleSubmit, register, reset, formState } = useForm({
@@ -39,18 +44,36 @@ function SignInOrSignUpModal({ isOpen, onClose, isSignUpModal }) {
 
 	const submit = async (data) => {
 		console.log(data);
-		await signIn(
-			data.username,
-			data.password,
-			(data) => {
-				console.log(data);
-				closeModal();
-			},
-			(err) => {
-				console.log(err);
-				setError("Invalid username or password");
-			}
-		);
+
+		if (isSignUpModal) {
+			await signUp(
+				data,
+				(response) => {
+					console.log(response);
+					closeModal();
+				},
+				(err) => {
+					console.log(err.response);
+					const errMessage =
+						err.response.status === 409
+							? "Username has already existed"
+							: "Something wrongs, please try again";
+					setError(errMessage);
+				}
+			);
+		} else {
+			await signIn(
+				data,
+				(response) => {
+					console.log(response);
+					closeModal();
+				},
+				(err) => {
+					console.log(err);
+					setError("Invalid username or password");
+				}
+			);
+		}
 	};
 
 	const closeModal = () => {
@@ -184,6 +207,34 @@ function SignInOrSignUpModal({ isOpen, onClose, isSignUpModal }) {
 						/>
 					</DialogContent>
 					<DialogActions>
+						{!isSignUpModal ? (
+							<Typography sx={{ marginLeft: "20px" }}>
+								Does not have an account
+								<Button
+									sx={{ display: "block", margin: "auto" }}
+									onClick={() => {
+										setIsSignUpModal(true);
+										setError("");
+									}}
+								>
+									Sign Up
+								</Button>
+							</Typography>
+						) : (
+							<Typography sx={{ marginLeft: "20px" }}>
+								Already have an account
+								<Button
+									sx={{ display: "block", margin: "auto" }}
+									onClick={() => {
+										setIsSignUpModal(false);
+										setError("");
+									}}
+								>
+									Sign In
+								</Button>
+							</Typography>
+						)}
+						<div style={{ flex: "1 0 0" }} />
 						<Button onClick={closeModal}>Cancel</Button>
 						<Button
 							disabled={
