@@ -1,12 +1,12 @@
 import React, { Suspense, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Redirect, Route } from "react-router";
-import { useRecoilValue } from "recoil";
+import { useSelector } from "react-redux";
 
-import { RouterURL } from "constants/router";
-import { User } from "recoils/user/atom";
+import { RouterURL } from "Utils/constants";
 
-import Loading from "components/Loading";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import * as Styled from "./GuestRoute.styled";
 
 const propTypes = {
@@ -21,9 +21,11 @@ const defaultProps = {
 };
 
 function GuestRoute({ path, exact, component: Component }) {
-	const user = useRecoilValue(User);
+	const user = useSelector((state) => state.user);
 
-	useEffect(() => {}, [user]);
+	useEffect(() => {
+		console.log(user);
+	}, [user]);
 
 	return (
 		<Route path={path} exact={exact}>
@@ -33,7 +35,7 @@ function GuestRoute({ path, exact, component: Component }) {
 				<Suspense
 					fallback={
 						<Styled.LoadingContainer>
-							<Loading />
+							<CircularProgress />
 						</Styled.LoadingContainer>
 					}
 				>

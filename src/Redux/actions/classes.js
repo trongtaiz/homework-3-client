@@ -12,7 +12,7 @@ export const fetchAndSetClass = () => async (dispatch) => {
 		const { data } = await classService.getAllClass();
 		dispatch({
 			type: SET_CLASS,
-			payload: data,
+			payload: data.data,
 		});
 	} catch (error) {
 		// eslint-disable-next-line no-undef
@@ -25,7 +25,7 @@ export const addClass = (classData) => async (dispatch) => {
 		const { data } = await classService.createClass(classData);
 		dispatch({
 			type: ADD_CLASS,
-			payload: data,
+			payload: data.data,
 		});
 	} catch (error) {
 		// eslint-disable-next-line no-undef

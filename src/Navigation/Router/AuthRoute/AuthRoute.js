@@ -1,6 +1,8 @@
 import React, { Suspense } from "react";
-import { Route } from "react-router";
+import { Route, Redirect } from "react-router";
 import PropTypes from "prop-types";
+
+import { RouterURL } from "Utils/constants";
 
 import CircularProgress from "@mui/material/CircularProgress";
 import AppLayout from "Layouts/AppLayout";
@@ -18,19 +20,26 @@ const defaultProps = {
 };
 
 function AuthRoute({ path, exact, component: Component }) {
+	// eslint-disable-next-line no-undef
+	const refreshToken = localStorage.getItem("refreshToken");
+
 	return (
 		<Route path={path} exact={exact}>
-			<Suspense
-				fallback={
-					<Styled.LoadingContainer>
-						<CircularProgress />
-					</Styled.LoadingContainer>
-				}
-			>
-				<AppLayout>
-					<Component />
-				</AppLayout>
-			</Suspense>
+			{!refreshToken ? (
+				<Redirect replace to={RouterURL.HOME} />
+			) : (
+				<Suspense
+					fallback={
+						<Styled.LoadingContainer>
+							<CircularProgress />
+						</Styled.LoadingContainer>
+					}
+				>
+					<AppLayout>
+						<Component />
+					</AppLayout>
+				</Suspense>
+			)}
 		</Route>
 	);
 }
