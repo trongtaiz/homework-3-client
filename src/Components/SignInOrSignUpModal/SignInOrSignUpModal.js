@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
@@ -17,9 +15,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import { useSignInOrSignUpModal } from "./hooks";
 
-const validationSchema = Yup.object().shape({
-	username: Yup.string().trim().required("Username is required"),
-	password: Yup.string().trim().required("Password is required"),
+const validationSignInSchema = Yup.object().shape({
+	username: Yup.string().trim().required("Username is required").min(6),
+	password: Yup.string().trim().required("Password is required").min(8),
+});
+
+const validationSignUpSchema = Yup.object().shape({
+	username: Yup.string().trim().required("Username is required").min(6),
+	password: Yup.string().trim().required("Password is required").min(8),
+	name: Yup.string().trim().required("Name is required").min(3),
 });
 
 function SignInOrSignUpModal({
@@ -28,18 +32,22 @@ function SignInOrSignUpModal({
 	isSignUpModal,
 	setIsSignUpModal,
 }) {
-	const dispatch = useDispatch();
 	const { signIn, signUp, socialLogin } = useSignInOrSignUpModal();
 	const [error, setError] = useState("");
 
 	const { handleSubmit, register, reset, formState } = useForm({
 		mode: "onTouched",
 		reValidateMode: "onChange",
-		defaultValues: {
-			username: "",
-			password: "",
-		},
-		resolver: yupResolver(validationSchema),
+		defaultValues: isSignUpModal
+			? {
+					username: "",
+					password: "",
+					name: "",
+			  }
+			: { username: "", password: "" },
+		resolver: yupResolver(
+			isSignUpModal ? validationSignUpSchema : validationSignInSchema
+		),
 	});
 
 	const submit = async (data) => {
@@ -134,6 +142,20 @@ function SignInOrSignUpModal({
 							helperText={formState.errors.password?.message}
 							{...register("password")}
 						/>
+
+						{isSignUpModal ? (
+							<TextField
+								fullWidth
+								variant="outlined"
+								type="text"
+								margin="dense"
+								id="name"
+								label="Name"
+								error={!!formState.errors.name?.message}
+								helperText={formState.errors.name?.message}
+								{...register("name")}
+							/>
+						) : null}
 						<Typography
 							variant="subtitle2"
 							display="block"
@@ -214,6 +236,7 @@ function SignInOrSignUpModal({
 									sx={{ display: "block", margin: "auto" }}
 									onClick={() => {
 										setIsSignUpModal(true);
+										reset();
 										setError("");
 									}}
 								>
@@ -227,6 +250,7 @@ function SignInOrSignUpModal({
 									sx={{ display: "block", margin: "auto" }}
 									onClick={() => {
 										setIsSignUpModal(false);
+										reset();
 										setError("");
 									}}
 								>

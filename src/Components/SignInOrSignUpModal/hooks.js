@@ -34,11 +34,12 @@ export const useSignInOrSignUpModal = () => {
 			});
 	};
 
-	const signUp = async ({ username, password }, onSuccess, onFail) => {
+	const signUp = async ({ username, password, name }, onSuccess, onFail) => {
 		await request
 			.post("/auth/sign-up", {
 				username,
 				password,
+				name,
 			})
 			.then(({ data: { data } }) => {
 				onLoginSuccess(data);
