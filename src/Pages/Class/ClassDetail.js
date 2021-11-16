@@ -34,7 +34,7 @@ function ClassDetail() {
 			{subNav === "people" && (
 				<>
 					<ClassHeader navTag={2} name={name} />
-					<People />
+					<People id={id} />
 				</>
 			)}
 		</>

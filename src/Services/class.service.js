@@ -16,3 +16,11 @@ export const getClassDetail = async (id) => {
 export const createClass = async (data) => {
 	return axios.post(`${baseURL}/classes`, data);
 };
+
+export const getStudentsInClass = async (id) => {
+	return axios.get(`${baseURL}/classes/students/${id}`);
+};
+
+export const getTeachersInClass = async (id) => {
+	return axios.get(`${baseURL}/classes/teachers/${id}`);
+};
