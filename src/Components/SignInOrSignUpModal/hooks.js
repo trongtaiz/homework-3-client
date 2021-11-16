@@ -19,10 +19,10 @@ export const useSignInOrSignUpModal = () => {
 		dispatch(login({ user }));
 	};
 
-	const signIn = async ({ username, password }, onSuccess, onFail) => {
+	const signIn = async ({ email, password }, onSuccess, onFail) => {
 		await request
 			.post("/auth/sign-in", {
-				username,
+				email,
 				password,
 			})
 			.then(({ data: { data } }) => {
@@ -34,11 +34,12 @@ export const useSignInOrSignUpModal = () => {
 			});
 	};
 
-	const signUp = async ({ username, password }, onSuccess, onFail) => {
+	const signUp = async ({ email, password, name }, onSuccess, onFail) => {
 		await request
 			.post("/auth/sign-up", {
-				username,
+				email,
 				password,
+				name,
 			})
 			.then(({ data: { data } }) => {
 				onLoginSuccess(data);
