@@ -1,5 +1,3 @@
-import { IconButton } from "@material-ui/core";
-import { MoreVert } from "@material-ui/icons";
 import React from "react";
 import {
 	PostContent,
@@ -11,6 +9,8 @@ import {
 	PostNameAndDate,
 	PostWrapper,
 } from "./Post.styled";
+import { IconButton } from "@material-ui/core";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 function Post({ image, name, date, content }) {
 	return (
@@ -25,7 +25,7 @@ function Post({ image, name, date, content }) {
 				</PostInfoSection>
 				<PostInfoSection>
 					<IconButton>
-						<MoreVert />
+						<MoreVertIcon />
 					</IconButton>
 				</PostInfoSection>
 			</PostInformationContainer>
