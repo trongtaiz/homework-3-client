@@ -1,8 +1,8 @@
 import * as React from "react";
 import {
+	InviteIcon,
 	PeopleHeader,
 	PeopleHeaderEnd,
-	PeopleHeaderStart,
 	PeopleImageContainer,
 	PeopleInfoSection,
 	PeopleLine,
@@ -22,10 +22,15 @@ function People(props) {
 		props.getStudentsInClass(props.id);
 	}, []);
 	console.log("props", props);
-	const { students, teachers } = props;
+	const { students, teachers, user } = props;
 	return (
 		<PeopleWrapper>
-			<PeopleHeader>Teachers</PeopleHeader>
+			<PeopleHeader>
+				Teachers
+				<PeopleHeaderEnd>
+					{user.role === "TEACHER" && <InviteIcon />}
+				</PeopleHeaderEnd>
+			</PeopleHeader>
 			{teachers?.map((teacher) => (
 				<PeopleLine key={teacher.user_id}>
 					<PeopleInfoSection>
@@ -35,19 +40,27 @@ function People(props) {
 				</PeopleLine>
 			))}
 			<PeopleHeader>
-				<PeopleHeaderStart>Classmates</PeopleHeaderStart>
+				{user.role === "STUDENT" ? "Classmates" : "Students"}
 				<PeopleHeaderEnd>
-					{students?.length + " students"}
+					<div>
+						{students?.length + " students"}
+						{user.role === "TEACHER" && <InviteIcon />}
+					</div>
 				</PeopleHeaderEnd>
 			</PeopleHeader>
-			{students?.map((student) => (
-				<PeopleLine key={student.user_id}>
-					<PeopleInfoSection>
-						<PeopleImageContainer src="/avatar.png" />
-						<PeopleName>{student.user.name}</PeopleName>
-					</PeopleInfoSection>
-				</PeopleLine>
-			))}
+			{students?.reduce(function (result, student) {
+				if (student.user_id !== user.id) {
+					result.push(
+						<PeopleLine key={student.user_id}>
+							<PeopleInfoSection>
+								<PeopleImageContainer src="/avatar.png" />
+								<PeopleName>{student.user.name}</PeopleName>
+							</PeopleInfoSection>
+						</PeopleLine>
+					);
+				}
+				return result;
+			}, [])}
 		</PeopleWrapper>
 	);
 }
@@ -55,6 +68,7 @@ function People(props) {
 const mapStateToProps = (state) => {
 	console.log("state", state);
 	return {
+		user: state.auth,
 		students: state.classes.students,
 		teachers: state.classes.teachers,
 	};

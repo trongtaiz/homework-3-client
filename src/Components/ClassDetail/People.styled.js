@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 export const PeopleWrapper = styled.div`
 	width: 60%;
@@ -58,4 +59,8 @@ export const PeopleName = styled.div`
 export const PeopleInfoSection = styled.div`
 	display: flex;
 	align-items: center;
+`;
+
+export const InviteIcon = styled(PersonAddAltIcon)`
+	margin-left: 25px;
 `;
