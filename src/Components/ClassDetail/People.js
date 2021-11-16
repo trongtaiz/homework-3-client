@@ -69,8 +69,8 @@ const mapStateToProps = (state) => {
 	console.log("state", state);
 	return {
 		user: state.auth,
-		students: state.classes.students,
-		teachers: state.classes.teachers,
+		students: state.currentClass.students,
+		teachers: state.currentClass.teachers,
 	};
 };
 

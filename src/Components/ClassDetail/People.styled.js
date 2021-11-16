@@ -48,7 +48,7 @@ export const PeopleHeaderStart = styled.div`
 export const PeopleImageContainer = styled.img`
 	height: 40px;
 	width: 40px;
-	border-radius: 9999px;
+	border-radius: 50%;
 `;
 
 export const PeopleName = styled.div`
