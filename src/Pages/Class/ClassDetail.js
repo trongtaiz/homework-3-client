@@ -5,35 +5,25 @@ import * as classService from "../../Services/class.service";
 import ClassHeader from "../../Components/ClassDetail/ClassHeader";
 import Stream from "../../Components/ClassDetail/Stream";
 import People from "../../Components/ClassDetail/People";
+import { connect } from "react-redux";
+import { getClassDetail } from "../../Redux/actions/classes";
 
-function ClassDetail() {
+function ClassDetail(props) {
 	const { id, subNav } = useParams();
-	const [name, setName] = useState(null);
-	const getClass = (id) => {
-		classService
-			.getClassDetail(id)
-			.then((response) => {
-				setName(response.data.data.name);
-			})
-			.catch((e) => {
-				// eslint-disable-next-line no-undef
-				console.log(e);
-			});
-	};
 	useEffect(() => {
-		getClass(id);
+		props.getClassDetail(id);
 	}, []);
 	return (
 		<>
 			{subNav === "stream" && (
 				<>
-					<ClassHeader navTag={0} name={name} />
-					<Stream name={name} id={id} />
+					<ClassHeader navTag={0} name={props.name} />
+					<Stream name={props.name} id={id} />
 				</>
 			)}
 			{subNav === "people" && (
 				<>
-					<ClassHeader navTag={2} name={name} />
+					<ClassHeader navTag={2} name={props.name} />
 					<People id={id} />
 				</>
 			)}
@@ -41,4 +31,8 @@ function ClassDetail() {
 	);
 }
 
-export default ClassDetail;
+const mapStateToProps = (state) => {
+	return { name: state.currentClass.class.name };
+};
+
+export default connect(mapStateToProps, { getClassDetail })(ClassDetail);

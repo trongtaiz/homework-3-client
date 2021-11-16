@@ -5,3 +5,6 @@ export const RELOGIN = "RELOGIN";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const GET_STUDENT_IN_CLASS = "GET_STUDENT_IN_CLASS";
 export const GET_TEACHER_IN_CLASS = "GET_TEACHER_IN_CLASS";
+export const GET_CLASS_DETAIL = "GET_CLASS_DETAIL";
+export const CHANGE_ID = "CHANGE_ID";
+export const FETCH_ID = "FETCH_ID";

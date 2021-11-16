@@ -4,7 +4,8 @@ import { Switch, Route } from "react-router-dom";
 import { AuthConfig } from "Navigation/RouterConfig";
 // import GuestRoute from "./GuestRoute";
 import AuthRoute from "./AuthRoute";
-import ClassDetail from "../../Pages/Class/ClassDetail";
+import ClassDetail from "Pages/Class/ClassDetail";
+import MappingAccountIDModel from "Components/ClassDetail/MappingAccountIDModel";
 
 const renderRoutes = (routes, RouteWrapper) =>
 	routes.map(({ path, title, component, exact = true, ...props }) => (
@@ -25,6 +26,7 @@ function AppRouter() {
 				{renderRoutes(AuthConfig, AuthRoute)}
 				{/* {renderRoutes(GuestConfig, GuestRoute)} */}
 				<Route path="/classes/:id/:subNav" component={ClassDetail} />
+				<Route path="/" component={MappingAccountIDModel} />
 			</Switch>
 		</>
 	);

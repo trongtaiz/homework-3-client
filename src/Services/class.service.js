@@ -9,6 +9,18 @@ export const getAllClass = async () => {
 	return axios.get(`${baseURL}/classes/all`);
 };
 
+export const fetchStudentId = async (classId, userId) => {
+	return axios.get(`${baseURL}/classes/fetchStudentId`, {
+		params: { classId: classId, userId: userId },
+	});
+};
+
+export const changeStudentId = async (classId, userId, studentId) => {
+	return axios.get(`${baseURL}/classes/changeStudentId`, {
+		params: { classId: classId, userId: userId, studentId: studentId },
+	});
+};
+
 export const getClassDetail = async (id) => {
 	return axios.get(`${baseURL}/classes/${id}`);
 };
