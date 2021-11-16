@@ -3,6 +3,8 @@ import {
 	ADD_CLASS,
 	GET_TEACHER_IN_CLASS,
 	GET_STUDENT_IN_CLASS,
+	CHANGE_ID,
+	FETCH_ID,
 } from "./types";
 
 import * as classService from "Services/class.service";
@@ -59,3 +61,33 @@ export const getTeachersInClass = (id) => async (dispatch) => {
 		console.log(error);
 	}
 };
+export const fetchStudentId = (classId, userId) => async (dispatch) => {
+	try {
+		const { data } = await classService.fetchStudentId(classId, userId);
+		dispatch({
+			type: FETCH_ID,
+			payload: data.data,
+		});
+	} catch (error) {
+		// eslint-disable-next-line no-undef
+		console.log(error);
+	}
+};
+
+export const changeStudentId =
+	(classId, userId, studentId) => async (dispatch) => {
+		try {
+			const { data } = await classService.changeStudentId(
+				classId,
+				userId,
+				studentId
+			);
+			dispatch({
+				type: CHANGE_ID,
+				payload: data.data,
+			});
+		} catch (error) {
+			// eslint-disable-next-line no-undef
+			console.log(error);
+		}
+	};
