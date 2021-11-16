@@ -2,10 +2,16 @@ import { IconButton } from "@material-ui/core";
 import { SendOutlined } from "@material-ui/icons";
 import React from "react";
 import { useEffect } from "react";
-import "./Class.css";
 import Post from "./Post";
 import { connect } from "react-redux";
 import { getAllPostsInClass } from "../../Redux/actions/posts";
+import {
+	ClassDetailWrapper,
+	ClassNameBox,
+	ClassPost,
+	InputPost,
+	PostAvatar,
+} from "./ClassDetail.styled";
 
 function Stream(props) {
 	useEffect(() => {
@@ -13,43 +19,35 @@ function Stream(props) {
 	}, []);
 	const { posts } = props;
 	return (
-		<div className="class">
-			<div
-				className="class__nameBox"
-				style={{ backgroundImage: "url(/background.png)" }}
-			>
+		<ClassDetailWrapper>
+			<ClassNameBox>
 				<div className="class__name">{props.name}</div>
-			</div>
-			<div className="class__post">
-				<img
+			</ClassNameBox>
+			<ClassPost>
+				<PostAvatar
 					src={
 						"https://lh3.googleusercontent.com/a/default-user=s40-c"
 					}
-					alt=""
 				/>
-				<input
+				<InputPost
 					type="text"
 					placeholder="Announce something to your class"
 				/>
 				<IconButton>
 					<SendOutlined />
 				</IconButton>
-			</div>
+			</ClassPost>
 			{posts?.map((post) => (
 				// eslint-disable-next-line react/jsx-key
 				<Post
 					authorId={post.authorId}
 					content={post.content}
 					date={post.date.substr(0, 10)}
-					image={
-						post.image
-							? post.image
-							: "https://lh3.googleusercontent.com/a/default-user=s40-c"
-					}
+					image={post.image ? post.image : "/avatar.png"}
 					name={post.name}
 				/>
 			))}
-		</div>
+		</ClassDetailWrapper>
 	);
 }
 

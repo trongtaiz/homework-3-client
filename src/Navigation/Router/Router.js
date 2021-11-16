@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import { AuthConfig } from "Navigation/RouterConfig";
 // import GuestRoute from "./GuestRoute";
 import AuthRoute from "./AuthRoute";
-import ClassDetail from "../../Components/ClassDetail/ClassDetail";
+import ClassDetail from "../../Pages/Class/ClassDetail";
 
 const renderRoutes = (routes, RouteWrapper) =>
 	routes.map(({ path, title, component, exact = true, ...props }) => (

@@ -1,29 +1,36 @@
 import { IconButton } from "@material-ui/core";
 import { MoreVert } from "@material-ui/icons";
 import React from "react";
-import "./Post.css";
+import {
+	PostContent,
+	PostDate,
+	PostImageContainer,
+	PostInformationContainer,
+	PostInfoSection,
+	PostName,
+	PostNameAndDate,
+	PostWrapper,
+} from "./Post.styled";
 
 function Post({ image, name, date, content }) {
 	return (
-		<div className="post">
-			<div className="post__informationContainer">
-				<div className="post__infoSection">
-					<div className="post__imageContainer">
-						<img src={image} alt="Profile photo" />
-					</div>
-					<div className="post__nameAndDate">
-						<div className="post__name">{name}</div>
-						<div className="post__date">{date}</div>
-					</div>
-				</div>
-				<div className="post__infoSection">
+		<PostWrapper>
+			<PostInformationContainer>
+				<PostInfoSection>
+					<PostImageContainer src={image} alt="Profile photo" />
+					<PostNameAndDate>
+						<PostName>{name}</PostName>
+						<PostDate>{date}</PostDate>
+					</PostNameAndDate>
+				</PostInfoSection>
+				<PostInfoSection>
 					<IconButton>
 						<MoreVert />
 					</IconButton>
-				</div>
-			</div>
-			<div className="post__content">{content}</div>
-		</div>
+				</PostInfoSection>
+			</PostInformationContainer>
+			<PostContent>{content}</PostContent>
+		</PostWrapper>
 	);
 }
 
