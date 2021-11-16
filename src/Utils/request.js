@@ -90,6 +90,7 @@ authRequest.interceptors.response.use(
 						resolve(authRequest(originalRequest));
 					})
 					.catch((err) => {
+						localStorage.removeItem("refreshToken");
 						store.dispatch(reLogin());
 						processQueue(err, null);
 						reject(err);

@@ -16,7 +16,8 @@ import Menu from "@mui/material/Menu";
 
 import AddClassModal from "Components/AddClassModal";
 import SignInOrSignUpModal from "Components/SignInOrSignUpModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "Redux/actions/auth";
 
 const propTypes = {
 	isDrawerOpen: PropTypes.bool,
@@ -29,7 +30,9 @@ const defaultProps = {
 };
 
 function AppHeader(props) {
-	const [anchorEl, setAnchorEl] = React.useState(null);
+	const dispatch = useDispatch();
+	const [classMenuAnchorEl, setClassMenuAnchorEl] = React.useState(null);
+	const [accountMenuAnchorEl, setAccountMenuAnchorEl] = React.useState(null);
 	const { isDrawerOpen, setIsDrawerOpen } = props;
 	const [isOpenAddModal, setIsOpenAddModal] = useState(false);
 	const [isOpenSignInOrSignUpModal, setIsOpenSignInOrSignUpModal] =
@@ -37,17 +40,25 @@ function AppHeader(props) {
 	const [isSignUpModal, setIsSignUpModal] = useState(false);
 	const { user } = useSelector((state) => state.auth);
 
-	const handleMenu = (event) => {
-		setAnchorEl(event.currentTarget);
+	const handleClassMenu = (event) => {
+		setClassMenuAnchorEl(event.currentTarget);
 	};
 
-	const handleClose = () => {
-		setAnchorEl(null);
+	const handleAccountMenu = (event) => {
+		setAccountMenuAnchorEl(event.currentTarget);
+	};
+
+	const handleCloseClassMenu = () => {
+		setClassMenuAnchorEl(null);
+	};
+
+	const handleCloseAccountMenu = () => {
+		setAccountMenuAnchorEl(null);
 	};
 
 	const openAddModal = () => {
 		setIsOpenAddModal(true);
-		setAnchorEl(null);
+		handleCloseClassMenu();
 	};
 
 	const openSignInModal = () => {
@@ -62,6 +73,11 @@ function AppHeader(props) {
 
 	const closeSignInOrSignUpModal = () => {
 		setIsOpenSignInOrSignUpModal(false);
+	};
+
+	const onLogOut = () => {
+		localStorage.removeItem("refreshToken");
+		dispatch(logout());
 	};
 
 	return (
@@ -109,7 +125,7 @@ function AppHeader(props) {
 							<>
 								<IconButton
 									color="inherit"
-									onClick={handleMenu}
+									onClick={handleClassMenu}
 								>
 									<AddIcon />
 								</IconButton>
@@ -119,12 +135,13 @@ function AppHeader(props) {
 									aria-controls="menu-appbar"
 									aria-haspopup="true"
 									color="inherit"
+									onClick={handleAccountMenu}
 								>
 									<AccountCircle />
 								</IconButton>
 								<Menu
 									id="menu-appbar"
-									anchorEl={anchorEl}
+									anchorEl={classMenuAnchorEl}
 									anchorOrigin={{
 										vertical: "top",
 										horizontal: "right",
@@ -134,14 +151,32 @@ function AppHeader(props) {
 										vertical: "top",
 										horizontal: "right",
 									}}
-									open={Boolean(anchorEl)}
-									onClose={handleClose}
+									open={Boolean(classMenuAnchorEl)}
+									onClose={handleCloseClassMenu}
 								>
-									<MenuItem onClick={handleClose}>
-										Join a class
-									</MenuItem>
+									<MenuItem>Join a class</MenuItem>
 									<MenuItem onClick={openAddModal}>
 										Create a class
+									</MenuItem>
+								</Menu>
+								<Menu
+									id="menu-appbar"
+									anchorEl={accountMenuAnchorEl}
+									anchorOrigin={{
+										vertical: "top",
+										horizontal: "right",
+									}}
+									keepMounted
+									transformOrigin={{
+										vertical: "top",
+										horizontal: "right",
+									}}
+									open={Boolean(accountMenuAnchorEl)}
+									onClose={handleCloseAccountMenu}
+								>
+									<MenuItem>Profile</MenuItem>
+									<MenuItem onClick={onLogOut}>
+										Log out
 									</MenuItem>
 								</Menu>
 							</>
