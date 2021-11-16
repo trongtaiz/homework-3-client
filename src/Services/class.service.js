@@ -1,4 +1,5 @@
 import axios from "axios";
+import { authRequest } from "Utils/request";
 import "dotenv/config";
 
 // eslint-disable-next-line no-undef
@@ -35,4 +36,11 @@ export const getStudentsInClass = async (id) => {
 
 export const getTeachersInClass = async (id) => {
 	return axios.get(`${baseURL}/classes/teachers/${id}`);
+};
+
+export const joinClass = async (data) => {
+	const { classId, inviteId } = data;
+	return authRequest.get(
+		`/classes/join-class?classId=${classId}&inviteId=${inviteId}`
+	);
 };

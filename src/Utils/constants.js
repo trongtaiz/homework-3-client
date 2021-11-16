@@ -1,6 +1,7 @@
 export const RouterURL = {
 	HOME: "/",
 	CLASS: "/class",
+	JOIN_CLASS: "/join-class",
 };
 
 export const RoutableModalUrl = {
@@ -15,4 +16,9 @@ export const Colors = {
 	AVATAR_BLUR: "rgba(175,175,175, 0.2)",
 	DODGER_BLUE: "#3993ff",
 	WHITE: "#ffffff",
+};
+
+export const Role = {
+	TEACHER: "TEACHER",
+	STUDENT: "STUDENT",
 };

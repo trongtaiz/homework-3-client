@@ -1,6 +1,10 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
+import { RouterURL } from "Utils/constants";
+import AppLayout from "Layouts/AppLayout";
+import Home from "Pages/Home";
+
 import { AuthConfig } from "Navigation/RouterConfig";
 // import GuestRoute from "./GuestRoute";
 import AuthRoute from "./AuthRoute";
@@ -25,6 +29,11 @@ function AppRouter() {
 			<Switch>
 				{renderRoutes(AuthConfig, AuthRoute)}
 				{/* {renderRoutes(GuestConfig, GuestRoute)} */}
+				<Route path={RouterURL.HOME} exact>
+					<AppLayout>
+						<Home />
+					</AppLayout>
+				</Route>
 				<Route path="/classes/:id/:subNav" component={ClassDetail} />
 				<Route path="/" component={MappingAccountIDModel} />
 			</Switch>
