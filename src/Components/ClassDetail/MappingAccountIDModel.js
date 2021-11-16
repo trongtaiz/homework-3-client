@@ -17,9 +17,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 function MappingAccountIDModel(props) {
-	const [open, setOpen] = React.useState(false);
+	const { mapId, setOpenIdUpdate, open, user, currentClass } = props;
 	const [studentId, setStudentId] = React.useState("");
-	const { mapId } = props;
 	const [alertSuccess, setAlertSuccess] = React.useState(false);
 	const [alertFailure, setAlertFailure] = React.useState(false);
 	const handleCloseAlertSuccess = (event, reason) => {
@@ -27,16 +26,18 @@ function MappingAccountIDModel(props) {
 			return;
 		}
 		setAlertSuccess(false);
+		setOpenIdUpdate(false);
 	};
 	const handleCloseAlertFailure = (event, reason) => {
 		if (reason === "clickaway") {
 			return;
 		}
 		setAlertFailure(false);
+		setOpenIdUpdate(false);
 	};
 
 	useEffect(() => {
-		props.fetchStudentId(2, 1);
+		props.fetchStudentId(currentClass.class.id, user?.id);
 		console.log("props", props);
 	}, []);
 
@@ -46,17 +47,13 @@ function MappingAccountIDModel(props) {
 		if (mapId.success == false) setAlertFailure(true);
 	}, [mapId]);
 
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
 	const handleClose = () => {
-		setOpen(false);
+		setOpenIdUpdate(false);
 	};
 
 	const handleUpdate = () => {
-		setOpen(false);
-		props.changeStudentId(2, 1, studentId);
+		if (studentId === mapId.studentId || studentId === "") handleClose();
+		else props.changeStudentId(currentClass.class.id, user?.id, studentId);
 	};
 
 	const handleOnChange = (e) => {
@@ -65,9 +62,6 @@ function MappingAccountIDModel(props) {
 
 	return (
 		<div>
-			<Button variant="outlined" onClick={handleClickOpen}>
-				Update Student ID
-			</Button>
 			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle>Update Student ID</DialogTitle>
 				<DialogContent>
@@ -97,7 +91,7 @@ function MappingAccountIDModel(props) {
 			<Stack spacing={2} sx={{ width: "100%" }}>
 				<Snackbar
 					open={alertSuccess}
-					autoHideDuration={3000}
+					autoHideDuration={1000}
 					onClose={handleCloseAlertSuccess}
 				>
 					<Alert
@@ -110,7 +104,7 @@ function MappingAccountIDModel(props) {
 				</Snackbar>
 				<Snackbar
 					open={alertFailure}
-					autoHideDuration={3000}
+					autoHideDuration={1000}
 					onClose={handleCloseAlertFailure}
 				>
 					<Alert

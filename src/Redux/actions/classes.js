@@ -5,6 +5,7 @@ import {
 	GET_STUDENT_IN_CLASS,
 	CHANGE_ID,
 	FETCH_ID,
+	GET_CLASS_DETAIL,
 } from "./types";
 
 import * as classService from "Services/class.service";
@@ -15,6 +16,19 @@ export const fetchAndSetClass = () => async (dispatch) => {
 		dispatch({
 			type: SET_CLASS,
 			payload: data,
+		});
+	} catch (error) {
+		// eslint-disable-next-line no-undef
+		console.log(error);
+	}
+};
+
+export const getClassDetail = (id) => async (dispatch) => {
+	try {
+		const { data } = await classService.getClassDetail(id);
+		dispatch({
+			type: GET_CLASS_DETAIL,
+			payload: data.data,
 		});
 	} catch (error) {
 		// eslint-disable-next-line no-undef

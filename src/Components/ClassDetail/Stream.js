@@ -38,8 +38,8 @@ function Stream(props) {
 				</IconButton>
 			</ClassPost>
 			{posts?.map((post) => (
-				// eslint-disable-next-line react/jsx-key
 				<Post
+					key={post.id}
 					authorId={post.authorId}
 					content={post.content}
 					date={post.date.substr(0, 10)}
