@@ -6,6 +6,7 @@ import {
 	CHANGE_ID,
 	FETCH_ID,
 	GET_CLASS_DETAIL,
+	GET_ROLE,
 } from "./types";
 
 import * as classService from "Services/class.service";
@@ -105,3 +106,15 @@ export const changeStudentId =
 			console.log(error);
 		}
 	};
+export const getRole = (classId, userId) => async (dispatch) => {
+	try {
+		const { data } = await classService.getRole(classId, userId);
+		dispatch({
+			type: GET_ROLE,
+			payload: data.data,
+		});
+	} catch (error) {
+		// eslint-disable-next-line no-undef
+		console.log(error);
+	}
+};

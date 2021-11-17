@@ -7,17 +7,17 @@ import "dotenv/config";
 const baseURL = "https://midterm-classroom.herokuapp.com";
 
 export const getAllClass = async () => {
-	return axios.get(`${baseURL}/classes/all`);
+	return authRequest.get(`${baseURL}/classes/all`);
 };
 
 export const fetchStudentId = async (classId, userId) => {
-	return axios.get(`${baseURL}/classes/fetchStudentId`, {
+	return authRequest.get(`${baseURL}/classes/fetchStudentId`, {
 		params: { classId: classId, userId: userId },
 	});
 };
 
 export const changeStudentId = async (classId, userId, studentId) => {
-	return axios.get(`${baseURL}/classes/changeStudentId`, {
+	return authRequest.get(`${baseURL}/classes/changeStudentId`, {
 		params: { classId: classId, userId: userId, studentId: studentId },
 	});
 };
@@ -36,6 +36,12 @@ export const getStudentsInClass = async (id) => {
 
 export const getTeachersInClass = async (id) => {
 	return authRequest.get(`${baseURL}/classes/teachers/${id}`);
+};
+
+export const getRole = async (classId, userId) => {
+	return authRequest.get(`${baseURL}/classes/role`, {
+		params: { classId: classId, userId: userId },
+	});
 };
 
 export const joinClass = async (data) => {

@@ -9,3 +9,4 @@ export const GET_TEACHER_IN_CLASS = "GET_TEACHER_IN_CLASS";
 export const GET_CLASS_DETAIL = "GET_CLASS_DETAIL";
 export const CHANGE_ID = "CHANGE_ID";
 export const FETCH_ID = "FETCH_ID";
+export const GET_ROLE = "GET_ROLE";

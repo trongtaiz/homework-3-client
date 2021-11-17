@@ -9,6 +9,7 @@ import {
 	PeopleName,
 	PeopleWrapper,
 } from "./People.styled";
+import { Role } from "Utils/constants";
 import { connect } from "react-redux";
 import {
 	getStudentsInClass,
@@ -21,14 +22,13 @@ function People(props) {
 		props.getTeachersInClass(props.id);
 		props.getStudentsInClass(props.id);
 	}, []);
-	console.log("props", props);
-	const { students, teachers, user } = props;
+	const { students, teachers, user, role } = props;
 	return (
 		<PeopleWrapper>
 			<PeopleHeader>
 				Teachers
 				<PeopleHeaderEnd>
-					{user.role === "TEACHER" && <InviteIcon />}
+					{role === Role.TEACHER && <InviteIcon />}
 				</PeopleHeaderEnd>
 			</PeopleHeader>
 			{teachers?.map((teacher) => (
@@ -40,16 +40,16 @@ function People(props) {
 				</PeopleLine>
 			))}
 			<PeopleHeader>
-				{user.role === "STUDENT" ? "Classmates" : "Students"}
+				{role === Role.STUDENT ? "Classmates" : "Students"}
 				<PeopleHeaderEnd>
 					<div>
 						{students?.length + " students"}
-						{user.role === "TEACHER" && <InviteIcon />}
+						{role === Role.TEACHER && <InviteIcon />}
 					</div>
 				</PeopleHeaderEnd>
 			</PeopleHeader>
 			{students?.reduce(function (result, student) {
-				if (student.user_id !== user.id) {
+				if (student.user_id !== user?.id) {
 					result.push(
 						<PeopleLine key={student.user_id}>
 							<PeopleInfoSection>
@@ -66,9 +66,9 @@ function People(props) {
 }
 
 const mapStateToProps = (state) => {
-	console.log("state", state);
 	return {
-		user: state.auth,
+		user: state.auth.user,
+		role: state.currentClass.role,
 		students: state.currentClass.students,
 		teachers: state.currentClass.teachers,
 	};

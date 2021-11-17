@@ -1,4 +1,4 @@
-import axios from "axios";
+import { authRequest } from "Utils/request";
 import "dotenv/config";
 
 // eslint-disable-next-line no-undef
@@ -6,5 +6,5 @@ import "dotenv/config";
 const baseURL = "http://localhost:4300";
 
 export const getAllPostsInClass = async (id) => {
-	return axios.get(`${baseURL}/posts/all/${id}`);
+	return authRequest.get(`${baseURL}/posts/all/${id}`);
 };

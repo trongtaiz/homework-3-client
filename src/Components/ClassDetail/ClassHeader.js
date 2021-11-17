@@ -23,8 +23,8 @@ function LinkTab(props) {
 }
 
 function ClassHeader(props) {
-	const { navTag, name, user } = props;
 	const [inviteMenuAnchorEl, setInviteMenuAnchorEl] = React.useState(null);
+	const { navTag, name, role } = props;
 	const [openIdUpdate, setOpenIdUpdate] = React.useState(false);
 	const [isOpenInviteLink, setIsOpenInviteLink] = React.useState(false);
 	const [isOpenInviteEmail, setIsOpenInviteEmail] = React.useState(false);
@@ -82,7 +82,7 @@ function ClassHeader(props) {
 							</Tabs>
 						</Box>
 						<div>
-							{user?.role === "TEACHER" ? (
+							{role === "TEACHER" ? (
 								<>
 									<IconButton
 										onClick={handleInviteMenu}
