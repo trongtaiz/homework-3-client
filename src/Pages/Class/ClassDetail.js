@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
-import * as classService from "../../Services/class.service";
 import ClassHeader from "../../Components/ClassDetail/ClassHeader";
 import Stream from "../../Components/ClassDetail/Stream";
 import People from "../../Components/ClassDetail/People";
