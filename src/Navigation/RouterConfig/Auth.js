@@ -7,10 +7,6 @@ export const AuthConfig = [
 		path: RouterURL.JOIN_CLASS,
 	},
 	{
-		component: lazy(() => import("Pages/Home")),
-		path: RouterURL.CLASS_DETAIL,
-	},
-	{
 		component: lazy(() => import("Pages/Profile")),
 		path: RouterURL.PROFILE,
 	},

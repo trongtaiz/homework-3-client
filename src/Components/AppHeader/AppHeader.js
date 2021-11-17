@@ -183,7 +183,8 @@ function AppHeader(props) {
 									onClose={handleCloseAccountMenu}
 								>
 									<MenuItem
-										onClick={() => {
+										onClick={(e) => {
+											e.preventDefault();
 											history.push(RouterURL.PROFILE);
 										}}
 									>
