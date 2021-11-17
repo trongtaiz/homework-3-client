@@ -1,45 +1,42 @@
-import axios from "axios";
-import { authRequest } from "Utils/request";
+import { authRequest, request } from "Utils/request";
 import "dotenv/config";
 
 // eslint-disable-next-line no-undef
-const baseURL = process.env.REACT_APP_SERVER_URL;
-// const baseURL = "https://midterm-classroom.herokuapp.com";
 
 export const getAllClass = async () => {
-	return authRequest.get(`${baseURL}/classes/all`);
+	return authRequest.get(`/classes/all`);
 };
 
 export const fetchStudentId = async (classId, userId) => {
-	return authRequest.get(`${baseURL}/classes/fetchStudentId`, {
+	return authRequest.get(`/classes/fetchStudentId`, {
 		params: { classId: classId, userId: userId },
 	});
 };
 
 export const changeStudentId = async (classId, userId, studentId) => {
-	return authRequest.get(`${baseURL}/classes/changeStudentId`, {
+	return authRequest.get(`/classes/changeStudentId`, {
 		params: { classId: classId, userId: userId, studentId: studentId },
 	});
 };
 
 export const getClassDetail = async (id) => {
-	return authRequest.get(`${baseURL}/classes/${id}`);
+	return authRequest.get(`/classes/${id}`);
 };
 
 export const createClass = async (data) => {
-	return authRequest.post(`${baseURL}/classes`, data);
+	return authRequest.post(`/classes`, data);
 };
 
 export const getStudentsInClass = async (id) => {
-	return authRequest.get(`${baseURL}/classes/students/${id}`);
+	return authRequest.get(`/classes/students/${id}`);
 };
 
 export const getTeachersInClass = async (id) => {
-	return authRequest.get(`${baseURL}/classes/teachers/${id}`);
+	return authRequest.get(`/classes/teachers/${id}`);
 };
 
 export const getRole = async (classId, userId) => {
-	return authRequest.get(`${baseURL}/classes/role`, {
+	return authRequest.get(`/classes/role`, {
 		params: { classId: classId, userId: userId },
 	});
 };
@@ -52,7 +49,7 @@ export const joinClass = async (data) => {
 };
 
 export const joinByEmail = async (token) => {
-	return axios.get(`${baseURL}/classes/join-by-email/${token}`);
+	return request.get(`/classes/join-by-email/${token}`);
 };
 
 export const inviteEmail = async (data) => {

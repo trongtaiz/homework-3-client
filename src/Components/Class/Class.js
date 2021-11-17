@@ -18,7 +18,7 @@ function Class(props) {
 					<CardMedia
 						component="img"
 						height="140"
-						image="http://cdn30.us1.fansshare.com/image/wallpaperdesktop/computer-theme-light-blue-wallpaper-hd-computer-background-full-size-137737072.jpg"
+						image="/class_background.jpg"
 						alt="green iguana"
 					/>
 					<CardContent>
