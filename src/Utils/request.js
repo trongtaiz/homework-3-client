@@ -1,8 +1,13 @@
 import axios from "axios";
 import { reLogin } from "Redux/actions/auth";
 import store from "Redux/store";
+import "dotenv/config";
 
-const API_URL = "https://midterm-classroom.herokuapp.com";
+// const API_URL = process.env.REACT_APP_SERVER_URL;
+const API_URL =
+	process.env.NODE_ENV === "production"
+		? "https://midterm-classroom.herokuapp.com"
+		: "http://localhost:4300";
 
 const request = axios.create({
 	baseURL: API_URL,

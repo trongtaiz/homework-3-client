@@ -3,8 +3,8 @@ import { authRequest } from "Utils/request";
 import "dotenv/config";
 
 // eslint-disable-next-line no-undef
-//const baseURL = process.env.REACT_APP_SERVER_URL;
-const baseURL = "https://midterm-classroom.herokuapp.com";
+const baseURL = process.env.REACT_APP_SERVER_URL;
+// const baseURL = "https://midterm-classroom.herokuapp.com";
 
 export const getAllClass = async () => {
 	return authRequest.get(`${baseURL}/classes/all`);

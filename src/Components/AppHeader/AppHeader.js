@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -18,7 +19,6 @@ import AddClassModal from "Components/AddClassModal";
 import SignInOrSignUpModal from "Components/SignInOrSignUpModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "Redux/actions/auth";
-import { useHistory } from "react-router";
 import { RouterURL } from "Utils/constants";
 
 const propTypes = {
@@ -83,6 +83,11 @@ function AppHeader(props) {
 		dispatch(logout());
 	};
 
+	const redirectHome = (e) => {
+		e.preventDefault();
+		history.push("/");
+	};
+
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar color="primary" position="static">
@@ -100,7 +105,8 @@ function AppHeader(props) {
 					<Typography
 						variant="h6"
 						component="div"
-						sx={{ flexGrow: 1 }}
+						onClick={redirectHome}
+						sx={{ flexGrow: 1, cursor: "pointer" }}
 					>
 						Classroom
 					</Typography>

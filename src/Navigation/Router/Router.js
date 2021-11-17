@@ -9,7 +9,6 @@ import { AuthConfig } from "Navigation/RouterConfig";
 // import GuestRoute from "./GuestRoute";
 import AuthRoute from "./AuthRoute";
 import ClassDetail from "Pages/Class/ClassDetail";
-import MappingAccountIDModel from "Components/ClassDetail/MappingAccountIDModel";
 import JoinClass from "Pages/JoinClass";
 
 const renderRoutes = (routes, RouteWrapper) =>
@@ -41,7 +40,6 @@ function AppRouter() {
 					</AppLayout>
 				</Route>
 				<Route path="/classes/:id/:subNav" component={ClassDetail} />
-				<Route path="/" component={MappingAccountIDModel} />
 			</Switch>
 		</>
 	);

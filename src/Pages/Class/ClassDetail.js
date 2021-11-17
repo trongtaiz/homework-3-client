@@ -1,19 +1,32 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import ClassHeader from "../../Components/ClassDetail/ClassHeader";
-import Stream from "../../Components/ClassDetail/Stream";
-import People from "../../Components/ClassDetail/People";
+import { useParams, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { getClassDetail, getRole } from "../../Redux/actions/classes";
+
+import ClassHeader from "Components/ClassDetail/ClassHeader";
+import Stream from "Components/ClassDetail/Stream";
+import People from "Components/ClassDetail/People";
+import { getClassDetail, getRole } from "Redux/actions/classes";
+
+import { RouterURL } from "Utils/constants";
 
 function ClassDetail(props) {
+	// eslint-disable-next-line no-undef
+	const refreshToken = localStorage.getItem("refreshToken");
 	const { id, subNav } = useParams();
+	const history = useHistory();
+
 	useEffect(() => {
+		if (!refreshToken) {
+			history.push(RouterURL.HOME);
+			return;
+		}
 		props.getClassDetail(id);
 	}, []);
+
 	useEffect(() => {
 		props.getRole(id, props.user?.id);
 	}, [props.user]);
+
 	return (
 		<>
 			{subNav === "stream" && (

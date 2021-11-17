@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
 import React, { useState } from "react";
 
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import GoogleLogin from "react-google-login";
+import { useDispatch } from "react-redux";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
 import Button from "@mui/material/Button";
@@ -14,6 +16,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import { useSignInOrSignUpModal } from "./hooks";
+
+import { fetchAndSetClass } from "Redux/actions/classes";
 
 const validationSignInSchema = Yup.object().shape({
 	email: Yup.string().trim().required("Email is required").email(),
@@ -34,6 +38,7 @@ function SignInOrSignUpModal({
 }) {
 	const { signIn, signUp, socialLogin } = useSignInOrSignUpModal();
 	const [error, setError] = useState("");
+	const dispatch = useDispatch();
 
 	const { handleSubmit, register, reset, formState } = useForm({
 		mode: "onTouched",
@@ -59,6 +64,7 @@ function SignInOrSignUpModal({
 				(response) => {
 					console.log(response);
 					closeModal();
+					dispatch(fetchAndSetClass());
 				},
 				(err) => {
 					console.log(err.response);
@@ -75,6 +81,7 @@ function SignInOrSignUpModal({
 				(response) => {
 					console.log(response);
 					closeModal();
+					dispatch(fetchAndSetClass());
 				},
 				(err) => {
 					console.log(err);
