@@ -2,8 +2,7 @@ import axios from "axios";
 import { reLogin } from "Redux/actions/auth";
 import store from "Redux/store";
 
-const API_URL =
-	process.env.NODE_ENV === "production" ? "" : "http://localhost:4300";
+const API_URL = "https://midterm-classroom.herokuapp.com";
 
 const request = axios.create({
 	baseURL: API_URL,

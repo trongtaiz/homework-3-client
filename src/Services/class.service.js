@@ -4,7 +4,7 @@ import "dotenv/config";
 
 // eslint-disable-next-line no-undef
 //const baseURL = process.env.REACT_APP_SERVER_URL;
-const baseURL = "http://localhost:4300";
+const baseURL = "https://midterm-classroom.herokuapp.com";
 
 export const getAllClass = async () => {
 	return axios.get(`${baseURL}/classes/all`);
