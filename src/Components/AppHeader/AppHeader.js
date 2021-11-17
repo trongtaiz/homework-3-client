@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -31,6 +32,7 @@ const defaultProps = {
 
 function AppHeader(props) {
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const [classMenuAnchorEl, setClassMenuAnchorEl] = React.useState(null);
 	const [accountMenuAnchorEl, setAccountMenuAnchorEl] = React.useState(null);
 	const { isDrawerOpen, setIsDrawerOpen } = props;
@@ -80,6 +82,11 @@ function AppHeader(props) {
 		dispatch(logout());
 	};
 
+	const redirectHome = (e) => {
+		e.preventDefault();
+		history.push("/");
+	};
+
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar color="primary" position="static">
@@ -97,7 +104,8 @@ function AppHeader(props) {
 					<Typography
 						variant="h6"
 						component="div"
-						sx={{ flexGrow: 1 }}
+						onClick={redirectHome}
+						sx={{ flexGrow: 1, cursor: "pointer" }}
 					>
 						Classroom
 					</Typography>
