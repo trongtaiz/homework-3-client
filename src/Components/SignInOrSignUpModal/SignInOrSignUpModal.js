@@ -197,7 +197,7 @@ function SignInOrSignUpModal({
 						/>
 
 						<GoogleLogin
-							clientId="880606660073-nimp0fn16r1qjrqkl3i093loe4oeplts.apps.googleusercontent.com"
+							clientId="880606660073-psuon1uhmrpvrcrco1rlc23e2cb7dm7g.apps.googleusercontent.com"
 							render={(renderProps) => (
 								<Button
 									variant="outlined"
