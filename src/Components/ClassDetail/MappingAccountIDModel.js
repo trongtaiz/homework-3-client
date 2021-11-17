@@ -38,11 +38,9 @@ function MappingAccountIDModel(props) {
 
 	useEffect(() => {
 		props.fetchStudentId(currentClass.class.id, user?.id);
-		console.log("props", props);
-	}, []);
+	}, [user, currentClass]);
 
 	useEffect(() => {
-		console.log("mapId changed");
 		if (mapId.success) setAlertSuccess(true);
 		if (mapId.success == false) setAlertFailure(true);
 	}, [mapId]);
@@ -59,7 +57,6 @@ function MappingAccountIDModel(props) {
 	const handleOnChange = (e) => {
 		setStudentId(e.target.value);
 	};
-
 	return (
 		<div>
 			<Dialog open={open} onClose={handleClose}>
@@ -121,8 +118,11 @@ function MappingAccountIDModel(props) {
 }
 
 const mapStateToProps = (state) => {
-	console.log("state", state);
-	return state;
+	return {
+		user: state.auth.user,
+		currentClass: state.currentClass,
+		mapId: state.mapId,
+	};
 };
 
 export default connect(mapStateToProps, { fetchStudentId, changeStudentId })(

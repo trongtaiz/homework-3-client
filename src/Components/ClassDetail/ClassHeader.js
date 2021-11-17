@@ -23,8 +23,8 @@ function LinkTab(props) {
 }
 
 function ClassHeader(props) {
-	const { navTag, name } = props;
 	const [inviteMenuAnchorEl, setInviteMenuAnchorEl] = React.useState(null);
+	const { navTag, name, role } = props;
 	const [openIdUpdate, setOpenIdUpdate] = React.useState(false);
 	const [isOpenInviteLink, setIsOpenInviteLink] = React.useState(false);
 	const [isOpenInviteEmail, setIsOpenInviteEmail] = React.useState(false);
@@ -82,44 +82,51 @@ function ClassHeader(props) {
 							</Tabs>
 						</Box>
 						<div>
-							<IconButton
-								onClick={handleInviteMenu}
-								color="inherit"
-							>
-								<AddLinkIcon />
-							</IconButton>
-							<Menu
-								id="menu-appbar"
-								anchorEl={inviteMenuAnchorEl}
-								anchorOrigin={{
-									vertical: "top",
-									horizontal: "right",
-								}}
-								keepMounted
-								transformOrigin={{
-									vertical: "top",
-									horizontal: "right",
-								}}
-								open={!!inviteMenuAnchorEl}
-								onClose={handleCloseInviteMenu}
-							>
-								<MenuItem onClick={openInviteEmailModal}>
-									Invite By Email
-								</MenuItem>
-								<MenuItem onClick={openInviteModal}>
-									Invite By link
-								</MenuItem>
-							</Menu>
-							<IconButton
-								size="large"
-								aria-label="account of current user"
-								aria-controls="menu-appbar"
-								aria-haspopup="true"
-								color="inherit"
-								onClick={openUpdateIdModal}
-							>
-								<AccountCircle />
-							</IconButton>
+							{role === "TEACHER" ? (
+								<>
+									<IconButton
+										onClick={handleInviteMenu}
+										color="inherit"
+									>
+										<AddLinkIcon />
+									</IconButton>
+									<Menu
+										id="menu-appbar"
+										anchorEl={inviteMenuAnchorEl}
+										anchorOrigin={{
+											vertical: "top",
+											horizontal: "right",
+										}}
+										keepMounted
+										transformOrigin={{
+											vertical: "top",
+											horizontal: "right",
+										}}
+										open={!!inviteMenuAnchorEl}
+										onClose={handleCloseInviteMenu}
+									>
+										<MenuItem
+											onClick={openInviteEmailModal}
+										>
+											Invite By Email
+										</MenuItem>
+										<MenuItem onClick={openInviteModal}>
+											Invite By link
+										</MenuItem>
+									</Menu>
+								</>
+							) : (
+								<IconButton
+									size="large"
+									aria-label="account of current user"
+									aria-controls="menu-appbar"
+									aria-haspopup="true"
+									color="inherit"
+									onClick={openUpdateIdModal}
+								>
+									<AccountCircle />
+								</IconButton>
+							)}
 						</div>
 					</Toolbar>
 				</AppBar>
