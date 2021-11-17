@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, RELOGIN, LOGOUT_SUCCESS } from "./types";
+import { LOGIN_SUCCESS, RELOGIN, LOGOUT_SUCCESS, UPDATE_USER } from "./types";
 
 export const reLogin = () => ({
 	type: RELOGIN,
@@ -11,4 +11,9 @@ export const login = (payload) => ({
 
 export const logout = () => ({
 	type: LOGOUT_SUCCESS,
+});
+
+export const updateUser = (payload) => ({
+	type: UPDATE_USER,
+	payload,
 });
