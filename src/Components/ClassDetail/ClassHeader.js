@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -25,6 +25,7 @@ function LinkTab(props) {
 function ClassHeader(props) {
 	const [inviteMenuAnchorEl, setInviteMenuAnchorEl] = React.useState(null);
 	const { navTag, name, role } = props;
+	const history = useHistory();
 	const [openIdUpdate, setOpenIdUpdate] = React.useState(false);
 	const [isOpenInviteLink, setIsOpenInviteLink] = React.useState(false);
 	const [isOpenInviteEmail, setIsOpenInviteEmail] = React.useState(false);
@@ -51,6 +52,11 @@ function ClassHeader(props) {
 		setInviteMenuAnchorEl(event.currentTarget);
 	};
 
+	const redirectHome = (e) => {
+		e.preventDefault();
+		history.push("/");
+	};
+
 	return (
 		<>
 			<Box sx={{ flexGrow: 1 }}>
@@ -65,7 +71,12 @@ function ClassHeader(props) {
 						>
 							<MenuIcon />
 						</IconButton>
-						<Typography variant="h6" component="div">
+						<Typography
+							variant="h6"
+							component="div"
+							sx={{ cursor: "pointer" }}
+							onClick={redirectHome}
+						>
 							{name}
 						</Typography>
 						<Box sx={{ flexGrow: 1 }}>
