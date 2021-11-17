@@ -23,19 +23,19 @@ export const changeStudentId = async (classId, userId, studentId) => {
 };
 
 export const getClassDetail = async (id) => {
-	return axios.get(`${baseURL}/classes/${id}`);
+	return authRequest.get(`${baseURL}/classes/${id}`);
 };
 
 export const createClass = async (data) => {
-	return axios.post(`${baseURL}/classes`, data);
+	return authRequest.post(`${baseURL}/classes`, data);
 };
 
 export const getStudentsInClass = async (id) => {
-	return axios.get(`${baseURL}/classes/students/${id}`);
+	return authRequest.get(`${baseURL}/classes/students/${id}`);
 };
 
 export const getTeachersInClass = async (id) => {
-	return axios.get(`${baseURL}/classes/teachers/${id}`);
+	return authRequest.get(`${baseURL}/classes/teachers/${id}`);
 };
 
 export const joinClass = async (data) => {
@@ -43,4 +43,12 @@ export const joinClass = async (data) => {
 	return authRequest.get(
 		`/classes/join-class?classId=${classId}&inviteId=${inviteId}`
 	);
+};
+
+export const joinByEmail = async (token) => {
+	return axios.get(`${baseURL}/classes/join-by-email/${token}`);
+};
+
+export const inviteEmail = async (data) => {
+	return authRequest.post(`/classes/send-email`, data);
 };

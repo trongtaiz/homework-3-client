@@ -1,30 +1,56 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Tab from "@mui/material/Tab";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { Tabs } from "@material-ui/core";
-import MappingAccountIDModel from "./MappingAccountIDModel";
-import AddIcon from "@mui/icons-material/Add";
+import Tabs from "@mui/material/Tabs";
 import AddLinkIcon from "@mui/icons-material/AddLink";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+
+import InviteLinkModal from "Components/InviteLinkModal";
+import InviteEmailModal from "Components/InviteEmailModal";
+import MappingAccountIDModel from "./MappingAccountIDModel";
 
 function LinkTab(props) {
-	return <Tab component="a" {...props} />;
+	return <Tab component={Link} {...props} />;
 }
 
 function ClassHeader(props) {
 	const { navTag, name } = props;
+	const [inviteMenuAnchorEl, setInviteMenuAnchorEl] = React.useState(null);
 	const [openIdUpdate, setOpenIdUpdate] = React.useState(false);
+	const [isOpenInviteLink, setIsOpenInviteLink] = React.useState(false);
+	const [isOpenInviteEmail, setIsOpenInviteEmail] = React.useState(false);
 
 	const openUpdateIdModal = () => {
 		setOpenIdUpdate(true);
 	};
+
+	const openInviteModal = () => {
+		setIsOpenInviteLink(true);
+		handleCloseInviteMenu();
+	};
+
+	const openInviteEmailModal = () => {
+		setIsOpenInviteEmail(true);
+		handleCloseInviteMenu();
+	};
+
+	const handleCloseInviteMenu = () => {
+		setInviteMenuAnchorEl(null);
+	};
+
+	const handleInviteMenu = (event) => {
+		setInviteMenuAnchorEl(event.currentTarget);
+	};
+
 	return (
 		<>
 			<Box sx={{ flexGrow: 1 }}>
@@ -50,15 +76,40 @@ function ClassHeader(props) {
 								aria-label="nav tabs example"
 								centered
 							>
-								<LinkTab label="Stream" href={`stream`} />
-								<LinkTab label="Classwork" href="/" />
-								<LinkTab label="People" href={`people`} />
+								<LinkTab label="Stream" to="stream" />
+								<LinkTab label="Classwork" to="/" />
+								<LinkTab label="People" to="people" />
 							</Tabs>
 						</Box>
 						<div>
-							<IconButton color="inherit">
+							<IconButton
+								onClick={handleInviteMenu}
+								color="inherit"
+							>
 								<AddLinkIcon />
 							</IconButton>
+							<Menu
+								id="menu-appbar"
+								anchorEl={inviteMenuAnchorEl}
+								anchorOrigin={{
+									vertical: "top",
+									horizontal: "right",
+								}}
+								keepMounted
+								transformOrigin={{
+									vertical: "top",
+									horizontal: "right",
+								}}
+								open={!!inviteMenuAnchorEl}
+								onClose={handleCloseInviteMenu}
+							>
+								<MenuItem onClick={openInviteEmailModal}>
+									Invite By Email
+								</MenuItem>
+								<MenuItem onClick={openInviteModal}>
+									Invite By link
+								</MenuItem>
+							</Menu>
 							<IconButton
 								size="large"
 								aria-label="account of current user"
@@ -73,7 +124,14 @@ function ClassHeader(props) {
 					</Toolbar>
 				</AppBar>
 			</Box>
-
+			<InviteLinkModal
+				isOpenModal={isOpenInviteLink}
+				setIsOpenModal={setIsOpenInviteLink}
+			/>
+			<InviteEmailModal
+				isOpenModal={isOpenInviteEmail}
+				setIsOpenModal={setIsOpenInviteEmail}
+			/>
 			<MappingAccountIDModel
 				open={openIdUpdate}
 				setOpenIdUpdate={setOpenIdUpdate}

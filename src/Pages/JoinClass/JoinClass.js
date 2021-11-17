@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, useParams } from "react-router-dom";
 
 import { RouterURL } from "Utils/constants";
 
-import { joinClass } from "Services/class.service";
+import { joinClass, joinByEmail } from "Services/class.service";
 
 import * as Styled from "./JoinClass.styled";
 import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 function useQuery() {
@@ -17,26 +18,37 @@ function useQuery() {
 }
 
 function JoinClass() {
-	const [loadingApi, setLoadingApi] = useState(1);
+	const [loadingApi, setLoadingApi] = useState(0);
 	const query = useQuery();
 	const history = useHistory();
+	const { token } = useParams();
 
 	const joinClassroom = async () => {
 		const classId = query.get("classId");
 		const inviteId = query.get("inviteId");
 		try {
-			const { data } = await joinClass({ classId, inviteId });
-
-			if (data.data) {
-				history.push(RouterURL.HOME);
+			let data = {};
+			if (token) {
+				data = await joinByEmail(token);
 			} else {
-				setLoadingApi(0);
+				data = await joinClass({ classId, inviteId });
+			}
+
+			if (Object.keys(data.data).length !== 0) {
+				setLoadingApi(1);
+			} else {
+				setLoadingApi(-1);
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-undef
 			console.log(error);
-			setLoadingApi(0);
+			setLoadingApi(-1);
 		}
+	};
+
+	const handleClickHome = (e) => {
+		e.preventDefault();
+		history.push(RouterURL.HOME);
 	};
 
 	useEffect(() => {
@@ -44,11 +56,25 @@ function JoinClass() {
 	}, []);
 
 	return (
-		<Styled.Wrapper>
-			{loadingApi ? (
+		<Styled.Wrapper $isFullscreen={!!token}>
+			{loadingApi === 0 ? (
 				<CircularProgress />
 			) : (
-				<Typography variant="h5">Fail to join class</Typography>
+				<Styled.TextHolder>
+					<Typography align="center" variant="h5">
+						{loadingApi === -1
+							? "Fail to join class!"
+							: "Successfully join this class!"}
+					</Typography>
+					<Typography align="center" variant="p">
+						{loadingApi === -1
+							? "Please try again later!"
+							: "Please head to home page"}
+					</Typography>
+					<Button onClick={handleClickHome} variant="contained">
+						Return to home
+					</Button>
+				</Styled.TextHolder>
 			)}
 		</Styled.Wrapper>
 	);

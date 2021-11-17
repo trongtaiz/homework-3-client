@@ -10,10 +10,10 @@ import { CardActionArea, CardActions, Divider } from "@mui/material";
 import * as Styled from "./Class.styled";
 
 function Class(props) {
-	const { name } = props;
+	const { name, id } = props;
 	return (
 		<Styled.MyCard>
-			<Styled.Link to={`/class/${name}`}>
+			<Styled.Link to={`/classes/${id}/stream`}>
 				<CardActionArea>
 					<CardMedia
 						component="img"

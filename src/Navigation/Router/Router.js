@@ -10,6 +10,7 @@ import { AuthConfig } from "Navigation/RouterConfig";
 import AuthRoute from "./AuthRoute";
 import ClassDetail from "Pages/Class/ClassDetail";
 import MappingAccountIDModel from "Components/ClassDetail/MappingAccountIDModel";
+import JoinClass from "Pages/JoinClass";
 
 const renderRoutes = (routes, RouteWrapper) =>
 	routes.map(({ path, title, component, exact = true, ...props }) => (
@@ -29,6 +30,11 @@ function AppRouter() {
 			<Switch>
 				{renderRoutes(AuthConfig, AuthRoute)}
 				{/* {renderRoutes(GuestConfig, GuestRoute)} */}
+				<Route
+					path={RouterURL.JOIN_BY_EMAIL}
+					exact
+					component={JoinClass}
+				/>
 				<Route path={RouterURL.HOME} exact>
 					<AppLayout>
 						<Home />
