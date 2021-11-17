@@ -9,7 +9,7 @@ import {
 	PostNameAndDate,
 	PostWrapper,
 } from "./Post.styled";
-import { IconButton } from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 function Post({ image, name, date, content }) {

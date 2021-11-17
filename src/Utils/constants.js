@@ -1,6 +1,8 @@
 export const RouterURL = {
 	HOME: "/",
 	CLASS: "/class",
+	JOIN_CLASS: "/join-class",
+	JOIN_BY_EMAIL: "/join-by-email/:token",
 };
 
 export const RoutableModalUrl = {
@@ -15,4 +17,10 @@ export const Colors = {
 	AVATAR_BLUR: "rgba(175,175,175, 0.2)",
 	DODGER_BLUE: "#3993ff",
 	WHITE: "#ffffff",
+	LIGHT_WHITE: "rgb(242, 246, 250)",
+};
+
+export const Role = {
+	TEACHER: "TEACHER",
+	STUDENT: "STUDENT",
 };

@@ -1,4 +1,4 @@
-import { IconButton } from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import React from "react";
 import { useEffect } from "react";

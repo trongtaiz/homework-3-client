@@ -18,7 +18,11 @@ function Home() {
 	return (
 		<Styled.Wrapper>
 			{classes.map((eachClass) => (
-				<Class key={eachClass.id} name={eachClass.name} />
+				<Class
+					key={eachClass.id}
+					id={eachClass.id}
+					name={eachClass.name}
+				/>
 			))}
 		</Styled.Wrapper>
 	);

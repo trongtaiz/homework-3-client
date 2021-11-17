@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
@@ -17,9 +15,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import { useSignInOrSignUpModal } from "./hooks";
 
-const validationSchema = Yup.object().shape({
-	username: Yup.string().trim().required("Username is required"),
-	password: Yup.string().trim().required("Password is required"),
+const validationSignInSchema = Yup.object().shape({
+	email: Yup.string().trim().required("Email is required").email(),
+	password: Yup.string().trim().required("Password is required").min(8),
+});
+
+const validationSignUpSchema = Yup.object().shape({
+	email: Yup.string().trim().required("Email is required").email(),
+	password: Yup.string().trim().required("Password is required").min(8),
+	name: Yup.string().trim().required("Name is required").min(3),
 });
 
 function SignInOrSignUpModal({
@@ -28,18 +32,22 @@ function SignInOrSignUpModal({
 	isSignUpModal,
 	setIsSignUpModal,
 }) {
-	const dispatch = useDispatch();
 	const { signIn, signUp, socialLogin } = useSignInOrSignUpModal();
 	const [error, setError] = useState("");
 
 	const { handleSubmit, register, reset, formState } = useForm({
 		mode: "onTouched",
 		reValidateMode: "onChange",
-		defaultValues: {
-			username: "",
-			password: "",
-		},
-		resolver: yupResolver(validationSchema),
+		defaultValues: isSignUpModal
+			? {
+					email: "",
+					password: "",
+					name: "",
+			  }
+			: { email: "", password: "" },
+		resolver: yupResolver(
+			isSignUpModal ? validationSignUpSchema : validationSignInSchema
+		),
 	});
 
 	const submit = async (data) => {
@@ -56,7 +64,7 @@ function SignInOrSignUpModal({
 					console.log(err.response);
 					const errMessage =
 						err.response.status === 409
-							? "Username has already existed"
+							? "Email has already been registered"
 							: "Something wrongs, please try again";
 					setError(errMessage);
 				}
@@ -70,7 +78,7 @@ function SignInOrSignUpModal({
 				},
 				(err) => {
 					console.log(err);
-					setError("Invalid username or password");
+					setError("Invalid email or password");
 				}
 			);
 		}
@@ -117,11 +125,11 @@ function SignInOrSignUpModal({
 							variant="outlined"
 							type="text"
 							margin="dense"
-							id="username"
-							label="Username"
-							error={!!formState.errors.username?.message}
-							helperText={formState.errors.username?.message}
-							{...register("username")}
+							id="email"
+							label="Email"
+							error={!!formState.errors.email?.message}
+							helperText={formState.errors.email?.message}
+							{...register("email")}
 						/>
 						<TextField
 							fullWidth
@@ -134,6 +142,20 @@ function SignInOrSignUpModal({
 							helperText={formState.errors.password?.message}
 							{...register("password")}
 						/>
+
+						{isSignUpModal ? (
+							<TextField
+								fullWidth
+								variant="outlined"
+								type="text"
+								margin="dense"
+								id="name"
+								label="Name"
+								error={!!formState.errors.name?.message}
+								helperText={formState.errors.name?.message}
+								{...register("name")}
+							/>
+						) : null}
 						<Typography
 							variant="subtitle2"
 							display="block"
@@ -214,6 +236,7 @@ function SignInOrSignUpModal({
 									sx={{ display: "block", margin: "auto" }}
 									onClick={() => {
 										setIsSignUpModal(true);
+										reset();
 										setError("");
 									}}
 								>
@@ -227,6 +250,7 @@ function SignInOrSignUpModal({
 									sx={{ display: "block", margin: "auto" }}
 									onClick={() => {
 										setIsSignUpModal(false);
+										reset();
 										setError("");
 									}}
 								>
