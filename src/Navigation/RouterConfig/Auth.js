@@ -10,4 +10,8 @@ export const AuthConfig = [
 		component: lazy(() => import("Pages/Home")),
 		path: RouterURL.CLASS_DETAIL,
 	},
+	{
+		component: lazy(() => import("Pages/Profile")),
+		path: RouterURL.PROFILE,
+	},
 ];

@@ -18,6 +18,8 @@ import AddClassModal from "Components/AddClassModal";
 import SignInOrSignUpModal from "Components/SignInOrSignUpModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "Redux/actions/auth";
+import { useHistory } from "react-router";
+import { RouterURL } from "Utils/constants";
 
 const propTypes = {
 	isDrawerOpen: PropTypes.bool,
@@ -31,6 +33,7 @@ const defaultProps = {
 
 function AppHeader(props) {
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const [classMenuAnchorEl, setClassMenuAnchorEl] = React.useState(null);
 	const [accountMenuAnchorEl, setAccountMenuAnchorEl] = React.useState(null);
 	const { isDrawerOpen, setIsDrawerOpen } = props;
@@ -174,7 +177,13 @@ function AppHeader(props) {
 									open={Boolean(accountMenuAnchorEl)}
 									onClose={handleCloseAccountMenu}
 								>
-									<MenuItem>Profile</MenuItem>
+									<MenuItem
+										onClick={() => {
+											history.push(RouterURL.PROFILE);
+										}}
+									>
+										Profile
+									</MenuItem>
 									<MenuItem onClick={onLogOut}>
 										Log out
 									</MenuItem>

@@ -1,4 +1,9 @@
-import { RELOGIN, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "Redux/actions/types";
+import {
+	RELOGIN,
+	LOGIN_SUCCESS,
+	LOGOUT_SUCCESS,
+	UPDATE_USER,
+} from "Redux/actions/types";
 
 const initialState = { user: null, isLoginRequired: false };
 
@@ -12,6 +17,8 @@ const authReducer = (state = initialState, action) => {
 			return { ...state, user: payload.user, isLoginRequired: false };
 		case LOGOUT_SUCCESS:
 			return { ...state, user: null, isLoginRequired: true };
+		case UPDATE_USER:
+			return { ...state, user: payload.user };
 		default:
 			return state;
 	}

@@ -4,6 +4,7 @@ export const RouterURL = {
 	JOIN_CLASS: "/join-class",
 	JOIN_BY_EMAIL: "/join-by-email/:token",
 	CLASS_DETAIL: "/classes/:id/:nav",
+	PROFILE: "/profile",
 };
 
 export const RoutableModalUrl = {
