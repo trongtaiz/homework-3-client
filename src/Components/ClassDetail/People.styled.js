@@ -11,7 +11,7 @@ export const PeopleLine = styled.div`
 	padding-bottom: 15px;
 	margin-bottom: 15px;
 	border-bottom-width: 2px;
-	border-bottom-color: white;
+	border-bottom-color: #cccccc;
 	border-bottom-style: solid;
 `;
 export const PeopleHeader = styled.div`

@@ -3,7 +3,6 @@ import { Link, useHistory } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -17,6 +16,7 @@ import Menu from "@mui/material/Menu";
 import InviteLinkModal from "Components/InviteLinkModal";
 import InviteEmailModal from "Components/InviteEmailModal";
 import MappingAccountIDModel from "./MappingAccountIDModel";
+import { ClassDetailToolbar } from "./ClassDetail.styled";
 
 function LinkTab(props) {
 	return <Tab component={Link} {...props} />;
@@ -60,8 +60,8 @@ function ClassHeader(props) {
 	return (
 		<>
 			<Box sx={{ flexGrow: 1 }}>
-				<AppBar color="primary" position="static">
-					<Toolbar>
+				<AppBar color="primary" position="static" elevation={2}>
+					<ClassDetailToolbar>
 						<IconButton
 							size="large"
 							edge="start"
@@ -79,19 +79,18 @@ function ClassHeader(props) {
 						>
 							{name}
 						</Typography>
-						<Box sx={{ flexGrow: 1 }}>
-							<Tabs
-								value={navTag}
-								textColor="secondary"
-								indicatorColor="secondary"
-								aria-label="nav tabs example"
-								centered
-							>
-								<LinkTab label="Stream" to="stream" />
-								<LinkTab label="Classwork" to="/" />
-								<LinkTab label="People" to="people" />
-							</Tabs>
-						</Box>
+						<Tabs
+							sx={{ flexGrow: 1 }}
+							value={navTag}
+							textColor="secondary"
+							indicatorColor="secondary"
+							aria-label="nav tabs example"
+							centered
+						>
+							<LinkTab label="Stream" to="stream" />
+							<LinkTab label="Classwork" to="classwork" />
+							<LinkTab label="People" to="people" />
+						</Tabs>
 						<div>
 							{role === "TEACHER" ? (
 								<>
@@ -134,12 +133,13 @@ function ClassHeader(props) {
 									aria-haspopup="true"
 									color="inherit"
 									onClick={openUpdateIdModal}
+									edge="end"
 								>
 									<AccountCircle />
 								</IconButton>
 							)}
 						</div>
-					</Toolbar>
+					</ClassDetailToolbar>
 				</AppBar>
 			</Box>
 			<InviteLinkModal
