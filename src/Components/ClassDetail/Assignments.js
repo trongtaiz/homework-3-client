@@ -17,6 +17,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import SaveIcon from "@mui/icons-material/Save";
+import store from "Redux/store";
+
 import {
 	updateAllAssignments,
 	getAssignments,
@@ -24,11 +26,14 @@ import {
 
 function Assignments(props) {
 	const [assignments, setAssignments] = React.useState(props.assignments);
-
 	React.useEffect(async () => {
+		console.log("useEffect0");
 		props.getAssignments(props.id);
 	}, []);
-
+	React.useEffect(async () => {
+		console.log("useEffect1");
+		setAssignments(props.assignments);
+	}, [props.assignments]);
 	function addAssignment() {
 		expandCloseAll();
 
@@ -117,164 +122,204 @@ function Assignments(props) {
 		setAssignments(qs);
 	}
 
-	function assignmentsUI() {
-		return assignments?.map((assignment, i) => (
-			<Draggable key={i} draggableId={i + "id"} index={i}>
-				{(provided) => (
-					<div
-						ref={provided.innerRef}
-						{...provided.draggableProps}
-						{...provided.dragHandleProps}
-					>
-						<div>
-							<div style={{ marginBottom: "15px" }}>
-								<div
-									style={{
-										width: "100%",
-										marginBottom: "-7px",
-									}}
-								>
-									<DragIndicatorIcon
-										style={{
-											transform: "rotate(-90deg)",
-										}}
-										fontSize="small"
-									/>
-								</div>
+	console.log("assignments", assignments);
 
-								<Accordion
-									onChange={() => {
-										handleExpand(i);
-									}}
-									expanded={assignments[i].open}
-								>
-									<AccordionSummary
-										aria-controls="panel1a-content"
-										id="panel1a-header"
-										elevation={2}
+	function renderUIbyRole() {
+		console.log("renderUIbyRole", assignments);
+		if (store.getState().currentClass.role === "TEACHER") {
+			return assignments?.map((assignment, i) => (
+				<Draggable key={i} draggableId={i + "id"} index={i}>
+					{(provided) => (
+						<div
+							ref={provided.innerRef}
+							{...provided.draggableProps}
+							{...provided.dragHandleProps}
+						>
+							<div>
+								<div style={{ marginBottom: "15px" }}>
+									<div
+										style={{
+											width: "100%",
+											marginBottom: "-7px",
+										}}
 									>
-										{!assignments[i].open ? (
-											<Box
-												sx={{
-													width: "100%",
+										<DragIndicatorIcon
+											style={{
+												transform: "rotate(-90deg)",
+											}}
+											fontSize="small"
+										/>
+									</div>
+
+									<Accordion
+										onChange={() => {
+											handleExpand(i);
+										}}
+										expanded={assignments[i].open}
+									>
+										<AccordionSummary
+											aria-controls="panel1a-content"
+											id="panel1a-header"
+											elevation={2}
+										>
+											{!assignments[i].open ? (
+												<Box
+													sx={{
+														width: "100%",
+														display: "flex",
+														flexDirection: "row",
+														marginLeft: "3px",
+														paddingTop: "15px",
+														paddingBottom: "15px",
+													}}
+												>
+													<Typography
+														variant="subtitle1"
+														style={{
+															flexGrow: 1,
+														}}
+													>
+														{i + 1}.{" "}
+														{assignment.title}
+													</Typography>
+
+													<Typography
+														variant="subtitle1"
+														style={{
+															alignSelf:
+																"flex-end",
+														}}
+													>
+														{assignment.point +
+															" points"}
+													</Typography>
+												</Box>
+											) : (
+												""
+											)}
+										</AccordionSummary>
+
+										<AccordionDetails>
+											<div
+												style={{
+													marginTop: "-50px",
+													marginBottom: "-100px",
 													display: "flex",
-													flexDirection: "row",
-													marginLeft: "3px",
-													paddingTop: "15px",
-													paddingBottom: "15px",
+													width: "100%",
+													justifyContent:
+														"space-between",
 												}}
 											>
 												<Typography
-													variant="subtitle1"
+													style={{
+														marginTop: "20px",
+													}}
+												>
+													{i + 1}.
+												</Typography>
+												<TextField
+													placeholder="Title"
 													style={{
 														flexGrow: 1,
+														marginBottom: "18px",
 													}}
-												>
-													{i + 1}. {assignment.title}
-												</Typography>
-
-												<Typography
-													variant="subtitle1"
+													multiline={true}
+													value={assignment.title}
+													variant="filled"
+													onChange={(e) => {
+														handleAssignmentTitle(
+															e.target.value,
+															i
+														);
+													}}
+												/>
+												<TextField
+													placeholder="Points"
 													style={{
-														alignSelf: "flex-end",
+														marginBottom: "18px",
+														marginLeft: "10px",
 													}}
-												>
-													{assignment.point +
-														" points"}
-												</Typography>
-											</Box>
-										) : (
-											""
-										)}
-									</AccordionSummary>
+													multiline={true}
+													value={assignment.point}
+													variant="filled"
+													onChange={(e) => {
+														handleAssignmentPoint(
+															e.target.value,
+															i
+														);
+													}}
+												/>
+											</div>
+										</AccordionDetails>
 
-									<AccordionDetails>
-										<div
-											style={{
-												marginTop: "-50px",
-												marginBottom: "-100px",
-												display: "flex",
-												width: "100%",
-												justifyContent: "space-between",
-											}}
-										>
-											<Typography
-												style={{
-													marginTop: "20px",
+										<Divider />
+
+										<AccordionActions>
+											<IconButton
+												aria-label="View"
+												onClick={() => {
+													showAsAssignment(i);
 												}}
 											>
-												{i + 1}.
-											</Typography>
-											<TextField
-												placeholder="Title"
-												style={{
-													flexGrow: 1,
-													marginBottom: "18px",
-												}}
-												multiline={true}
-												value={assignment.title}
-												variant="filled"
-												onChange={(e) => {
-													handleAssignmentTitle(
-														e.target.value,
-														i
-													);
-												}}
+												<VisibilityIcon />
+											</IconButton>
+
+											<Divider
+												orientation="vertical"
+												flexItem
 											/>
-											<TextField
-												placeholder="Points"
-												style={{
-													marginBottom: "18px",
-													marginLeft: "10px",
+
+											<IconButton
+												aria-label="delete"
+												onClick={() => {
+													deleteAssignment(i);
 												}}
-												multiline={true}
-												value={assignment.point}
-												variant="filled"
-												onChange={(e) => {
-													handleAssignmentPoint(
-														e.target.value,
-														i
-													);
-												}}
-											/>
-										</div>
-									</AccordionDetails>
-
-									<Divider />
-
-									<AccordionActions>
-										<IconButton
-											aria-label="View"
-											onClick={() => {
-												showAsAssignment(i);
-											}}
-										>
-											<VisibilityIcon />
-										</IconButton>
-
-										<Divider
-											orientation="vertical"
-											flexItem
-										/>
-
-										<IconButton
-											aria-label="delete"
-											onClick={() => {
-												deleteAssignment(i);
-											}}
-										>
-											<DeleteOutlineIcon />
-										</IconButton>
-									</AccordionActions>
-								</Accordion>
+											>
+												<DeleteOutlineIcon />
+											</IconButton>
+										</AccordionActions>
+									</Accordion>
+								</div>
 							</div>
 						</div>
-					</div>
-				)}
-			</Draggable>
-		));
+					)}
+				</Draggable>
+			));
+		} else {
+			return assignments?.map((assignment, i) => (
+				<Paper
+					elevation={5}
+					key={i}
+					sx={{
+						padding: "15px",
+						marginTop: "15px",
+						display: "flex",
+						flexDirection: "row",
+					}}
+				>
+					<Typography
+						variant="subtitle1"
+						style={{
+							flexGrow: 1,
+						}}
+					>
+						{i + 1}. {assignment.title}
+					</Typography>
+
+					<Typography
+						variant="subtitle1"
+						style={{
+							alignSelf: "flex-end",
+						}}
+					>
+						{assignment.point + " points"}
+					</Typography>
+				</Paper>
+			));
+		}
 	}
 
+	console.log("state", store.getState());
 	return (
 		<Grid container direction="column" justify="center" alignItems="center">
 			<Grid item xs={12} md={7} style={{ paddingTop: "10px" }}>
@@ -304,7 +349,7 @@ function Assignments(props) {
 					</div>
 				</Paper>
 
-				<Grid style={{ paddingTop: "10px" }}>
+				<Box style={{ paddingTop: "10px" }}>
 					<div>
 						<DragDropContext onDragEnd={onDragEnd}>
 							<Droppable droppableId="droppable">
@@ -313,35 +358,37 @@ function Assignments(props) {
 										{...provided.droppableProps}
 										ref={provided.innerRef}
 									>
-										{assignmentsUI()}
+										{renderUIbyRole()}
 
 										{provided.placeholder}
 									</div>
 								)}
 							</Droppable>
 						</DragDropContext>
-						<div>
-							<Button
-								variant="contained"
-								onClick={addAssignment}
-								endIcon={<AddCircleIcon />}
-								style={{ margin: "5px" }}
-							>
-								Add Assignment{" "}
-							</Button>
+						{store.getState().currentClass.role === "TEACHER" && (
+							<div>
+								<Button
+									variant="contained"
+									onClick={addAssignment}
+									endIcon={<AddCircleIcon />}
+									style={{ margin: "5px" }}
+								>
+									Add Assignment{" "}
+								</Button>
 
-							<Button
-								variant="contained"
-								color="primary"
-								style={{ margin: "15px" }}
-								onClick={saveHandle}
-								endIcon={<SaveIcon />}
-							>
-								Save Assignments{" "}
-							</Button>
-						</div>
+								<Button
+									variant="contained"
+									color="primary"
+									style={{ margin: "15px" }}
+									onClick={saveHandle}
+									endIcon={<SaveIcon />}
+								>
+									Save Assignments{" "}
+								</Button>
+							</div>
+						)}
 					</div>
-				</Grid>
+				</Box>
 			</Grid>
 		</Grid>
 	);
