@@ -10,8 +10,8 @@ export const PeopleLine = styled.div`
 	padding-left: 25px;
 	padding-bottom: 15px;
 	margin-bottom: 15px;
-	border-bottom-width: 2px;
-	border-bottom-color: white;
+	border-bottom-width: 1px;
+	border-bottom-color: gray;
 	border-bottom-style: solid;
 `;
 export const PeopleHeader = styled.div`

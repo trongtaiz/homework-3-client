@@ -11,3 +11,5 @@ export const CHANGE_ID = "CHANGE_ID";
 export const FETCH_ID = "FETCH_ID";
 export const GET_ROLE = "GET_ROLE";
 export const UPDATE_USER = "UPDATE_USER";
+export const GET_ASSIGNMENTS = "GET_ASSIGNMENTS";
+export const UPDATE_ASSIGNMENTS = "UPDATE_ASSIGNMENTS";

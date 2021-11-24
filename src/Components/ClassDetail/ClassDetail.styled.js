@@ -4,7 +4,6 @@ export const ClassDetailWrapper = styled.div`
 	width: 75%;
 	margin: auto;
 `;
-
 export const ClassNameBox = styled.div`
 	width: 100%;
 	background-size: cover;

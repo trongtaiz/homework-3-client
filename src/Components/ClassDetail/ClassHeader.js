@@ -3,7 +3,6 @@ import { Link, useHistory } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -13,10 +12,11 @@ import Tabs from "@mui/material/Tabs";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-
+import HomeIcon from "@mui/icons-material/Home";
 import InviteLinkModal from "Components/InviteLinkModal";
 import InviteEmailModal from "Components/InviteEmailModal";
 import MappingAccountIDModel from "./MappingAccountIDModel";
+import { Toolbar } from "@mui/material";
 
 function LinkTab(props) {
 	return <Tab component={Link} {...props} />;
@@ -60,38 +60,45 @@ function ClassHeader(props) {
 	return (
 		<>
 			<Box sx={{ flexGrow: 1 }}>
-				<AppBar color="primary" position="static">
+				<AppBar color="primary" position="static" elevation={2}>
 					<Toolbar>
 						<IconButton
 							size="large"
 							edge="start"
 							color="inherit"
 							aria-label="menu"
-							sx={{ mr: 2 }}
 						>
 							<MenuIcon />
+						</IconButton>
+						<IconButton
+							size="large"
+							edge="start"
+							color="inherit"
+							aria-label="home"
+							sx={{ mr: 2 }}
+							onClick={redirectHome}
+						>
+							<HomeIcon />
 						</IconButton>
 						<Typography
 							variant="h6"
 							component="div"
 							sx={{ cursor: "pointer" }}
-							onClick={redirectHome}
 						>
 							{name}
 						</Typography>
-						<Box sx={{ flexGrow: 1 }}>
-							<Tabs
-								value={navTag}
-								textColor="secondary"
-								indicatorColor="secondary"
-								aria-label="nav tabs example"
-								centered
-							>
-								<LinkTab label="Stream" to="stream" />
-								<LinkTab label="Classwork" to="/" />
-								<LinkTab label="People" to="people" />
-							</Tabs>
-						</Box>
+						<Tabs
+							sx={{ flexGrow: 1 }}
+							value={navTag}
+							textColor="secondary"
+							indicatorColor="secondary"
+							aria-label="nav tabs example"
+							centered
+						>
+							<LinkTab label="Stream" to="stream" />
+							<LinkTab label="Classwork" to="classwork" />
+							<LinkTab label="People" to="people" />
+						</Tabs>
 						<div>
 							{role === "TEACHER" ? (
 								<>
@@ -134,6 +141,7 @@ function ClassHeader(props) {
 									aria-haspopup="true"
 									color="inherit"
 									onClick={openUpdateIdModal}
+									edge="end"
 								>
 									<AccountCircle />
 								</IconButton>

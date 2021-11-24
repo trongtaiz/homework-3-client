@@ -7,7 +7,8 @@ import Stream from "Components/ClassDetail/Stream";
 import People from "Components/ClassDetail/People";
 import { getClassDetail, getRole } from "Redux/actions/classes";
 
-import { RouterURL } from "Utils/constants";
+import { RouterURL, SubClassDetail } from "Utils/constants";
+import Assignments from "Components/ClassDetail/Assignments";
 
 function ClassDetail(props) {
 	// eslint-disable-next-line no-undef
@@ -29,7 +30,7 @@ function ClassDetail(props) {
 
 	return (
 		<>
-			{subNav === "stream" && (
+			{subNav === SubClassDetail.STREAM && (
 				<>
 					<ClassHeader
 						navTag={0}
@@ -39,7 +40,7 @@ function ClassDetail(props) {
 					<Stream name={props.name} id={id} />
 				</>
 			)}
-			{subNav === "people" && (
+			{subNav === SubClassDetail.PEOPLE && (
 				<>
 					<ClassHeader
 						navTag={2}
@@ -47,6 +48,16 @@ function ClassDetail(props) {
 						role={props.role}
 					/>
 					<People id={id} />
+				</>
+			)}
+			{subNav === SubClassDetail.CLASSWORK && (
+				<>
+					<ClassHeader
+						navTag={1}
+						name={props.name}
+						role={props.role}
+					/>
+					<Assignments id={id} />
 				</>
 			)}
 		</>

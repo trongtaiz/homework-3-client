@@ -19,10 +19,17 @@ export const Colors = {
 	AVATAR_BLUR: "rgba(175,175,175, 0.2)",
 	DODGER_BLUE: "#3993ff",
 	WHITE: "#ffffff",
+	GRAY: "#cccccc",
 	LIGHT_WHITE: "rgb(242, 246, 250)",
 };
 
 export const Role = {
 	TEACHER: "TEACHER",
 	STUDENT: "STUDENT",
+};
+
+export const SubClassDetail = {
+	STREAM: "stream",
+	CLASSWORK: "classwork",
+	PEOPLE: "people",
 };
