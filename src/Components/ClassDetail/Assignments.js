@@ -18,7 +18,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import SaveIcon from "@mui/icons-material/Save";
 import store from "Redux/store";
-
+import { Role } from "Utils/constants";
 import {
 	updateAllAssignments,
 	getAssignments,
@@ -26,14 +26,13 @@ import {
 
 function Assignments(props) {
 	const [assignments, setAssignments] = React.useState(props.assignments);
-	React.useEffect(async () => {
-		console.log("useEffect0");
+	React.useEffect(() => {
 		props.getAssignments(props.id);
 	}, []);
-	React.useEffect(async () => {
-		console.log("useEffect1");
+	React.useEffect(() => {
 		setAssignments(props.assignments);
 	}, [props.assignments]);
+
 	function addAssignment() {
 		expandCloseAll();
 
@@ -54,13 +53,16 @@ function Assignments(props) {
 	}
 
 	function handleAssignmentTitle(text, i) {
-		var assignmentsList = [...assignments];
-		assignmentsList[i].title = text;
+		let assignmentsList = [...assignments];
+		assignmentsList[i] = { ...assignmentsList[i], title: text };
 		setAssignments(assignmentsList);
 	}
 	function handleAssignmentPoint(text, i) {
-		var assignmentsList = [...assignments];
-		assignmentsList[i].point = parseInt(text) || 0;
+		let assignmentsList = [...assignments];
+		assignmentsList[i] = {
+			...assignmentsList[i],
+			point: parseInt(text) || 0,
+		};
 		setAssignments(assignmentsList);
 	}
 
@@ -103,30 +105,25 @@ function Assignments(props) {
 	}
 
 	function expandCloseAll() {
-		let qs = [...assignments];
-		for (let j = 0; j < qs.length; j++) {
-			qs[j].open = false;
-		}
+		// eslint-disable-next-line  no-unused-vars
+		let qs = assignments.map(({ open, ...item }) => ({
+			...item,
+			open: false,
+		}));
 		setAssignments(qs);
 	}
 
 	function handleExpand(i) {
-		let qs = [...assignments];
-		for (let j = 0; j < qs.length; j++) {
-			if (i === j) {
-				qs[i].open = true;
-			} else {
-				qs[j].open = false;
-			}
-		}
+		// eslint-disable-next-line  no-unused-vars
+		let qs = assignments.map(({ open, ...item }, j) => ({
+			...item,
+			open: i === j ? true : false,
+		}));
 		setAssignments(qs);
 	}
 
-	console.log("assignments", assignments);
-
 	function renderUIbyRole() {
-		console.log("renderUIbyRole", assignments);
-		if (store.getState().currentClass.role === "TEACHER") {
+		if (store.getState().currentClass.role === Role.TEACHER) {
 			return assignments?.map((assignment, i) => (
 				<Draggable key={i} draggableId={i + "id"} index={i}>
 					{(provided) => (
@@ -319,7 +316,6 @@ function Assignments(props) {
 		}
 	}
 
-	console.log("state", store.getState());
 	return (
 		<Grid container direction="column" justify="center" alignItems="center">
 			<Grid item xs={12} md={7} style={{ paddingTop: "10px" }}>
@@ -365,7 +361,8 @@ function Assignments(props) {
 								)}
 							</Droppable>
 						</DragDropContext>
-						{store.getState().currentClass.role === "TEACHER" && (
+						{store.getState().currentClass.role ===
+							Role.TEACHER && (
 							<div>
 								<Button
 									variant="contained"

@@ -16,7 +16,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import InviteLinkModal from "Components/InviteLinkModal";
 import InviteEmailModal from "Components/InviteEmailModal";
 import MappingAccountIDModel from "./MappingAccountIDModel";
-import { ClassDetailToolbar } from "./ClassDetail.styled";
+import { Toolbar } from "@mui/material";
 
 function LinkTab(props) {
 	return <Tab component={Link} {...props} />;
@@ -61,7 +61,7 @@ function ClassHeader(props) {
 		<>
 			<Box sx={{ flexGrow: 1 }}>
 				<AppBar color="primary" position="static" elevation={2}>
-					<ClassDetailToolbar>
+					<Toolbar>
 						<IconButton
 							size="large"
 							edge="start"
@@ -147,7 +147,7 @@ function ClassHeader(props) {
 								</IconButton>
 							)}
 						</div>
-					</ClassDetailToolbar>
+					</Toolbar>
 				</AppBar>
 			</Box>
 			<InviteLinkModal

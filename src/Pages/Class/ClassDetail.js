@@ -7,7 +7,7 @@ import Stream from "Components/ClassDetail/Stream";
 import People from "Components/ClassDetail/People";
 import { getClassDetail, getRole } from "Redux/actions/classes";
 
-import { RouterURL } from "Utils/constants";
+import { RouterURL, SubClassDetail } from "Utils/constants";
 import Assignments from "Components/ClassDetail/Assignments";
 
 function ClassDetail(props) {
@@ -30,7 +30,7 @@ function ClassDetail(props) {
 
 	return (
 		<>
-			{subNav === "stream" && (
+			{subNav === SubClassDetail.STREAM && (
 				<>
 					<ClassHeader
 						navTag={0}
@@ -40,7 +40,7 @@ function ClassDetail(props) {
 					<Stream name={props.name} id={id} />
 				</>
 			)}
-			{subNav === "people" && (
+			{subNav === SubClassDetail.PEOPLE && (
 				<>
 					<ClassHeader
 						navTag={2}
@@ -50,7 +50,7 @@ function ClassDetail(props) {
 					<People id={id} />
 				</>
 			)}
-			{subNav === "classwork" && (
+			{subNav === SubClassDetail.CLASSWORK && (
 				<>
 					<ClassHeader
 						navTag={1}

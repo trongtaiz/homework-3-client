@@ -1,14 +1,8 @@
 import styled from "styled-components";
-import Toolbar from "@mui/material/Toolbar";
 
 export const ClassDetailWrapper = styled.div`
 	width: 75%;
 	margin: auto;
-`;
-export const ClassDetailToolbar = styled(Toolbar)`
-	minHeight: 128,
-	alignItems: "flex-start",
-	paddingTop: 5px,
 `;
 export const ClassNameBox = styled.div`
 	width: 100%;
