@@ -12,7 +12,7 @@
 	"plugins": ["react"],
 	"rules": {
 		"indent": "off",
-		"prettier/prettier": [2, { "useTabs": true }],
+		"prettier/prettier": [2, { "useTabs": true, "endOfLine": "auto" }],
 		"react/prop-types": 0
 	}
 }
