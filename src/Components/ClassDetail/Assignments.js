@@ -25,17 +25,17 @@ import {
 } from "Redux/actions/assignments";
 
 function Assignments(props) {
-	const [assignments, setAssignments] = React.useState(props.assignments);
+	const { assignmentsList, id } = props;
+	const [assignments, setAssignments] = React.useState(assignmentsList);
 	React.useEffect(() => {
-		props.getAssignments(props.id);
+		props.getAssignments(id);
 	}, []);
 	React.useEffect(() => {
-		setAssignments(props.assignments);
-	}, [props.assignments]);
+		setAssignments(assignmentsList);
+	}, [assignmentsList]);
 
 	function addAssignment() {
 		expandCloseAll();
-
 		setAssignments((assignments) => [
 			...assignments,
 			{
@@ -47,8 +47,7 @@ function Assignments(props) {
 	}
 
 	function deleteAssignment(i) {
-		let qs = [...assignments];
-		qs.splice(i, 1);
+		const qs = assignments.filter((item) => item != assignments[i]);
 		setAssignments(qs);
 	}
 
@@ -70,14 +69,15 @@ function Assignments(props) {
 		// eslint-disable-next-line  no-unused-vars
 		const newAssignments = assignments.map(({ open, ...attr }, i) => ({
 			...attr,
-			classId: props.id,
+			classId: id,
 			order: i,
 		}));
 
 		const data = {
-			classId: props.id,
+			classId: id,
 			assignments: newAssignments,
 		};
+		expandCloseAll();
 		console.log("saveHandle", data);
 		props.updateAllAssignments(data);
 	}
@@ -115,9 +115,9 @@ function Assignments(props) {
 
 	function handleExpand(i) {
 		// eslint-disable-next-line  no-unused-vars
-		let qs = assignments.map(({ open, ...item }, j) => ({
+		const qs = assignments.map(({ open, ...item }, j) => ({
 			...item,
-			open: i === j ? true : false,
+			open: i === j,
 		}));
 		setAssignments(qs);
 	}
@@ -397,7 +397,7 @@ const mapStateToProps = (state) => {
 	}));
 	return {
 		role: state.currentClass.role,
-		assignments: currentAssignments,
+		assignmentsList: currentAssignments,
 	};
 };
 export default connect(mapStateToProps, {
