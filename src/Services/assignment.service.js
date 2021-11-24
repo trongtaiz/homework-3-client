@@ -1,12 +1,24 @@
-import axios from "axios";
-const API_URL = "http://localhost:5000/api/form/";
+import { authRequest } from "Utils/request";
 
-export default {
-	updateGradeStructure(data) {
-		console.log(data);
-		return axios.put(API_URL + "/ /", data).then((response) => {
-			console.log(response.data);
-			return response.data;
-		});
-	},
+export const getAssignments = async (id) => {
+	return authRequest.get(`/assignments`, {
+		params: { classId: id },
+	});
+};
+
+export const createAssignments = async (data) => {
+	return authRequest.post(`/assignments`, data);
+};
+
+export const deleteAssignments = async (id) => {
+	return authRequest.delete(`/assignments`, { data: { id: id } });
+};
+
+export const updateAssignments = async (id, data) => {
+	return authRequest.patch(`/assignments`, {
+		id: id,
+		title: data.title,
+		point: data.point,
+		order: data.order,
+	});
 };

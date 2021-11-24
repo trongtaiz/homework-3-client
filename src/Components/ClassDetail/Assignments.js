@@ -1,6 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
 import { Paper, Typography, Grid } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Accordion from "@mui/material/Accordion";
@@ -17,27 +17,17 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import SaveIcon from "@mui/icons-material/Save";
-import service from "Services/assignment.service";
-function Assignments(props) {
-	const [assignments, setAssignments] = React.useState([
-		{
-			name: "Midterm",
-			point: 30,
-			open: false,
-		},
-		{
-			name: "Final",
-			point: 40,
-			open: false,
-		},
-		{
-			name: "Homework",
-			point: 30,
-			open: false,
-		},
-	]);
+import {
+	updateAllAssignments,
+	getAssignments,
+} from "Redux/actions/assignments";
 
-	React.useEffect(() => {}, [assignments]);
+function Assignments(props) {
+	const [assignments, setAssignments] = React.useState(props.assignments);
+
+	React.useEffect(async () => {
+		props.getAssignments(props.id);
+	}, []);
 
 	function addAssignment() {
 		expandCloseAll();
@@ -45,7 +35,7 @@ function Assignments(props) {
 		setAssignments((assignments) => [
 			...assignments,
 			{
-				name: "",
+				title: "",
 				open: true,
 				point: "",
 			},
@@ -54,30 +44,35 @@ function Assignments(props) {
 
 	function deleteAssignment(i) {
 		let qs = [...assignments];
-		if (assignments.length > 1) {
-			qs.splice(i, 1);
-		}
+		qs.splice(i, 1);
 		setAssignments(qs);
 	}
 
-	function handleAssignmentName(text, i) {
+	function handleAssignmentTitle(text, i) {
 		var assignmentsList = [...assignments];
-		assignmentsList[i].name = text;
+		assignmentsList[i].title = text;
 		setAssignments(assignmentsList);
 	}
 	function handleAssignmentPoint(text, i) {
 		var assignmentsList = [...assignments];
-		assignmentsList[i].point = text;
+		assignmentsList[i].point = parseInt(text) || 0;
 		setAssignments(assignmentsList);
 	}
 
 	function saveHandle() {
+		// eslint-disable-next-line  no-unused-vars
+		const newAssignments = assignments.map(({ open, ...attr }, i) => ({
+			...attr,
+			classId: props.id,
+			order: i,
+		}));
+
 		const data = {
-			classID: props.id,
-			assignments: assignments,
+			classId: props.id,
+			assignments: newAssignments,
 		};
-		console.log(data);
-		service.updateGradeStructure(data);
+		console.log("saveHandle", data);
+		props.updateAllAssignments(data);
 	}
 
 	function onDragEnd(result) {
@@ -85,9 +80,7 @@ function Assignments(props) {
 			return;
 		}
 		const cur = [...assignments];
-
 		const res = reorder(cur, result.source.index, result.destination.index);
-
 		setAssignments(res);
 	}
 
@@ -125,7 +118,7 @@ function Assignments(props) {
 	}
 
 	function assignmentsUI() {
-		return assignments.map((assignment, i) => (
+		return assignments?.map((assignment, i) => (
 			<Draggable key={i} draggableId={i + "id"} index={i}>
 				{(provided) => (
 					<div
@@ -177,7 +170,7 @@ function Assignments(props) {
 														flexGrow: 1,
 													}}
 												>
-													{i + 1}. {assignment.name}
+													{i + 1}. {assignment.title}
 												</Typography>
 
 												<Typography
@@ -213,16 +206,16 @@ function Assignments(props) {
 												{i + 1}.
 											</Typography>
 											<TextField
-												placeholder="Name"
+												placeholder="Title"
 												style={{
 													flexGrow: 1,
 													marginBottom: "18px",
 												}}
 												multiline={true}
-												value={assignment.name}
+												value={assignment.title}
 												variant="filled"
 												onChange={(e) => {
-													handleAssignmentName(
+													handleAssignmentTitle(
 														e.target.value,
 														i
 													);
@@ -353,4 +346,17 @@ function Assignments(props) {
 		</Grid>
 	);
 }
-export default Assignments;
+const mapStateToProps = (state) => {
+	const currentAssignments = state.currentClass.assignments.map((item) => ({
+		...item,
+		open: false,
+	}));
+	return {
+		role: state.currentClass.role,
+		assignments: currentAssignments,
+	};
+};
+export default connect(mapStateToProps, {
+	updateAllAssignments,
+	getAssignments,
+})(Assignments);

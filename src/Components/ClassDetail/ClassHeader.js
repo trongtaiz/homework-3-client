@@ -12,7 +12,7 @@ import Tabs from "@mui/material/Tabs";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-
+import HomeIcon from "@mui/icons-material/Home";
 import InviteLinkModal from "Components/InviteLinkModal";
 import InviteEmailModal from "Components/InviteEmailModal";
 import MappingAccountIDModel from "./MappingAccountIDModel";
@@ -67,15 +67,23 @@ function ClassHeader(props) {
 							edge="start"
 							color="inherit"
 							aria-label="menu"
-							sx={{ mr: 2 }}
 						>
 							<MenuIcon />
+						</IconButton>
+						<IconButton
+							size="large"
+							edge="start"
+							color="inherit"
+							aria-label="home"
+							sx={{ mr: 2 }}
+							onClick={redirectHome}
+						>
+							<HomeIcon />
 						</IconButton>
 						<Typography
 							variant="h6"
 							component="div"
 							sx={{ cursor: "pointer" }}
-							onClick={redirectHome}
 						>
 							{name}
 						</Typography>
