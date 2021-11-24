@@ -47,7 +47,7 @@ function Assignments(props) {
 	}
 
 	function deleteAssignment(i) {
-		const qs = assignments.filter((item) => item != assignments[i]);
+		const qs = assignments.filter((item, index) => index !== i);
 		setAssignments(qs);
 	}
 
