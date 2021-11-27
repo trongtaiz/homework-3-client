@@ -66,6 +66,7 @@ function Assignments(props) {
 	}
 
 	function saveHandle() {
+		// eslint-disable-next-line no-unused-vars
 		const newAssignments = assignments.map(({ open, ...attr }, i) => ({
 			...attr,
 			classId: id,
@@ -104,7 +105,7 @@ function Assignments(props) {
 	}
 
 	function expandCloseAll() {
-		let qs = assignments.map(({ open, ...item }) => ({
+		let qs = assignments.map(({ ...item }) => ({
 			...item,
 			open: false,
 		}));
@@ -112,7 +113,7 @@ function Assignments(props) {
 	}
 
 	function handleExpand(i) {
-		const qs = assignments.map(({ open, ...item }, j) => ({
+		const qs = assignments.map(({ ...item }, j) => ({
 			...item,
 			open: i === j,
 		}));
