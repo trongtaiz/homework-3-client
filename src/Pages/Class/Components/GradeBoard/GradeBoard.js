@@ -26,6 +26,7 @@ function RenderInput(props) {
 		assignmentId,
 		studentId,
 		isEditable = true,
+		reloadPoint,
 	} = props;
 	const [point, setPoint] = useState(initPoint);
 
@@ -38,13 +39,13 @@ function RenderInput(props) {
 			return;
 		}
 		try {
-			const data = await assignmentService.updateStudentPoints({
+			await assignmentService.updateStudentPoints({
 				classId,
 				assignmentId,
 				studentId,
 				achievedPoint: parseInt(point),
 			});
-			console.log(data);
+			reloadPoint();
 		} catch (e) {
 			console.log(e);
 		}
@@ -240,6 +241,9 @@ function GradeBoard() {
 														initPoint={eachCell}
 														classId={
 															currentClass.id
+														}
+														reloadPoint={
+															initGradeBoard
 														}
 														assignmentId={
 															gradeBoard[0][j].id
