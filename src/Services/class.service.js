@@ -43,9 +43,9 @@ export const getRole = async (classId, userId) => {
 
 export const joinClass = async (data) => {
 	const { classId, inviteId } = data;
-	return authRequest.get(
-		`/classes/join-class?classId=${classId}&inviteId=${inviteId}`
-	);
+	return authRequest.get(`/classes/join-class`, {
+		params: { classId, inviteId },
+	});
 };
 
 export const joinByEmail = async (token) => {
@@ -54,4 +54,27 @@ export const joinByEmail = async (token) => {
 
 export const inviteEmail = async (data) => {
 	return authRequest.post(`/classes/send-email`, data);
+};
+
+export const uploadStudentList = async (data) => {
+	return authRequest.post(`/classes/students/upload`, data, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
+};
+
+export const uploadGradeBoard = async (data) => {
+	return authRequest.post(`/assignments/points/upload`, data, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
+};
+
+export const getPointsTable = async (data) => {
+	const { classId } = data;
+	return authRequest.get(`/classes/assignments/all/points`, {
+		params: { classId },
+	});
 };

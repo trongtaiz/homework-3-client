@@ -22,3 +22,17 @@ export const updateAssignments = async (id, data) => {
 		order: data.order,
 	});
 };
+
+export const updateStudentPoints = async ({
+	classId,
+	assignmentId,
+	studentId,
+	achievedPoint,
+}) => {
+	return authRequest.patch(`/assignments/points`, {
+		classId,
+		assignmentId,
+		studentId,
+		achievedPoint,
+	});
+};

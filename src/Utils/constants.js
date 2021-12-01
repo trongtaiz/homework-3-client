@@ -32,4 +32,30 @@ export const SubClassDetail = {
 	STREAM: "stream",
 	CLASSWORK: "classwork",
 	PEOPLE: "people",
+	GRADE: "grade",
 };
+
+export const tabsOnRole = {
+	[Role.TEACHER]: [
+		{ label: "Stream", to: "stream" },
+		{ label: "Classwork", to: "classwork" },
+		{ label: "People", to: "people" },
+		{ label: "Grade", to: "grade" },
+	],
+	[Role.STUDENT]: [
+		{ label: "Stream", to: "stream" },
+		{ label: "People", to: "people" },
+	],
+};
+
+export const templateStudentList = [
+	{ studentId: "18127202", fullName: "Đinh Lê Trọng Tài" },
+	{ studentId: "18127226", fullName: "Bùi Thị Anh Thư" },
+	{ studentId: "18127072", fullName: "Huỳnh Lâm Hoàng Đại" },
+];
+
+export const templateGradeList = [
+	{ studentId: "18127202", achievedPoint: 8 },
+	{ studentId: "18127226", achievedPoint: 7 },
+	{ studentId: "18127072", achievedPoint: 8 },
+];

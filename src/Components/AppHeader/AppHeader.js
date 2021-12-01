@@ -79,6 +79,7 @@ function AppHeader(props) {
 	};
 
 	const onLogOut = () => {
+		// eslint-disable-next-line no-undef
 		localStorage.removeItem("refreshToken");
 		dispatch(logout());
 	};
@@ -139,27 +140,13 @@ function AppHeader(props) {
 									<AddIcon />
 								</IconButton>
 								<IconButton
-									size="large"
-									aria-label="account of current user"
-									aria-controls="menu-appbar"
-									aria-haspopup="true"
 									color="inherit"
 									onClick={handleAccountMenu}
 								>
 									<AccountCircle />
 								</IconButton>
 								<Menu
-									id="menu-appbar"
 									anchorEl={classMenuAnchorEl}
-									anchorOrigin={{
-										vertical: "top",
-										horizontal: "right",
-									}}
-									keepMounted
-									transformOrigin={{
-										vertical: "top",
-										horizontal: "right",
-									}}
 									open={Boolean(classMenuAnchorEl)}
 									onClose={handleCloseClassMenu}
 								>
@@ -168,17 +155,7 @@ function AppHeader(props) {
 									</MenuItem>
 								</Menu>
 								<Menu
-									id="menu-appbar"
 									anchorEl={accountMenuAnchorEl}
-									anchorOrigin={{
-										vertical: "top",
-										horizontal: "right",
-									}}
-									keepMounted
-									transformOrigin={{
-										vertical: "top",
-										horizontal: "right",
-									}}
 									open={Boolean(accountMenuAnchorEl)}
 									onClose={handleCloseAccountMenu}
 								>
@@ -203,7 +180,6 @@ function AppHeader(props) {
 				isOpenAddModal={isOpenAddModal}
 				setIsOpenAddModal={setIsOpenAddModal}
 			/>
-
 			<SignInOrSignUpModal
 				isOpen={isOpenSignInOrSignUpModal}
 				onClose={closeSignInOrSignUpModal}

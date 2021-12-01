@@ -17,11 +17,11 @@ function Stream(props) {
 	useEffect(() => {
 		props.getAllPostsInClass(props.id);
 	}, []);
-	const { posts } = props;
+	const { posts, name } = props;
 	return (
 		<ClassDetailWrapper>
 			<ClassNameBox>
-				<div className="class__name">{props.name}</div>
+				<div className="class__name">{name}</div>
 			</ClassNameBox>
 			<ClassPost>
 				<PostAvatar
@@ -52,7 +52,10 @@ function Stream(props) {
 }
 
 const mapStateToProps = (state) => {
-	return state.posts;
+	return {
+		post: state.posts,
+		name: state.currentClass.class.name,
+	};
 };
 
 export default connect(mapStateToProps, { getAllPostsInClass })(Stream);
