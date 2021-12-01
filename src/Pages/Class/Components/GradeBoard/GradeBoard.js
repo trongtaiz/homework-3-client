@@ -58,6 +58,7 @@ function RenderInput(props) {
 			InputProps={{
 				readOnly: !isEditable,
 			}}
+			helperText={isEditable ? "out of 100" : "out of 10"}
 		/>
 	);
 }
@@ -180,7 +181,7 @@ function GradeBoard(props) {
 							pointArray[0][j].percent;
 				}
 			});
-			return eachRow.push(totalGrade);
+			return eachRow.push(totalGrade / 100);
 		});
 		setGradeBoard(pointArray);
 	};
