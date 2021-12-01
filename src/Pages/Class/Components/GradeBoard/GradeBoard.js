@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
 // import XLSX from "xlsx";
 
@@ -88,16 +87,16 @@ function RenderHeader(props) {
 	);
 }
 
-function GradeBoard() {
+function GradeBoard(props) {
+	const { id } = props;
 	const [pointTable, setPointTable] = useState([]);
 	const [assignment, setAssignment] = useState([]);
 	const [gradeBoard, setGradeBoard] = useState([]);
-	const { class: currentClass } = useSelector((state) => state.currentClass);
 
 	const getPointTableData = async () => {
 		try {
 			const { data = {} } = await classService.getPointsTable({
-				classId: currentClass.id,
+				classId: id,
 			});
 			return data.data;
 		} catch (e) {
@@ -119,9 +118,7 @@ function GradeBoard() {
 
 	const getAssignmentArray = async () => {
 		try {
-			const { data = {} } = await assignmentService.getAssignments(
-				currentClass.id
-			);
+			const { data = {} } = await assignmentService.getAssignments(id);
 			return data.data;
 		} catch (e) {
 			console.log(e);
@@ -239,9 +236,7 @@ function GradeBoard() {
 												) : i > 0 && j > 0 ? (
 													<RenderInput
 														initPoint={eachCell}
-														classId={
-															currentClass.id
-														}
+														classId={id}
 														reloadPoint={
 															initGradeBoard
 														}
