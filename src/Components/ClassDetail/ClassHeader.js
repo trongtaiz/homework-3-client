@@ -24,10 +24,7 @@ import UploadFileModal from "Components/UploadFileModal";
 import MappingAccountIDModel from "./MappingAccountIDModel";
 import NotificationItem from "Components/Notification/NotificationItem";
 import { Role } from "Utils/constants";
-import {
-	createNotification,
-	getAllNotificationsInClass,
-} from "Redux/actions/classes";
+import { getAllNotificationsInClass } from "Redux/actions/classes";
 
 import { Toolbar } from "@mui/material";
 
@@ -92,17 +89,6 @@ function ClassHeader(props) {
 	};
 
 	useEffect(() => {
-		dispatch(
-			createNotification({
-				dto: {
-					message: "This is a new notification",
-					subject: "Review grade",
-					classId: currentClass.id,
-					link: "/link",
-				},
-				receivers: [9, 10],
-			})
-		);
 		dispatch(getAllNotificationsInClass(currentClass.id, user?.id));
 	}, [user, currentClass]);
 
@@ -181,35 +167,6 @@ function ClassHeader(props) {
 										Invite By link
 									</MenuItem>
 								</Menu>
-								<Menu
-									anchorEl={notificationMenuAnchorEl}
-									open={Boolean(notificationMenuAnchorEl)}
-									onClose={handleCloseNotificationMenu}
-								>
-									<List
-										sx={{
-											width: "100%",
-											maxWidth: 360,
-											bgcolor: "background.paper",
-										}}
-									>
-										{notifications?.map((item, i) => (
-											<div key={i}>
-												<NotificationItem
-													message={item.message}
-													subject={item.subject}
-													seen={item.seen}
-													link={item.link}
-													id={item.id}
-												></NotificationItem>
-												<Divider
-													variant="inset"
-													component="li"
-												/>
-											</div>
-										))}
-									</List>
-								</Menu>
 							</>
 						) : (
 							<IconButton
@@ -240,6 +197,32 @@ function ClassHeader(props) {
 				open={isOpenUploadFileModal}
 				setIsOpen={setIsOpenUploadFileModal}
 			/>
+			<Menu
+				anchorEl={notificationMenuAnchorEl}
+				open={Boolean(notificationMenuAnchorEl)}
+				onClose={handleCloseNotificationMenu}
+			>
+				<List
+					sx={{
+						width: "100%",
+						maxWidth: 360,
+						bgcolor: "background.paper",
+					}}
+				>
+					{notifications?.map((item, i) => (
+						<div key={i}>
+							<NotificationItem
+								message={item.message}
+								subject={item.subject}
+								seen={item.seen}
+								link={item.link}
+								id={item.id}
+							></NotificationItem>
+							<Divider variant="inset" component="li" />
+						</div>
+					))}
+				</List>
+			</Menu>
 		</Box>
 	);
 }
