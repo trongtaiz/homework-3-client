@@ -8,7 +8,6 @@ import {
 	GET_CLASS_DETAIL,
 	GET_ROLE,
 	GET_NOTIFICATIONS,
-	CREATE_NOTIFICATION,
 	UPDATE_NOTIFICATION,
 } from "./types";
 
@@ -137,19 +136,6 @@ export const getAllNotificationsInClass =
 			console.log(error);
 		}
 	};
-
-export const createNotification = (notification) => async (dispatch) => {
-	try {
-		const { data } = await classService.createNotification(notification);
-		dispatch({
-			type: CREATE_NOTIFICATION,
-			payload: data.data,
-		});
-	} catch (error) {
-		// eslint-disable-next-line no-undef
-		console.log(error);
-	}
-};
 
 export const updateNotification = (id, seen) => async (dispatch) => {
 	try {

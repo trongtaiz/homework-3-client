@@ -79,10 +79,6 @@ export const getPointsTable = async (data) => {
 	});
 };
 
-export const createNotification = async (data) => {
-	return authRequest.post(`/notifications`, data);
-};
-
 export const updateNotification = async (id, seen) => {
 	return authRequest.patch(`/notifications`, {
 		id: id,
