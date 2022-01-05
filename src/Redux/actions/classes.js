@@ -7,6 +7,9 @@ import {
 	FETCH_ID,
 	GET_CLASS_DETAIL,
 	GET_ROLE,
+	GET_NOTIFICATIONS,
+	CREATE_NOTIFICATION,
+	UPDATE_NOTIFICATION,
 } from "./types";
 
 import * as classService from "Services/class.service";
@@ -53,7 +56,6 @@ export const addClass = (classData) => async (dispatch) => {
 export const getStudentsInClass = (id) => async (dispatch) => {
 	try {
 		const { data } = await classService.getStudentsInClass(id);
-		console.log("data", data);
 		dispatch({
 			type: GET_STUDENT_IN_CLASS,
 			payload: data.data,
@@ -112,6 +114,49 @@ export const getRole = (classId, userId) => async (dispatch) => {
 		dispatch({
 			type: GET_ROLE,
 			payload: data.data,
+		});
+	} catch (error) {
+		// eslint-disable-next-line no-undef
+		console.log(error);
+	}
+};
+
+export const getAllNotificationsInClass =
+	(classId, userId) => async (dispatch) => {
+		try {
+			const { data } = await classService.getAllNotificationsInClass(
+				classId,
+				userId
+			);
+			dispatch({
+				type: GET_NOTIFICATIONS,
+				payload: data.data,
+			});
+		} catch (error) {
+			// eslint-disable-next-line no-undef
+			console.log(error);
+		}
+	};
+
+export const createNotification = (notification) => async (dispatch) => {
+	try {
+		const { data } = await classService.createNotification(notification);
+		dispatch({
+			type: CREATE_NOTIFICATION,
+			payload: data.data,
+		});
+	} catch (error) {
+		// eslint-disable-next-line no-undef
+		console.log(error);
+	}
+};
+
+export const updateNotification = (id, seen) => async (dispatch) => {
+	try {
+		const { data } = await classService.updateNotification(id, seen);
+		dispatch({
+			type: UPDATE_NOTIFICATION,
+			payload: data,
 		});
 	} catch (error) {
 		// eslint-disable-next-line no-undef
