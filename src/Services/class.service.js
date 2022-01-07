@@ -91,3 +91,12 @@ export const getAllNotificationsInClass = async (classId, receiverId) => {
 		params: { classId: classId, receiverId: receiverId },
 	});
 };
+
+export const getAllPointOfAStudent = async (studentId, classId) => {
+	return authRequest.get(`/classes/student/points`, {
+		params: {
+			studentId: studentId,
+			classId: classId,
+		},
+	});
+};

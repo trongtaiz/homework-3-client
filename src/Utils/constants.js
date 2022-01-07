@@ -30,21 +30,22 @@ export const Role = {
 
 export const SubClassDetail = {
 	STREAM: "stream",
-	CLASSWORK: "classwork",
 	PEOPLE: "people",
 	GRADE: "grade",
+	CLASSWORK: "classwork",
 };
 
 export const tabsOnRole = {
 	[Role.TEACHER]: [
 		{ label: "Stream", to: "stream" },
-		{ label: "Classwork", to: "classwork" },
 		{ label: "People", to: "people" },
 		{ label: "Grade", to: "grade" },
+		{ label: "Classwork", to: "classwork" },
 	],
 	[Role.STUDENT]: [
 		{ label: "Stream", to: "stream" },
 		{ label: "People", to: "people" },
+		{ label: "Grade", to: "grade" },
 	],
 };
 
