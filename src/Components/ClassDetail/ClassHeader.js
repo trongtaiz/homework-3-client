@@ -21,7 +21,7 @@ import Divider from "@mui/material/Divider";
 import InviteLinkModal from "Components/InviteLinkModal";
 import InviteEmailModal from "Components/InviteEmailModal";
 import UploadFileModal from "Components/UploadFileModal";
-import MappingAccountIDModel from "./MappingAccountIDModel";
+import MappingAccountIDModal from "./MappingAccountIDModal";
 import NotificationItem from "Components/Notification/NotificationItem";
 import { Role } from "Utils/constants";
 import { getAllNotificationsInClass } from "Redux/actions/classes";
@@ -188,7 +188,7 @@ function ClassHeader(props) {
 				setIsOpenModal={setIsOpenInviteEmail}
 			/>
 			{role === Role.STUDENT && (
-				<MappingAccountIDModel
+				<MappingAccountIDModal
 					open={openIdUpdate}
 					setOpenIdUpdate={setOpenIdUpdate}
 				/>

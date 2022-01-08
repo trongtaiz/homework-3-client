@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import StudentGradeBoard from "./GradeBoardOfStudent";
+import ReviewTabOfStudent from "./ReviewTabOfStudent";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -39,7 +40,7 @@ function a11yProps(index) {
 	};
 }
 
-export default function StudentGrade() {
+export default function GradeTabOfStudent() {
 	const [value, setValue] = React.useState(0);
 
 	const handleChange = (event, newValue) => {
@@ -67,7 +68,7 @@ export default function StudentGrade() {
 				</TabPanel>
 
 				<TabPanel value={value} index={1}>
-					TabReview{" "}
+					<ReviewTabOfStudent></ReviewTabOfStudent>
 				</TabPanel>
 			</Box>
 		</Box>

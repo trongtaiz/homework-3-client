@@ -15,7 +15,7 @@ export const ClassPageConfig = [
 		path: `/classes/:id/${SubClassDetail.CLASSWORK}`,
 	},
 	{
-		component: lazy(() => import("Pages/Class/Components/GradeBoard")),
+		component: lazy(() => import("Pages/Class/Components/GradeManagement")),
 		path: `/classes/:id/${SubClassDetail.GRADE}`,
 	},
 ];
