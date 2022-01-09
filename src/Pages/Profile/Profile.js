@@ -34,7 +34,7 @@ function TabPanel(props) {
 		>
 			{value === index && (
 				<Box sx={{ p: 3 }}>
-					<Typography>{children}</Typography>
+					<Typography component={"div"}>{children}</Typography>
 				</Box>
 			)}
 		</div>
@@ -128,7 +128,7 @@ const Profile = () => {
 										InputProps={{
 											readOnly: true,
 										}}
-										value={user?.email}
+										value={user?.email || ""}
 										sx={{
 											marginBottom: "20px",
 											// width: "100%",
