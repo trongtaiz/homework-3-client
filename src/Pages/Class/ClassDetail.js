@@ -57,7 +57,12 @@ function ClassDetail(props) {
 
 	return (
 		<>
-			<ClassHeader navTag={tabIndex} name={name} role={role} />
+			<ClassHeader
+				navTag={tabIndex}
+				classId={id}
+				name={name}
+				role={role}
+			/>
 			<Switch>{renderRoutes(ClassPageConfig, RenderClass)}</Switch>
 		</>
 	);

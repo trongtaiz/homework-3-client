@@ -78,3 +78,16 @@ export const getPointsTable = async (data) => {
 		params: { classId },
 	});
 };
+
+export const updateNotification = async (id, seen) => {
+	return authRequest.patch(`/notifications`, {
+		id: id,
+		seen: seen,
+	});
+};
+
+export const getAllNotificationsInClass = async (classId, receiverId) => {
+	return authRequest.get(`/notifications/all-in-class`, {
+		params: { classId: classId, receiverId: receiverId },
+	});
+};

@@ -4,6 +4,8 @@ import {
 	GET_CLASS_DETAIL,
 	GET_ROLE,
 	GET_ASSIGNMENTS,
+	GET_NOTIFICATIONS,
+	UPDATE_NOTIFICATION,
 } from "Redux/actions/types";
 
 const initialState = {
@@ -12,6 +14,7 @@ const initialState = {
 	class: {},
 	role: "",
 	assignments: [],
+	notifications: [],
 };
 
 export default function (state = initialState, action) {
@@ -42,6 +45,18 @@ export default function (state = initialState, action) {
 			return {
 				...state,
 				assignments: [...payload],
+			};
+		case GET_NOTIFICATIONS:
+			return {
+				...state,
+				notifications: [...payload],
+			};
+		case UPDATE_NOTIFICATION:
+			state.notifications.find((i) => i.id === payload.id).seen =
+				payload.seen;
+			return {
+				...state,
+				//notifications: [...payload],
 			};
 		default:
 			return state;
