@@ -1,11 +1,12 @@
 /* eslint-disable no-undef */
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import withCatch from "Utils/withCatch";
+import * as Alert from "Utils/alert";
 
 import { resetPassword } from "Services/auth.service";
 
@@ -15,8 +16,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 
 import * as Styled from "./ResetPassword.styled";
 
@@ -27,13 +26,8 @@ const validationSchema = Yup.object().shape({
 		.min(8),
 });
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
 function ResetPassword() {
 	const { resetPassToken } = useParams();
-	const [toastValue, setToast] = useState(0);
 
 	const { handleSubmit, register, formState } = useForm({
 		mode: "onTouched",
@@ -50,17 +44,13 @@ function ResetPassword() {
 			resetPassword({ token: resetPassToken, newPassword })
 		);
 		if (error) {
-			setToast(-1);
+			Alert.error("Failed to reset password");
 			return;
 		}
 		if (result.status === 201) {
-			setToast(1);
+			Alert.success("Success reset password");
 			return;
 		}
-	};
-
-	const handleClose = () => {
-		setToast(0);
 	};
 
 	return (
@@ -121,21 +111,6 @@ function ResetPassword() {
 						</Button>
 					</DialogActions>
 				</form>
-				<Snackbar
-					open={!!toastValue}
-					autoHideDuration={2000}
-					onClose={handleClose}
-				>
-					<Alert
-						onClose={handleClose}
-						severity={toastValue === 1 ? "success" : "error"}
-						sx={{ width: "100%" }}
-					>
-						{toastValue === 1
-							? "Success reset password"
-							: "Failed to reset password"}
-					</Alert>
-				</Snackbar>
 			</Dialog>
 		</Styled.Wrapper>
 	);
