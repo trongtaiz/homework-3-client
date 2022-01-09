@@ -269,14 +269,13 @@ export default function Review({ review }) {
 							Comments
 						</Typography>
 						{comments?.map((comment, i) => (
-							<>
+							<div key={i}>
 								<Divider></Divider>
 								<Comment
-									key={i}
 									content={comment.content}
 									name={comment.author}
 								></Comment>
-							</>
+							</div>
 						))}
 					</CardContent>
 					{!isFinalized && (

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableRow from "@mui/material/TableRow";
+import { TableRow, TableHead, TableBody } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -279,65 +279,76 @@ function GradeTabOfTeacher(props) {
 			{gradeBoard.length && (
 				<TableContainer>
 					<Table>
-						<TableRow>
-							{gradeBoard[0].map((eachValue, i) => (
-								<TableCell key={i}>
-									{eachValue.name ? (
-										<RenderHeader
-											header={eachValue}
-											reloadGradeBoard={initGradeBoard}
-										/>
-									) : (
-										eachValue
-									)}
-								</TableCell>
-							))}
-						</TableRow>
-						{gradeBoard.map((eachRow, i) => (
-							<TableRow key={i}>
-								{eachRow.map(
-									(eachCell, j) =>
-										i > 0 && (
-											<TableCell align="left" key={j}>
-												{eachCell.name ? (
-													i > 0 &&
-													j === 0 &&
-													eachCell.isActive ? (
-														<Styled.Link>
-															{eachCell.name}
-														</Styled.Link>
-													) : (
-														eachCell.name
-													)
-												) : i > 0 && j > 0 ? (
-													<RenderInput
-														initPoint={
-															eachCell.point
-														}
-														review={eachCell.review}
-														classId={id}
-														reloadPoint={
-															initGradeBoard
-														}
-														assignmentId={
-															gradeBoard[0][j].id
-														}
-														studentId={
-															eachRow[0].studentId
-														}
-														isEditable={
-															j + 1 !==
-															gradeBoard[0].length
-														}
-													/>
-												) : (
-													eachCell.point
-												)}
-											</TableCell>
-										)
-								)}
+						<TableHead>
+							<TableRow>
+								{gradeBoard[0].map((eachValue, i) => (
+									<TableCell key={i}>
+										{eachValue.name ? (
+											<RenderHeader
+												header={eachValue}
+												reloadGradeBoard={
+													initGradeBoard
+												}
+											/>
+										) : (
+											eachValue
+										)}
+									</TableCell>
+								))}
 							</TableRow>
-						))}
+						</TableHead>
+						<TableBody>
+							{gradeBoard.map((eachRow, i) => (
+								<TableRow key={i}>
+									{eachRow.map(
+										(eachCell, j) =>
+											i > 0 && (
+												<TableCell align="left" key={j}>
+													{eachCell.name ? (
+														i > 0 &&
+														j === 0 &&
+														eachCell.isActive ? (
+															<Styled.Link>
+																{eachCell.name}
+															</Styled.Link>
+														) : (
+															eachCell.name
+														)
+													) : i > 0 && j > 0 ? (
+														<RenderInput
+															initPoint={
+																eachCell.point
+															}
+															review={
+																eachCell.review
+															}
+															classId={id}
+															reloadPoint={
+																initGradeBoard
+															}
+															assignmentId={
+																gradeBoard[0][j]
+																	.id
+															}
+															studentId={
+																eachRow[0]
+																	.studentId
+															}
+															isEditable={
+																j + 1 !==
+																gradeBoard[0]
+																	.length
+															}
+														/>
+													) : (
+														eachCell.point
+													)}
+												</TableCell>
+											)
+									)}
+								</TableRow>
+							))}
+						</TableBody>
 					</Table>
 				</TableContainer>
 			)}
