@@ -81,7 +81,7 @@ function RenderHeader(props) {
 				open={isOpenUploadFileModal}
 				setIsOpen={setIsOpenUploadFileModal}
 				isUploadStudentFile={false}
-				assignmentId={header.id}
+				assignmentId={parseInt(header.id)}
 				reloadGradeBoard={reloadGradeBoard}
 			/>
 		</Typography>
@@ -183,6 +183,7 @@ function GradeBoard(props) {
 			});
 			return eachRow.push(totalGrade / 100);
 		});
+		console.log(pointArray);
 		setGradeBoard(pointArray);
 	};
 
