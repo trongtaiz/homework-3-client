@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { Suspense } from "react";
 import { Route, Redirect } from "react-router";
 import PropTypes from "prop-types";
@@ -20,12 +21,11 @@ const defaultProps = {
 };
 
 function AuthRoute({ path, exact, component: Component }) {
-	// eslint-disable-next-line no-undef
-	const refreshToken = localStorage.getItem("refreshToken");
+	const user = localStorage.getItem("user");
 
 	return (
 		<Route path={path} exact={exact}>
-			{!refreshToken ? (
+			{!user ? (
 				<Redirect replace to={RouterURL.HOME} />
 			) : (
 				<Suspense

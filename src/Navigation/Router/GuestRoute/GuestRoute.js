@@ -1,9 +1,10 @@
+/* eslint-disable no-undef */
 import React, { Suspense } from "react";
 import PropTypes from "prop-types";
-import { Route } from "react-router";
+import { Route, Redirect } from "react-router";
 // import { useSelector } from "react-redux";
 
-// import { RouterURL } from "Utils/constants";
+import { RouterURL } from "Utils/constants";
 
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -21,27 +22,23 @@ const defaultProps = {
 };
 
 function GuestRoute({ path, exact, component: Component }) {
-	// const user = useSelector((state) => state.user);
-
-	// useEffect(() => {
-	// 	console.log(user);
-	// }, [user]);
+	const user = localStorage.getItem("user");
 
 	return (
 		<Route path={path} exact={exact}>
-			{/* {user ? (
+			{user ? (
 				<Redirect replace to={RouterURL.HOME} />
-			) : ( */}
-			<Suspense
-				fallback={
-					<Styled.LoadingContainer>
-						<CircularProgress />
-					</Styled.LoadingContainer>
-				}
-			>
-				<Component />
-			</Suspense>
-			{/* )} */}
+			) : (
+				<Suspense
+					fallback={
+						<Styled.LoadingContainer>
+							<CircularProgress />
+						</Styled.LoadingContainer>
+					}
+				>
+					<Component />
+				</Suspense>
+			)}
 		</Route>
 	);
 }
