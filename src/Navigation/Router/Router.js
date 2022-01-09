@@ -10,6 +10,7 @@ import { AuthConfig } from "Navigation/RouterConfig";
 import AuthRoute from "./AuthRoute";
 import ClassDetail from "Pages/Class/ClassDetail";
 import JoinClass from "Pages/JoinClass";
+import ReviewDetail from "Pages/Class/ReviewDetail";
 
 const renderRoutes = (routes, RouteWrapper) =>
 	routes.map(({ path, title, component, exact = true, ...props }) => (
@@ -39,7 +40,14 @@ function AppRouter() {
 						<Home />
 					</AppLayout>
 				</Route>
-				<Route path="/classes/:id/:subNav" component={ClassDetail} />
+				<Route
+					path="/classes/:classId/review-detail/:reviewId"
+					component={ReviewDetail}
+				/>
+				<Route
+					path="/classes/:classId/:subNav"
+					component={ClassDetail}
+				/>
 			</Switch>
 		</>
 	);

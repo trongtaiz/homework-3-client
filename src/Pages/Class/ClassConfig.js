@@ -18,4 +18,8 @@ export const ClassPageConfig = [
 		component: lazy(() => import("Pages/Class/Components/GradeManagement")),
 		path: `/classes/:id/${SubClassDetail.GRADE}`,
 	},
+	{
+		component: lazy(() => import("Pages/Class/Components/Review")),
+		path: `/classes/:id/${SubClassDetail.REVIEW}`,
+	},
 ];

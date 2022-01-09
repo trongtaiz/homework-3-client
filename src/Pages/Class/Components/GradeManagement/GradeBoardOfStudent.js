@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
 	Grid,
@@ -13,6 +14,7 @@ import {
 	TableContainer,
 } from "@mui/material";
 import RateReviewIcon from "@mui/icons-material/RateReview";
+import HideSourceIcon from "@mui/icons-material/HideSource";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
 import * as classService from "Services/class.service";
@@ -81,7 +83,11 @@ export default function StudentGradeBoard() {
 										{row.detail.point}
 									</TableCell>
 									<TableCell align="right">
-										{row.achievedPoint}
+										{parseInt(row.achievedPoint) >= 0 ? (
+											row.achievedPoint
+										) : (
+											<HideSourceIcon />
+										)}
 									</TableCell>
 									<TableCell align="right">
 										{row.review ? (
@@ -93,7 +99,11 @@ export default function StudentGradeBoard() {
 												</Tooltip>
 											) : (
 												<Tooltip title="Pending">
-													<IconButton color="warning">
+													<IconButton
+														color="warning"
+														component={Link}
+														to={`/classes/${currentClass.id}/review-detail/${row.review.id}`}
+													>
 														<AutorenewIcon />
 													</IconButton>
 												</Tooltip>

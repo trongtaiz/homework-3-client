@@ -5,7 +5,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import StudentGradeBoard from "./GradeBoardOfStudent";
-import ReviewTabOfStudent from "./ReviewTabOfStudent";
+import ReviewTabOfStudent from "../Review/ReviewTabOfStudent";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;

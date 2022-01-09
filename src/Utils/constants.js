@@ -33,6 +33,7 @@ export const SubClassDetail = {
 	PEOPLE: "people",
 	GRADE: "grade",
 	CLASSWORK: "classwork",
+	REVIEW: "review",
 };
 
 export const tabsOnRole = {
@@ -41,6 +42,7 @@ export const tabsOnRole = {
 		{ label: "People", to: "people" },
 		{ label: "Grade", to: "grade" },
 		{ label: "Classwork", to: "classwork" },
+		{ label: "Review", to: "review" },
 	],
 	[Role.STUDENT]: [
 		{ label: "Stream", to: "stream" },

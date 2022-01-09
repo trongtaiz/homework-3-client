@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
 
-// import XLSX from "xlsx";
-
+import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -11,16 +10,22 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import RateReviewIcon from "@mui/icons-material/RateReview";
+import FactCheckIcon from "@mui/icons-material/FactCheck";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import ToggleButton from "@mui/material/ToggleButton";
 import UploadFileModal from "Components/UploadFileModal";
 
 import * as classService from "Services/class.service";
 import * as assignmentService from "Services/assignment.service";
 
 import * as Styled from "./GradeBoard.styled";
+import { Box, Tooltip } from "@mui/material";
 
 function RenderInput(props) {
 	const {
 		initPoint,
+		review,
 		classId,
 		assignmentId,
 		studentId,
@@ -50,33 +55,96 @@ function RenderInput(props) {
 		}
 	};
 	return (
-		<TextField
-			variant="standard"
-			value={point}
-			onChange={(e) => setPoint(e.target.value)}
-			onBlur={handleChangePoint}
-			InputProps={{
-				readOnly: !isEditable,
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
 			}}
-			helperText={isEditable ? "out of 100" : "out of 10"}
-		/>
+		>
+			<TextField
+				variant="standard"
+				value={point}
+				onChange={(e) => setPoint(e.target.value)}
+				onBlur={handleChangePoint}
+				InputProps={{
+					readOnly: !isEditable,
+				}}
+				helperText={isEditable ? "out of 100" : "out of 10"}
+			/>
+
+			{review ? (
+				review.finalGrade ? (
+					<Tooltip title="Finalized Review">
+						<IconButton
+							color="success"
+							component={Link}
+							to={`/classes/${classId}/review-detail/${review.id}`}
+						>
+							<FactCheckIcon fontSize="small" />
+						</IconButton>
+					</Tooltip>
+				) : (
+					<Tooltip title="Pending Review">
+						<IconButton
+							color="primary"
+							component={Link}
+							to={`/classes/${classId}/review-detail/${review.id}`}
+						>
+							<RateReviewIcon fontSize="small" />
+						</IconButton>
+					</Tooltip>
+				)
+			) : (
+				<IconButton disabled color="primary">
+					<RateReviewIcon fontSize="small" />
+				</IconButton>
+			)}
+		</Box>
 	);
 }
 
 function RenderHeader(props) {
 	const { header, reloadGradeBoard } = props;
 	const [isOpenUploadFileModal, setIsOpenUploadFileModal] = useState(false);
+	const [isFinalized, setIsFinalized] = useState(header.isFinalized);
 	const handleUploadModal = () => {
 		setIsOpenUploadFileModal(true);
 	};
+	console.log("header", header);
 	return (
-		<Typography sx={{ fontWeight: "bold" }}>
-			{header.name}{" "}
-			{header.id !== 0 && (
-				<IconButton onClick={handleUploadModal} color="inherit">
-					<FileUploadIcon />
-				</IconButton>
-			)}
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
+			}}
+		>
+			<Typography sx={{ fontWeight: "bold" }}>{header.name} </Typography>
+			<div>
+				{header.id !== 0 && (
+					<IconButton onClick={handleUploadModal} color="primary">
+						<FileUploadIcon fontSize="small" />
+					</IconButton>
+				)}
+				<Tooltip title="Finalize">
+					<ToggleButton
+						size="small"
+						value="check"
+						color="success"
+						selected={isFinalized}
+						onChange={() => {
+							assignmentService.finalizeAssignments({
+								assignmentId: header.id,
+								isFinalized: !isFinalized,
+							});
+							setIsFinalized(!isFinalized);
+						}}
+					>
+						<DoneAllIcon fontSize="small" />
+					</ToggleButton>
+				</Tooltip>
+			</div>
 			<UploadFileModal
 				open={isOpenUploadFileModal}
 				setIsOpen={setIsOpenUploadFileModal}
@@ -84,7 +152,7 @@ function RenderHeader(props) {
 				assignmentId={header.id}
 				reloadGradeBoard={reloadGradeBoard}
 			/>
-		</Typography>
+		</Box>
 	);
 }
 
@@ -152,6 +220,7 @@ function GradeTabOfTeacher(props) {
 				name: eachAssign.title,
 				id: eachAssign.id,
 				percent: eachAssign.point,
+				isFinalized: eachAssign.isFinalized,
 			});
 			pointTable.forEach((student) => {
 				if (student.assignments) {
@@ -159,7 +228,10 @@ function GradeTabOfTeacher(props) {
 						(el) => el.assignmentId === eachAssign.id
 					);
 					if (assignmentStudent) {
-						tempArray.push(assignmentStudent.achievedPoint);
+						tempArray.push({
+							point: assignmentStudent.achievedPoint,
+							review: assignmentStudent.review,
+						});
 					} else {
 						tempArray.push("null");
 					}
@@ -185,6 +257,7 @@ function GradeTabOfTeacher(props) {
 			return eachRow.push(totalGrade / 100);
 		});
 		setGradeBoard(pointArray);
+		console.log("pointArray", pointArray);
 	};
 
 	useEffect(() => {
@@ -237,7 +310,10 @@ function GradeTabOfTeacher(props) {
 													)
 												) : i > 0 && j > 0 ? (
 													<RenderInput
-														initPoint={eachCell}
+														initPoint={
+															eachCell.point
+														}
+														review={eachCell.review}
 														classId={id}
 														reloadPoint={
 															initGradeBoard
@@ -253,10 +329,8 @@ function GradeTabOfTeacher(props) {
 															gradeBoard[0].length
 														}
 													/>
-												) : i > 0 && j > 0 ? (
-													adas
 												) : (
-													eachCell
+													eachCell.point
 												)}
 											</TableCell>
 										)
