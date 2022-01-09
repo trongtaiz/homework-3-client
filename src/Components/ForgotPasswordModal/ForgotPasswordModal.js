@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import * as React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
@@ -13,20 +12,14 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
-import { Role } from "Utils/constants";
-
-import { inviteEmail } from "Services/class.service";
+import { forgetPassword } from "Services/auth.service";
 
 const validationSchema = Yup.object().shape({
 	email: Yup.string()
 		.trim()
 		.required("Email is require")
 		.email("Please enter an valid email!"),
-	role: Yup.string().required("Role is require").nullable(true),
 });
 
 const propTypes = {
@@ -39,26 +32,24 @@ const defaultProps = {
 	setIsOpenModal: () => {},
 };
 
-function InviteEmailModal(props) {
+function ForgotPasswordModal(props) {
 	const { isOpenModal, setIsOpenModal } = props;
-	const { class: currentClass } = useSelector((state) => state.currentClass);
 
 	const { handleSubmit, register, reset, formState } = useForm({
 		mode: "onTouched",
 		reValidateMode: "onChange",
 		defaultValues: {
 			email: "",
-			role: "",
 		},
 		resolver: yupResolver(validationSchema),
 	});
 
-	const onSubmit = async ({ email, role }) => {
+	const onSubmit = async ({ email }) => {
+		console.log("run");
 		try {
-			await inviteEmail({
-				userEmail: email,
-				role,
-				classId: currentClass.id,
+			console.log(email);
+			await forgetPassword({
+				email,
 			});
 		} catch (err) {
 			console.error(err);
@@ -84,7 +75,7 @@ function InviteEmailModal(props) {
 				onClose={closeModal}
 			>
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<DialogTitle>Invite to class</DialogTitle>
+					<DialogTitle>Forgot you password</DialogTitle>
 					<DialogContent>
 						<TextField
 							fullWidth
@@ -98,20 +89,6 @@ function InviteEmailModal(props) {
 							helperText={formState.errors.email?.message}
 							{...register("email")}
 						/>
-						<RadioGroup aria-label="gender">
-							<FormControlLabel
-								value={Role.STUDENT}
-								control={<Radio />}
-								label="Student"
-								{...register("role")}
-							/>
-							<FormControlLabel
-								value={Role.TEACHER}
-								control={<Radio />}
-								label="Teacher"
-								{...register("role")}
-							/>
-						</RadioGroup>
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={closeModal}>Cancel</Button>
@@ -121,7 +98,7 @@ function InviteEmailModal(props) {
 							}
 							type="submit"
 						>
-							Send
+							Send email
 						</Button>
 					</DialogActions>
 				</form>
@@ -130,7 +107,7 @@ function InviteEmailModal(props) {
 	);
 }
 
-InviteEmailModal.propTypes = propTypes;
-InviteEmailModal.defaultProps = defaultProps;
+ForgotPasswordModal.propTypes = propTypes;
+ForgotPasswordModal.defaultProps = defaultProps;
 
-export default InviteEmailModal;
+export default ForgotPasswordModal;

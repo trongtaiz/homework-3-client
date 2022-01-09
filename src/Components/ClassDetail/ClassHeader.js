@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -21,33 +21,42 @@ import Divider from "@mui/material/Divider";
 import InviteLinkModal from "Components/InviteLinkModal";
 import InviteEmailModal from "Components/InviteEmailModal";
 import UploadFileModal from "Components/UploadFileModal";
-import MappingAccountIDModel from "./MappingAccountIDModel";
+import MappingAccountIDModal from "./MappingAccountIDModal";
 import NotificationItem from "Components/Notification/NotificationItem";
 import { Role } from "Utils/constants";
-import { getAllNotificationsInClass } from "Redux/actions/classes";
+import {
+	getAllNotificationsInClass,
+	getClassDetail,
+	getRole,
+} from "Redux/actions/classes";
 
 import { Toolbar } from "@mui/material";
 
-import { tabsOnRole } from "Utils/constants";
+import { RouterURL, tabsOnRole } from "Utils/constants";
 
 function LinkTab(props) {
 	return <Tab component={Link} {...props} />;
 }
 
-function ClassHeader(props) {
-	const [inviteMenuAnchorEl, setInviteMenuAnchorEl] = useState(null);
-	const { navTag, name, role } = props;
+function ClassHeader({ navTag, hasNav }) {
 	const history = useHistory();
 	const dispatch = useDispatch();
+	const { classId } = useParams();
+	const refreshToken = localStorage.getItem("refreshToken");
 	const [notificationMenuAnchorEl, setNotificationMenuAnchorEl] =
 		React.useState(null);
 	const [openIdUpdate, setOpenIdUpdate] = useState(false);
 	const [isOpenInviteLink, setIsOpenInviteLink] = useState(false);
 	const [isOpenInviteEmail, setIsOpenInviteEmail] = useState(false);
 	const [isOpenUploadFileModal, setIsOpenUploadFileModal] = useState(false);
-	const { notifications } = useSelector((state) => state.currentClass);
+	const [inviteMenuAnchorEl, setInviteMenuAnchorEl] = useState(null);
+
 	const { user } = useSelector((state) => state.auth);
-	const { class: currentClass } = useSelector((state) => state.currentClass);
+	const {
+		class: currentClass,
+		role: role,
+		notifications: notifications,
+	} = useSelector((state) => state.currentClass);
 
 	const openUpdateIdModal = () => {
 		setOpenIdUpdate(true);
@@ -89,8 +98,17 @@ function ClassHeader(props) {
 	};
 
 	useEffect(() => {
-		dispatch(getAllNotificationsInClass(currentClass.id, user?.id));
-	}, [user, currentClass]);
+		if (!refreshToken) {
+			history.push(RouterURL.HOME);
+			return;
+		}
+		dispatch(getClassDetail(classId));
+	}, []);
+
+	useEffect(() => {
+		dispatch(getAllNotificationsInClass(classId, user?.id));
+		dispatch(getRole(classId, user?.id));
+	}, [user]);
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
@@ -104,28 +122,37 @@ function ClassHeader(props) {
 						<HomeIcon />
 					</IconButton>
 					<Typography
+						component={Link}
 						variant="h6"
-						component="div"
-						sx={{ cursor: "pointer" }}
+						color="inherit"
+						to={"/classes/" + currentClass.id + "/stream"}
+						noWrap
+						style={{ textDecoration: "none" }}
+						sx={{ display: { xs: "none", sm: "block" } }}
 					>
-						{name}
+						{currentClass.name}
 					</Typography>
-					<Tabs
-						sx={{ flexGrow: 1 }}
-						value={navTag}
-						textColor="secondary"
-						indicatorColor="secondary"
-						centered
-					>
-						{tabsOnRole[role]?.map((eachTab) => (
-							<LinkTab
-								key={eachTab.to}
-								label={eachTab.label}
-								to={eachTab.to}
-							/>
-						))}
-					</Tabs>
-					<div>
+					{hasNav ? (
+						<Tabs
+							sx={{ flexGrow: 1 }}
+							value={navTag}
+							textColor="secondary"
+							indicatorColor="secondary"
+							centered
+						>
+							{tabsOnRole[role]?.map((eachTab) => (
+								<LinkTab
+									key={eachTab.to}
+									label={eachTab.label}
+									to={eachTab.to}
+								/>
+							))}
+						</Tabs>
+					) : (
+						<Box sx={{ flexGrow: 1 }} />
+					)}
+
+					<Box sx={{ display: { xs: "none", md: "flex" } }}>
 						<IconButton
 							color="inherit"
 							onClick={handleNotificationMenu}
@@ -176,7 +203,7 @@ function ClassHeader(props) {
 								<AccountCircle />
 							</IconButton>
 						)}
-					</div>
+					</Box>
 				</Toolbar>
 			</AppBar>
 			<InviteLinkModal
@@ -188,7 +215,7 @@ function ClassHeader(props) {
 				setIsOpenModal={setIsOpenInviteEmail}
 			/>
 			{role === Role.STUDENT && (
-				<MappingAccountIDModel
+				<MappingAccountIDModal
 					open={openIdUpdate}
 					setOpenIdUpdate={setOpenIdUpdate}
 				/>

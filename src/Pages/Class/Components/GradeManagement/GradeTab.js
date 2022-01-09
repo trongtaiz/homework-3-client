@@ -3,15 +3,15 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Role } from "Utils/constants";
 
-import StudentGrade from "./GradeTabOfStudent";
+import GradeTabOfStudent from "./GradeTabOfStudent";
 import GradeTabOfTeacher from "./GradeTabOfTeacher";
 
-function GradeBoard({ id }) {
+function GradeTab({ id }) {
 	const { role: role } = useSelector((state) => state.currentClass);
 	return (
 		<>
 			{role === Role.STUDENT ? (
-				<StudentGrade></StudentGrade>
+				<GradeTabOfStudent></GradeTabOfStudent>
 			) : (
 				<GradeTabOfTeacher id={id}></GradeTabOfTeacher>
 			)}
@@ -19,4 +19,4 @@ function GradeBoard({ id }) {
 	);
 }
 
-export default GradeBoard;
+export default GradeTab;

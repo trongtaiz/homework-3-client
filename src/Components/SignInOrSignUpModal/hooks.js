@@ -41,9 +41,8 @@ export const useSignInOrSignUpModal = () => {
 				password,
 				name,
 			})
-			.then(({ data: { data } }) => {
-				onLoginSuccess(data);
-				onSuccess(data);
+			.then(({ data: { message } }) => {
+				onSuccess(message);
 			})
 			.catch((err) => {
 				onFail(err);

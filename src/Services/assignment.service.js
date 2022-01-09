@@ -36,3 +36,7 @@ export const updateStudentPoints = async ({
 		achievedPoint,
 	});
 };
+
+export const finalizeAssignments = async (data) => {
+	return authRequest.post(`/assignments/finalize`, data);
+};

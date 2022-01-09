@@ -16,7 +16,7 @@ import { useEffect } from "react";
 const Alert = React.forwardRef(function Alert(props, ref) {
 	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-function MappingAccountIDModel(props) {
+function MappingAccountIDModal(props) {
 	const { mapId, setOpenIdUpdate, open, user, currentClass } = props;
 	const [studentId, setStudentId] = React.useState("");
 	const [alertSuccess, setAlertSuccess] = React.useState(false);
@@ -126,5 +126,5 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { fetchStudentId, changeStudentId })(
-	MappingAccountIDModel
+	MappingAccountIDModal
 );
