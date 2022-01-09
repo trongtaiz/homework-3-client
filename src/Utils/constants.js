@@ -2,9 +2,11 @@ export const RouterURL = {
 	HOME: "/",
 	CLASS: "/class",
 	JOIN_CLASS: "/join-class",
-	JOIN_BY_EMAIL: "/join-by-email/:token",
+	JOIN_BY_EMAIL: "/join-by-email/:joinClassToken",
 	CLASS_DETAIL: "/classes/:id/:nav",
 	PROFILE: "/profile",
+	VERIFY_EMAIL: "/verify-email/:activateAccountToken",
+	RESET_PASSWORD: "/reset-password/:resetPassToken",
 };
 
 export const RoutableModalUrl = {

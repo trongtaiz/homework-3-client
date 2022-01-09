@@ -35,6 +35,7 @@ function SignInOrSignUpModal({
 	onClose,
 	isSignUpModal,
 	setIsSignUpModal,
+	openForgotPasswordModal,
 }) {
 	const { signIn, signUp, socialLogin } = useSignInOrSignUpModal();
 	const [error, setError] = useState("");
@@ -61,10 +62,9 @@ function SignInOrSignUpModal({
 		if (isSignUpModal) {
 			await signUp(
 				data,
-				(response) => {
-					console.log(response);
-					closeModal();
-					dispatch(fetchAndSetClass());
+				(message) => {
+					console.log(message);
+					setError(message);
 				},
 				(err) => {
 					console.log(err.response);
@@ -84,8 +84,9 @@ function SignInOrSignUpModal({
 					dispatch(fetchAndSetClass());
 				},
 				(err) => {
-					console.log(err);
-					setError("Invalid email or password");
+					setError(
+						err.response.data.message || "Invalid email or password"
+					);
 				}
 			);
 		}
@@ -235,7 +236,7 @@ function SignInOrSignUpModal({
 							cookiePolicy={"single_host_origin"}
 						/>
 					</DialogContent>
-					<DialogActions>
+					<DialogActions style={{ justifyContent: "space-between" }}>
 						{!isSignUpModal ? (
 							<Typography sx={{ marginLeft: "20px" }}>
 								Does not have an account
@@ -265,7 +266,20 @@ function SignInOrSignUpModal({
 								</Button>
 							</Typography>
 						)}
-						<div style={{ flex: "1 0 0" }} />
+						<Typography sx={{ marginLeft: "20px" }}>
+							Forget your password
+							<Button
+								sx={{ display: "block", margin: "auto" }}
+								onClick={() => {
+									reset();
+									setError("");
+									onClose();
+									openForgotPasswordModal();
+								}}
+							>
+								Reset password
+							</Button>
+						</Typography>
 						<Button onClick={closeModal}>Cancel</Button>
 						<Button
 							disabled={

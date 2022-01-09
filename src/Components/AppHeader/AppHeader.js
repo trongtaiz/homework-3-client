@@ -17,6 +17,7 @@ import Menu from "@mui/material/Menu";
 
 import AddClassModal from "Components/AddClassModal";
 import SignInOrSignUpModal from "Components/SignInOrSignUpModal";
+import ForgotPasswordModal from "Components/ForgotPasswordModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "Redux/actions/auth";
 import { RouterURL } from "Utils/constants";
@@ -39,6 +40,8 @@ function AppHeader(props) {
 	const { isDrawerOpen, setIsDrawerOpen } = props;
 	const [isOpenAddModal, setIsOpenAddModal] = useState(false);
 	const [isOpenSignInOrSignUpModal, setIsOpenSignInOrSignUpModal] =
+		useState(false);
+	const [isOpenForgotPasswordModal, setIsOpenForgotPasswordModal] =
 		useState(false);
 	const [isSignUpModal, setIsSignUpModal] = useState(false);
 	const { user } = useSelector((state) => state.auth);
@@ -76,6 +79,14 @@ function AppHeader(props) {
 
 	const closeSignInOrSignUpModal = () => {
 		setIsOpenSignInOrSignUpModal(false);
+	};
+
+	const closeForgotPasswordModal = () => {
+		setIsOpenForgotPasswordModal(false);
+	};
+
+	const openForgotPasswordModal = () => {
+		setIsOpenForgotPasswordModal(true);
 	};
 
 	const onLogOut = () => {
@@ -185,6 +196,12 @@ function AppHeader(props) {
 				onClose={closeSignInOrSignUpModal}
 				isSignUpModal={isSignUpModal}
 				setIsSignUpModal={setIsSignUpModal}
+				openForgotPasswordModal={openForgotPasswordModal}
+			/>
+			<ForgotPasswordModal
+				isOpenModal={isOpenForgotPasswordModal}
+				setIsOpenModal={setIsOpenForgotPasswordModal}
+				onClose={closeForgotPasswordModal}
 			/>
 		</Box>
 	);
