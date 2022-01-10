@@ -1,14 +1,11 @@
-import React, { useEffect, Suspense } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import React, { Suspense } from "react";
+import { useParams } from "react-router-dom";
 import { Route, Switch } from "react-router";
-import { connect } from "react-redux";
 
 import ClassHeader from "Components/ClassDetail/ClassHeader";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import { getClassDetail, getRole } from "Redux/actions/classes";
-
-import { RouterURL, SubClassDetail } from "Utils/constants";
+import { SubClassDetail } from "Utils/constants";
 import { ClassPageConfig } from "./ClassConfig";
 
 const renderRoutes = (routes, RouteWrapper) =>
@@ -24,58 +21,27 @@ const renderRoutes = (routes, RouteWrapper) =>
 	));
 
 function RenderClass({ path, exact, component: Component }) {
-	const { id } = useParams();
+	const { classId } = useParams();
 	return (
 		<Route path={path} exact={exact}>
 			<Suspense fallback={<CircularProgress />}>
-				<Component id={id} />
+				<Component id={classId} />
 			</Suspense>
 		</Route>
 	);
 }
 
-function ClassDetail(props) {
-	const { name, role, getClassDetail, getRole, user } = props;
-	const { id, subNav } = useParams();
-	const history = useHistory();
-
+function ClassDetail() {
+	const { subNav } = useParams();
 	// eslint-disable-next-line no-undef
-	const refreshToken = localStorage.getItem("refreshToken");
 	const tabIndex = Object.values(SubClassDetail).indexOf(subNav);
-
-	useEffect(() => {
-		if (!refreshToken) {
-			history.push(RouterURL.HOME);
-			return;
-		}
-		getClassDetail(id);
-	}, []);
-
-	useEffect(() => {
-		getRole(id, user?.id);
-	}, [user]);
 
 	return (
 		<>
-			<ClassHeader
-				navTag={tabIndex}
-				classId={id}
-				name={name}
-				role={role}
-			/>
+			<ClassHeader hasNav={true} navTag={tabIndex} />
 			<Switch>{renderRoutes(ClassPageConfig, RenderClass)}</Switch>
 		</>
 	);
 }
 
-const mapStateToProps = (state) => {
-	return {
-		name: state.currentClass.class.name,
-		role: state.currentClass.role,
-		user: state.auth.user,
-	};
-};
-
-export default connect(mapStateToProps, { getClassDetail, getRole })(
-	ClassDetail
-);
+export default ClassDetail;

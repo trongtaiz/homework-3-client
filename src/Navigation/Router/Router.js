@@ -5,11 +5,11 @@ import { RouterURL } from "Utils/constants";
 import AppLayout from "Layouts/AppLayout";
 import Home from "Pages/Home";
 
-import { AuthConfig } from "Navigation/RouterConfig";
-// import GuestRoute from "./GuestRoute";
+import { AuthConfig, GuestConfig } from "Navigation/RouterConfig";
+import GuestRoute from "./GuestRoute";
 import AuthRoute from "./AuthRoute";
 import ClassDetail from "Pages/Class/ClassDetail";
-import JoinClass from "Pages/JoinClass";
+import ReviewDetail from "Pages/Class/ReviewDetail";
 
 const renderRoutes = (routes, RouteWrapper) =>
 	routes.map(({ path, title, component, exact = true, ...props }) => (
@@ -28,18 +28,25 @@ function AppRouter() {
 		<>
 			<Switch>
 				{renderRoutes(AuthConfig, AuthRoute)}
-				{/* {renderRoutes(GuestConfig, GuestRoute)} */}
-				<Route
+				{renderRoutes(GuestConfig, GuestRoute)}
+				{/* <Route
 					path={RouterURL.JOIN_BY_EMAIL}
 					exact
 					component={JoinClass}
-				/>
+				/> */}
 				<Route path={RouterURL.HOME} exact>
 					<AppLayout>
 						<Home />
 					</AppLayout>
 				</Route>
-				<Route path="/classes/:id/:subNav" component={ClassDetail} />
+				<Route
+					path="/classes/:classId/review-detail/:reviewId"
+					component={ReviewDetail}
+				/>
+				<Route
+					path="/classes/:classId/:subNav"
+					component={ClassDetail}
+				/>
 			</Switch>
 		</>
 	);

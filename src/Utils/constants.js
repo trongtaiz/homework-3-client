@@ -2,9 +2,11 @@ export const RouterURL = {
 	HOME: "/",
 	CLASS: "/class",
 	JOIN_CLASS: "/join-class",
-	JOIN_BY_EMAIL: "/join-by-email/:token",
+	JOIN_BY_EMAIL: "/join-by-email/:joinClassToken",
 	CLASS_DETAIL: "/classes/:id/:nav",
 	PROFILE: "/profile",
+	VERIFY_EMAIL: "/verify-email/:activateAccountToken",
+	RESET_PASSWORD: "/reset-password/:resetPassToken",
 };
 
 export const RoutableModalUrl = {
@@ -30,21 +32,24 @@ export const Role = {
 
 export const SubClassDetail = {
 	STREAM: "stream",
-	CLASSWORK: "classwork",
 	PEOPLE: "people",
 	GRADE: "grade",
+	CLASSWORK: "classwork",
+	REVIEW: "review",
 };
 
 export const tabsOnRole = {
 	[Role.TEACHER]: [
 		{ label: "Stream", to: "stream" },
-		{ label: "Classwork", to: "classwork" },
 		{ label: "People", to: "people" },
 		{ label: "Grade", to: "grade" },
+		{ label: "Classwork", to: "classwork" },
+		{ label: "Review", to: "review" },
 	],
 	[Role.STUDENT]: [
 		{ label: "Stream", to: "stream" },
 		{ label: "People", to: "people" },
+		{ label: "Grade", to: "grade" },
 	],
 };
 
