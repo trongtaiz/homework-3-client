@@ -4,9 +4,15 @@ import { Switch, Route } from "react-router-dom";
 import { RouterURL } from "Utils/constants";
 import AppLayout from "Layouts/AppLayout";
 import Home from "Pages/Home";
-import { AuthConfig, GuestConfig } from "Navigation/RouterConfig";
+
+import {
+	AuthConfig,
+	GuestConfig,
+	NeutralConfig,
+} from "Navigation/RouterConfig";
 import GuestRoute from "./GuestRoute";
 import AuthRoute from "./AuthRoute";
+import NeutralRoute from "./NeutralRoute";
 import ClassDetail from "Pages/Class/ClassDetail";
 import ReviewDetail from "Pages/Class/ReviewDetail";
 import MockSocket from "Components/Notification/Socket";
@@ -33,11 +39,7 @@ function AppRouter() {
 			<Switch>
 				{renderRoutes(AuthConfig, AuthRoute)}
 				{renderRoutes(GuestConfig, GuestRoute)}
-				{/* <Route
-					path={RouterURL.JOIN_BY_EMAIL}
-					exact
-					component={JoinClass}
-				/> */}
+				{renderRoutes(NeutralConfig, NeutralRoute)}
 				<Route path={RouterURL.HOME} exact>
 					<AppLayout>
 						<Home />

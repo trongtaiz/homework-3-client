@@ -9,6 +9,7 @@ export const useSignInOrSignUpModal = () => {
 		authRequest.defaults.headers.common["Authorization"] =
 			"Bearer " + accessToken;
 		localStorage.setItem("refreshToken", refreshToken);
+		localStorage.setItem("user", JSON.stringify(user));
 
 		// const {
 		// 	data: { data: user },

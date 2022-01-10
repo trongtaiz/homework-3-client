@@ -7,6 +7,8 @@ export const RouterURL = {
 	PROFILE: "/profile",
 	VERIFY_EMAIL: "/verify-email/:activateAccountToken",
 	RESET_PASSWORD: "/reset-password/:resetPassToken",
+	ADMIN_LOGIN: "/admin-login",
+	ADMIN_DASHBOARD: "/admin",
 };
 
 export const RoutableModalUrl = {

@@ -15,9 +15,12 @@ import FactCheckIcon from "@mui/icons-material/FactCheck";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ToggleButton from "@mui/material/ToggleButton";
 import UploadFileModal from "Components/UploadFileModal";
+import DownloadIcon from "@mui/icons-material/Download";
 
 import * as classService from "Services/class.service";
 import * as assignmentService from "Services/assignment.service";
+
+import { exportToExcel } from "Utils/exportExcel";
 
 import * as Styled from "./GradeBoard.styled";
 import { Box, Tooltip } from "@mui/material";
@@ -111,7 +114,6 @@ function RenderHeader(props) {
 	const handleUploadModal = () => {
 		setIsOpenUploadFileModal(true);
 	};
-	console.log("header", header);
 	return (
 		<Box
 			sx={{
@@ -158,10 +160,10 @@ function RenderHeader(props) {
 
 function GradeTabOfTeacher(props) {
 	const { id } = props;
-	console.log("id", id);
 	const [pointTable, setPointTable] = useState([]);
 	const [assignment, setAssignment] = useState([]);
 	const [gradeBoard, setGradeBoard] = useState([]);
+	const [exportArray, setExportArray] = useState([]);
 
 	const getPointTableData = async () => {
 		try {
@@ -205,6 +207,7 @@ function GradeTabOfTeacher(props) {
 	const transformTableData = () => {
 		let pointArray = [];
 		const studentArray = [];
+		const downloadArray = [];
 		studentArray.push("Student");
 		pointTable.forEach(({ studentId, fullName, ...rest }) => {
 			studentArray.push({
@@ -212,6 +215,7 @@ function GradeTabOfTeacher(props) {
 				name: fullName,
 				isActive: !!rest.studentAccount,
 			});
+			downloadArray.push({ fullName });
 		});
 		pointArray.push(studentArray);
 		assignment.forEach((eachAssign) => {
@@ -222,7 +226,7 @@ function GradeTabOfTeacher(props) {
 				percent: eachAssign.point,
 				isFinalized: eachAssign.isFinalized,
 			});
-			pointTable.forEach((student) => {
+			pointTable.forEach((student, index) => {
 				if (student.assignments) {
 					const assignmentStudent = student.assignments.find(
 						(el) => el.assignmentId === eachAssign.id
@@ -232,10 +236,14 @@ function GradeTabOfTeacher(props) {
 							point: assignmentStudent.achievedPoint,
 							review: assignmentStudent.review,
 						});
+						downloadArray[index][eachAssign.title] =
+							assignmentStudent.achievedPoint;
 					} else {
+						downloadArray[index][eachAssign.title] = "null";
 						tempArray.push("null");
 					}
 				} else {
+					downloadArray[index][eachAssign.title] = "null";
 					tempArray.push("null");
 				}
 			});
@@ -250,15 +258,20 @@ function GradeTabOfTeacher(props) {
 				if (j > 0) {
 					totalGrade =
 						totalGrade +
-						(eachPoints !== "null" ? eachPoints : 0) *
+						(eachPoints !== "null" ? eachPoints.point : 0) *
 							pointArray[0][j].percent;
 				}
 			});
+			downloadArray[i - 1]["Total"] = totalGrade / 100;
 			return eachRow.push(totalGrade / 100);
 		});
-		console.log(pointArray);
+		setExportArray(downloadArray);
 		setGradeBoard(pointArray);
-		console.log("pointArray", pointArray);
+	};
+
+	const handleDownloadGradeTemplate = (e) => {
+		e.preventDefault();
+		exportToExcel(exportArray, "Student grade board");
 	};
 
 	useEffect(() => {
@@ -291,7 +304,19 @@ function GradeTabOfTeacher(props) {
 												}
 											/>
 										) : (
-											eachValue
+											<div>
+												<div>{eachValue}</div>
+												<Tooltip title="Download grade board">
+													<IconButton
+														onClick={
+															handleDownloadGradeTemplate
+														}
+														color="primary"
+													>
+														<DownloadIcon fontSize="small" />
+													</IconButton>
+												</Tooltip>
+											</div>
 										)}
 									</TableCell>
 								))}

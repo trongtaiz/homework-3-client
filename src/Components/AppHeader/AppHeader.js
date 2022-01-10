@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
@@ -101,8 +102,8 @@ function AppHeader(props) {
 	};
 
 	const onLogOut = () => {
-		// eslint-disable-next-line no-undef
 		localStorage.removeItem("refreshToken");
+		localStorage.removeItem("user");
 		dispatch(logout());
 	};
 
