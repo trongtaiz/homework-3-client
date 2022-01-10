@@ -258,7 +258,7 @@ function GradeTabOfTeacher(props) {
 				if (j > 0) {
 					totalGrade =
 						totalGrade +
-						(eachPoints !== "null" ? eachPoints : 0) *
+						(eachPoints !== "null" ? eachPoints.point : 0) *
 							pointArray[0][j].percent;
 				}
 			});
