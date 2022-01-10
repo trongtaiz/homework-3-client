@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import Typography from "@mui/material/Typography";
 import MarkChatReadIcon from "@mui/icons-material/MarkChatRead";
 import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -30,22 +29,8 @@ function NotificationItem({ message, id, seen, subject, link }) {
 				)}
 			</ListItemIcon>
 			<ListItemText
-				primary={subject + id}
-				secondary={
-					<React.Fragment>
-						<Typography
-							sx={{
-								display: "inline",
-							}}
-							component="span"
-							variant="body2"
-							color="text.primary"
-						>
-							Name
-						</Typography>
-						{" " + message}
-					</React.Fragment>
-				}
+				primary={subject}
+				secondary={<React.Fragment>{message}</React.Fragment>}
 			/>
 		</ListItemButton>
 	);

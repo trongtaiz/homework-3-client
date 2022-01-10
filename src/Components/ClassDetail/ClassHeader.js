@@ -23,6 +23,7 @@ import InviteEmailModal from "Components/InviteEmailModal";
 import UploadFileModal from "Components/UploadFileModal";
 import MappingAccountIDModal from "./MappingAccountIDModal";
 import NotificationItem from "Components/Notification/NotificationItem";
+import { logout } from "Redux/actions/auth";
 import { Role } from "Utils/constants";
 import {
 	getAllNotificationsInClass,
@@ -45,6 +46,7 @@ function ClassHeader({ navTag, hasNav }) {
 	const refreshToken = localStorage.getItem("refreshToken");
 	const [notificationMenuAnchorEl, setNotificationMenuAnchorEl] =
 		React.useState(null);
+	const [accountMenuAnchorEl, setAccountMenuAnchorEl] = React.useState(null);
 	const [openIdUpdate, setOpenIdUpdate] = useState(false);
 	const [isOpenInviteLink, setIsOpenInviteLink] = useState(false);
 	const [isOpenInviteEmail, setIsOpenInviteEmail] = useState(false);
@@ -76,6 +78,14 @@ function ClassHeader({ navTag, hasNav }) {
 		setNotificationMenuAnchorEl(event.currentTarget);
 	};
 
+	const handleAccountMenu = (event) => {
+		setAccountMenuAnchorEl(event.currentTarget);
+	};
+
+	const handleCloseAccountMenu = () => {
+		setAccountMenuAnchorEl(null);
+	};
+
 	const handleCloseInviteMenu = () => {
 		setInviteMenuAnchorEl(null);
 	};
@@ -90,6 +100,12 @@ function ClassHeader({ navTag, hasNav }) {
 
 	const handleUploadModal = () => {
 		setIsOpenUploadFileModal(true);
+	};
+
+	const onLogOut = () => {
+		// eslint-disable-next-line no-undef
+		localStorage.removeItem("refreshToken");
+		dispatch(logout());
 	};
 
 	const redirectHome = (e) => {
@@ -198,7 +214,7 @@ function ClassHeader({ navTag, hasNav }) {
 						) : (
 							<IconButton
 								color="inherit"
-								onClick={openUpdateIdModal}
+								onClick={handleAccountMenu}
 							>
 								<AccountCircle />
 							</IconButton>
@@ -249,6 +265,30 @@ function ClassHeader({ navTag, hasNav }) {
 						</div>
 					))}
 				</List>
+			</Menu>
+			<Menu
+				anchorEl={accountMenuAnchorEl}
+				open={Boolean(accountMenuAnchorEl)}
+				onClose={handleCloseAccountMenu}
+			>
+				<MenuItem
+					onClick={(e) => {
+						e.preventDefault();
+						history.push(RouterURL.PROFILE);
+					}}
+				>
+					Profile
+				</MenuItem>
+				<MenuItem
+					onClick={(e) => {
+						e.preventDefault();
+						openUpdateIdModal();
+						setAccountMenuAnchorEl(null);
+					}}
+				>
+					Update Student ID
+				</MenuItem>
+				<MenuItem onClick={onLogOut}>Log out</MenuItem>
 			</Menu>
 		</Box>
 	);
