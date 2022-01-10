@@ -41,24 +41,6 @@ function JoinClass() {
 			return;
 		}
 		setLoadingApi(-1);
-		// try {
-		// 	let data = {};
-		// 	if (token) {
-		// 		data = await joinByEmail(token);
-		// 	} else {
-		// 		data = await joinClass({ classId, inviteId });
-		// 	}
-
-		// 	if (Object.keys(data.data).length !== 0) {
-		// 		setLoadingApi(1);
-		// 	} else {
-		// 		setLoadingApi(-1);
-		// 	}
-		// } catch (error) {
-		// 	// eslint-disable-next-line no-undef
-		// 	console.log(error);
-		// 	setLoadingApi(-1);
-		// }
 	};
 
 	useEffect(() => {

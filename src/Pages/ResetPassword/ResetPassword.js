@@ -78,8 +78,7 @@ function ResetPassword() {
 							variant="outlined"
 							type="password"
 							margin="dense"
-							id="name"
-							name="password"
+							id="password"
 							label="New password (*)"
 							error={!!formState.errors.newPassword?.message}
 							helperText={formState.errors.newPassword?.message}
@@ -90,8 +89,7 @@ function ResetPassword() {
 							variant="outlined"
 							type="password"
 							margin="dense"
-							id="name"
-							name="confirmPassword"
+							id="confirmPassword"
 							label="Confirm you password (*)"
 							error={!!formState.errors.newPasswordAgain?.message}
 							helperText={

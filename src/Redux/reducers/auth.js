@@ -5,7 +5,9 @@ import {
 	UPDATE_USER,
 } from "Redux/actions/types";
 
-const initialState = { user: null, isLoginRequired: false };
+const user = JSON.parse(localStorage.getItem("user"));
+
+const initialState = { user, isLoginRequired: false };
 
 const authReducer = (state = initialState, action) => {
 	const { type, payload } = action;

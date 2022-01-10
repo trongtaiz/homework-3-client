@@ -14,4 +14,8 @@ export const GuestConfig = [
 		component: lazy(() => import("Pages/ActivateAccount")),
 		path: RouterURL.VERIFY_EMAIL,
 	},
+	{
+		component: lazy(() => import("Pages/AdminLogin")),
+		path: RouterURL.ADMIN_LOGIN,
+	},
 ];
