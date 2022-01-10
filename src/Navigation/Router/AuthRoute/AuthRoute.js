@@ -2,7 +2,7 @@
 import React, { Suspense } from "react";
 import { Route, Redirect } from "react-router";
 import PropTypes from "prop-types";
-
+import { adminRequest } from "Utils/request";
 import { RouterURL } from "Utils/constants";
 
 import CircularProgress from "@mui/material/CircularProgress";
@@ -22,6 +22,14 @@ const defaultProps = {
 
 function AuthRoute({ path, exact, component: Component }) {
 	const user = localStorage.getItem("user");
+
+	if (user) {
+		const parsedUser = JSON.parse(user);
+		if (parsedUser.role === "admin") {
+			adminRequest.defaults.headers.common["Authorization"] =
+				"Bearer " + parsedUser.accessToken;
+		}
+	}
 
 	return (
 		<Route path={path} exact={exact}>

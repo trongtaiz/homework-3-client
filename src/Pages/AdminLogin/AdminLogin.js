@@ -10,7 +10,7 @@ import { login } from "Redux/actions/auth";
 
 import withCatch from "Utils/withCatch";
 import * as Alert from "Utils/alert";
-import { authRequest } from "Utils/request";
+import { adminRequest } from "Utils/request";
 import { RouterURL } from "Utils/constants";
 
 import { signIn } from "Services/admins.service";
@@ -46,13 +46,9 @@ function AdminLogin() {
 	});
 
 	const onLoginSuccess = ({ accessToken, email }) => {
-		console.log(
-			"🚀 ~ file: AdminLogin.js ~ line 49 ~ onLoginSuccess ~ accessToken",
-			accessToken
-		);
-		authRequest.defaults.headers.common["Authorization"] =
+		adminRequest.defaults.headers.common["Authorization"] =
 			"Bearer " + accessToken;
-		dispatch(login({ user: { role: "admin", email } }));
+		dispatch(login({ user: { role: "admin", email, accessToken } }));
 	};
 
 	const signInFunc = async ({ email, password }) => {
@@ -65,12 +61,13 @@ function AdminLogin() {
 			Alert.success("Login success");
 			localStorage.setItem(
 				"user",
-				JSON.stringify({ role: "admin", email })
+				JSON.stringify({
+					role: "admin",
+					email,
+					accessToken: result.data.data.accessToken,
+				})
 			);
-			console.log(
-				"🚀 ~ file: AdminLogin.js ~ line 65 ~ signInFunc ~ result",
-				result.data
-			);
+			console.log(result);
 			onLoginSuccess({
 				accessToken: result.data.data.accessToken,
 				email,
