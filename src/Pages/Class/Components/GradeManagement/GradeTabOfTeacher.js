@@ -264,8 +264,13 @@ function GradeTabOfTeacher(props) {
 							pointArray[0][j].percent;
 				}
 			});
+			downloadArray[i - 1]["Total"] = totalGrade / 100;
 			return eachRow.push(totalGrade / 100);
 		});
+		console.log(
+			"🚀 ~ file: GradeTabOfTeacher.js ~ line 271 ~ transformTableData ~ downloadArray",
+			downloadArray
+		);
 		setExportArray(downloadArray);
 		console.log(pointArray);
 		setGradeBoard(pointArray);
