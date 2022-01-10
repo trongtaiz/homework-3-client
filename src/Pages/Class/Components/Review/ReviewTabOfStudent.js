@@ -6,12 +6,12 @@ import * as reviewService from "Services/review.service";
 
 export default function ReviewTabOfStudent() {
 	const [reviews, setReviews] = useState([]);
-	const { studentId: studentId } = useSelector((state) => state.mapId);
+	const { user } = useSelector((state) => state.auth);
 	const { class: currentClass } = useSelector((state) => state.currentClass);
 
 	useEffect(async () => {
 		const { data } = await reviewService.getAllReviewInClassOfStudent(
-			studentId,
+			user.studentId,
 			currentClass.id
 		);
 		console.log("data", data);

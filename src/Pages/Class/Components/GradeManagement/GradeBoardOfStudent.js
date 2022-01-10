@@ -22,10 +22,11 @@ import * as reviewService from "Services/review.service";
 import RequestReviewModal from "Components/Review/RequestReviewModal";
 
 export default function StudentGradeBoard() {
-	const { studentId } = useSelector((state) => state.mapId);
+	const { user } = useSelector((state) => state.auth);
 	const { class: currentClass } = useSelector((state) => state.currentClass);
 	const [assignmentPoints, setAssignmentPoints] = useState([]);
 	const [selectedAssignmentId, setSelectedAssignmentId] = useState(0);
+	const [totalGrade, setTotalGrade] = useState(0);
 	const [openRequestReview, setOpenRequestReview] = useState(false);
 
 	const openRequestReviewModel = (id) => {
@@ -39,7 +40,7 @@ export default function StudentGradeBoard() {
 		setOpenRequestReview(false);
 		reviewService.createReview({
 			assignmentId,
-			studentId,
+			studentId: user.studentId,
 			classId: currentClass.id,
 			explanation,
 			expectedGrade,
@@ -48,11 +49,22 @@ export default function StudentGradeBoard() {
 
 	useEffect(async () => {
 		const { data } = await classService.getAllPointOfAStudent(
-			studentId,
+			user.studentId,
 			currentClass.id
 		);
 		setAssignmentPoints(data.data);
-	}, [studentId, currentClass]);
+		setTotalGrade(
+			Math.round(
+				data.data
+					.map((a) => {
+						if (a.achievedPoint >= 0)
+							return (a.achievedPoint * a.detail?.point) / 100;
+						else return 0;
+					})
+					.reduce((a, b) => a + b, 0) * 100
+			) / 100
+		);
+	}, [user.studentId, currentClass]);
 	return (
 		<Grid container direction="column" justify="center" alignItems="center">
 			<Grid item xs={12} md={8} style={{ paddingTop: "10px" }}>
@@ -60,7 +72,7 @@ export default function StudentGradeBoard() {
 					<Table sx={{ minWidth: 500 }} aria-label="simple table">
 						<TableHead>
 							<TableRow>
-								<TableCell>Assignment</TableCell>
+								<TableCell>Assignment </TableCell>
 								<TableCell align="right">%</TableCell>
 								<TableCell align="right">Point</TableCell>
 								<TableCell align="right">Review</TableCell>
@@ -83,7 +95,7 @@ export default function StudentGradeBoard() {
 										{row.detail.point}
 									</TableCell>
 									<TableCell align="right">
-										{parseInt(row.achievedPoint) >= 0 ? (
+										{parseInt(row.achievedPoint) > 0 ? (
 											row.achievedPoint
 										) : (
 											<HideSourceIcon />
@@ -125,6 +137,20 @@ export default function StudentGradeBoard() {
 									</TableCell>
 								</TableRow>
 							))}
+							<TableRow
+								sx={{
+									"&:last-child td, &:last-child th": {
+										border: 0,
+									},
+								}}
+							>
+								<TableCell component="th" scope="row">
+									{"Total Grade"}
+								</TableCell>
+								<TableCell align="center" colSpan={3}>
+									{totalGrade}
+								</TableCell>
+							</TableRow>
 						</TableBody>
 					</Table>
 				</TableContainer>
