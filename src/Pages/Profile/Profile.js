@@ -90,7 +90,6 @@ const Profile = () => {
 					sx={{}}
 				>
 					<Tab label="Edit Profile" {...a11yProps(0)} />
-					<Tab label="Change password" {...a11yProps(1)} />
 				</Tabs>
 				<div style={{ flexGrow: 1 }}>
 					<div
@@ -154,9 +153,6 @@ const Profile = () => {
 									</Button>
 								</div>
 							</form>
-						</TabPanel>
-						<TabPanel value={tabValue} index={1}>
-							Change password
 						</TabPanel>
 					</div>
 				</div>
