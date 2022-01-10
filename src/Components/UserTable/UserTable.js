@@ -22,7 +22,7 @@ function RenderInput(props) {
 
 	const handleChangePoint = async () => {
 		const [result, error] = await withCatch(
-			mapStudentId({ userId, studentId: studentId || undefined })
+			mapStudentId({ userId, studentId: studentId || null })
 		);
 
 		if (error) {
