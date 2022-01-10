@@ -114,7 +114,6 @@ function RenderHeader(props) {
 	const handleUploadModal = () => {
 		setIsOpenUploadFileModal(true);
 	};
-	console.log("header", header);
 	return (
 		<Box
 			sx={{
@@ -161,7 +160,6 @@ function RenderHeader(props) {
 
 function GradeTabOfTeacher(props) {
 	const { id } = props;
-	console.log("id", id);
 	const [pointTable, setPointTable] = useState([]);
 	const [assignment, setAssignment] = useState([]);
 	const [gradeBoard, setGradeBoard] = useState([]);
@@ -267,14 +265,8 @@ function GradeTabOfTeacher(props) {
 			downloadArray[i - 1]["Total"] = totalGrade / 100;
 			return eachRow.push(totalGrade / 100);
 		});
-		console.log(
-			"🚀 ~ file: GradeTabOfTeacher.js ~ line 271 ~ transformTableData ~ downloadArray",
-			downloadArray
-		);
 		setExportArray(downloadArray);
-		console.log(pointArray);
 		setGradeBoard(pointArray);
-		console.log("pointArray", pointArray);
 	};
 
 	const handleDownloadGradeTemplate = (e) => {

@@ -46,6 +46,10 @@ function AdminLogin() {
 	});
 
 	const onLoginSuccess = ({ accessToken, email }) => {
+		console.log(
+			"🚀 ~ file: AdminLogin.js ~ line 49 ~ onLoginSuccess ~ accessToken",
+			accessToken
+		);
 		authRequest.defaults.headers.common["Authorization"] =
 			"Bearer " + accessToken;
 		dispatch(login({ user: { role: "admin", email } }));
@@ -63,7 +67,14 @@ function AdminLogin() {
 				"user",
 				JSON.stringify({ role: "admin", email })
 			);
-			onLoginSuccess({ accessToken: result.data.accessToken, email });
+			console.log(
+				"🚀 ~ file: AdminLogin.js ~ line 65 ~ signInFunc ~ result",
+				result.data
+			);
+			onLoginSuccess({
+				accessToken: result.data.data.accessToken,
+				email,
+			});
 			history.push(RouterURL.ADMIN_DASHBOARD);
 			return;
 		}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { _ } from "gridjs-react";
 
 import { getAllUser, lockUser, mapStudentId } from "Services/admins.service";
 
@@ -9,7 +10,7 @@ import GridDataTable from "Components/GridDataTable";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
-import { _ } from "gridjs-react";
+import ShowUserClassModal from "Components/ShowUserClassModal";
 
 function RenderInput(props) {
 	const { initId, userId, setReloadTable } = props;
@@ -44,6 +45,8 @@ function RenderInput(props) {
 }
 
 function UserTable() {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [userId, setUserId] = useState("");
 	const [reloadTable, setReloadTable] = useState(0);
 	const lockAccount = async ({ userId, isLocked }) => {
 		const [result, error] = await withCatch(lockUser({ userId, isLocked }));
@@ -56,6 +59,12 @@ function UserTable() {
 			Alert.success("Success locked user");
 			setReloadTable((oldValue) => oldValue + 1);
 		}
+	};
+
+	const toggleUserDetailModal = (e, id) => {
+		e.preventDefault();
+		setUserId(id);
+		setIsModalOpen(true);
 	};
 
 	const mapResult = (result) => {
@@ -94,6 +103,11 @@ function UserTable() {
 						{isLocked ? "UnBan Account" : "Ban Account"}
 					</Button>
 				),
+				Detail: _(
+					<Button onClick={(e) => toggleUserDetailModal(e, id)}>
+						show list class
+					</Button>
+				),
 			})
 		);
 	};
@@ -105,12 +119,19 @@ function UserTable() {
 		return Object.keys(mapResult(result)[0] || {});
 	};
 	return (
-		<GridDataTable
-			getDataFunction={getAllUser}
-			mapResultData={mapResultData}
-			mapResultHeader={mapResultHeader}
-			reloadTable={reloadTable}
-		/>
+		<div>
+			<GridDataTable
+				getDataFunction={getAllUser}
+				mapResultData={mapResultData}
+				mapResultHeader={mapResultHeader}
+				reloadTable={reloadTable}
+			/>
+			<ShowUserClassModal
+				isOpen={isModalOpen}
+				setIsOpen={setIsModalOpen}
+				userId={userId}
+			/>
+		</div>
 	);
 }
 

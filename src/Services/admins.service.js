@@ -35,3 +35,9 @@ export const createAdmin = async ({ email, password, name }) => {
 		name,
 	});
 };
+
+export const getUserClasses = async ({ userId }) => {
+	return authRequest.get("/admins/user/classes", {
+		params: { userId },
+	});
+};
