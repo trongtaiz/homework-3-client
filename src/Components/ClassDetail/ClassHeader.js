@@ -19,7 +19,6 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import InviteLinkModal from "Components/InviteLinkModal";
-import InviteEmailModal from "Components/InviteEmailModal";
 import UploadFileModal from "Components/UploadFileModal";
 import MappingAccountIDModal from "./MappingAccountIDModal";
 import NotificationItem from "Components/Notification/NotificationItem";
@@ -49,7 +48,6 @@ function ClassHeader({ navTag, hasNav }) {
 	const [accountMenuAnchorEl, setAccountMenuAnchorEl] = React.useState(null);
 	const [openIdUpdate, setOpenIdUpdate] = useState(false);
 	const [isOpenInviteLink, setIsOpenInviteLink] = useState(false);
-	const [isOpenInviteEmail, setIsOpenInviteEmail] = useState(false);
 	const [isOpenUploadFileModal, setIsOpenUploadFileModal] = useState(false);
 	const [inviteMenuAnchorEl, setInviteMenuAnchorEl] = useState(null);
 
@@ -66,11 +64,6 @@ function ClassHeader({ navTag, hasNav }) {
 
 	const openInviteModal = () => {
 		setIsOpenInviteLink(true);
-		handleCloseInviteMenu();
-	};
-
-	const openInviteEmailModal = () => {
-		setIsOpenInviteEmail(true);
 		handleCloseInviteMenu();
 	};
 
@@ -106,6 +99,7 @@ function ClassHeader({ navTag, hasNav }) {
 		// eslint-disable-next-line no-undef
 		localStorage.removeItem("refreshToken");
 		dispatch(logout());
+		window.location.reload(false);
 	};
 
 	const redirectHome = (e) => {
@@ -203,9 +197,6 @@ function ClassHeader({ navTag, hasNav }) {
 									open={!!inviteMenuAnchorEl}
 									onClose={handleCloseInviteMenu}
 								>
-									<MenuItem onClick={openInviteEmailModal}>
-										Invite By Email
-									</MenuItem>
 									<MenuItem onClick={openInviteModal}>
 										Invite By link
 									</MenuItem>
@@ -226,10 +217,7 @@ function ClassHeader({ navTag, hasNav }) {
 				isOpenModal={isOpenInviteLink}
 				setIsOpenModal={setIsOpenInviteLink}
 			/>
-			<InviteEmailModal
-				isOpenModal={isOpenInviteEmail}
-				setIsOpenModal={setIsOpenInviteEmail}
-			/>
+
 			{role === Role.STUDENT && (
 				<MappingAccountIDModal
 					open={openIdUpdate}

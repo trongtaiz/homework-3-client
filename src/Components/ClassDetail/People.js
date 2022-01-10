@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
 	InviteIcon,
 	PeopleHeader,
@@ -15,7 +15,9 @@ import {
 	getStudentsInClass,
 	getTeachersInClass,
 } from "../../Redux/actions/classes";
+import InviteEmailModal from "Components/InviteEmailModal";
 import { useEffect } from "react";
+import { IconButton } from "@mui/material";
 
 function People(props) {
 	useEffect(() => {
@@ -23,12 +25,25 @@ function People(props) {
 		props.getStudentsInClass(props.id);
 	}, []);
 	const { students, teachers, user, role } = props;
+	const [isOpenInviteEmail, setIsOpenInviteEmail] = useState(false);
+	const [roleToInvite, setRoleToInvite] = useState("");
+
+	const openInviteEmailModal = (role) => {
+		setIsOpenInviteEmail(true);
+		setRoleToInvite(role);
+	};
 	return (
 		<PeopleWrapper>
 			<PeopleHeader>
 				Teachers
 				<PeopleHeaderEnd>
-					{role === Role.TEACHER && <InviteIcon />}
+					{role === Role.TEACHER && (
+						<IconButton
+							onClick={() => openInviteEmailModal(Role.TEACHER)}
+						>
+							<InviteIcon />
+						</IconButton>
+					)}
 				</PeopleHeaderEnd>
 			</PeopleHeader>
 			{teachers?.map((teacher) => (
@@ -44,7 +59,15 @@ function People(props) {
 				<PeopleHeaderEnd>
 					<div>
 						{students?.length + " students"}
-						{role === Role.TEACHER && <InviteIcon />}
+						{role === Role.TEACHER && (
+							<IconButton
+								onClick={() =>
+									openInviteEmailModal(Role.STUDENT)
+								}
+							>
+								<InviteIcon />
+							</IconButton>
+						)}
 					</div>
 				</PeopleHeaderEnd>
 			</PeopleHeader>
@@ -61,6 +84,11 @@ function People(props) {
 				}
 				return result;
 			}, [])}
+			<InviteEmailModal
+				role={roleToInvite}
+				isOpenModal={isOpenInviteEmail}
+				setIsOpenModal={setIsOpenInviteEmail}
+			/>
 		</PeopleWrapper>
 	);
 }

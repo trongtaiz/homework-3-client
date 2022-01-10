@@ -13,11 +13,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-
-import { Role } from "Utils/constants";
 
 import { inviteEmail } from "Services/class.service";
 
@@ -26,7 +21,6 @@ const validationSchema = Yup.object().shape({
 		.trim()
 		.required("Email is require")
 		.email("Please enter an valid email!"),
-	role: Yup.string().required("Role is require").nullable(true),
 });
 
 const propTypes = {
@@ -40,7 +34,7 @@ const defaultProps = {
 };
 
 function InviteEmailModal(props) {
-	const { isOpenModal, setIsOpenModal } = props;
+	const { isOpenModal, setIsOpenModal, role } = props;
 	const { class: currentClass } = useSelector((state) => state.currentClass);
 
 	const { handleSubmit, register, reset, formState } = useForm({
@@ -48,12 +42,11 @@ function InviteEmailModal(props) {
 		reValidateMode: "onChange",
 		defaultValues: {
 			email: "",
-			role: "",
 		},
 		resolver: yupResolver(validationSchema),
 	});
 
-	const onSubmit = async ({ email, role }) => {
+	const onSubmit = async ({ email }) => {
 		try {
 			await inviteEmail({
 				userEmail: email,
@@ -84,11 +77,10 @@ function InviteEmailModal(props) {
 				onClose={closeModal}
 			>
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<DialogTitle>Invite to class</DialogTitle>
+					<DialogTitle>{`Invite ${role} to class`}</DialogTitle>
 					<DialogContent>
 						<TextField
 							fullWidth
-							autoFocus
 							variant="outlined"
 							type="text"
 							margin="dense"
@@ -98,20 +90,6 @@ function InviteEmailModal(props) {
 							helperText={formState.errors.email?.message}
 							{...register("email")}
 						/>
-						<RadioGroup aria-label="gender">
-							<FormControlLabel
-								value={Role.STUDENT}
-								control={<Radio />}
-								label="Student"
-								{...register("role")}
-							/>
-							<FormControlLabel
-								value={Role.TEACHER}
-								control={<Radio />}
-								label="Teacher"
-								{...register("role")}
-							/>
-						</RadioGroup>
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={closeModal}>Cancel</Button>
