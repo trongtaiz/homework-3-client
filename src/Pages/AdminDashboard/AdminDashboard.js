@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
+
+import { RouterURL } from "Utils/constants";
 
 import UserTable from "Components/UserTable";
 import ClassTable from "Components/ClassTable";
@@ -46,11 +49,19 @@ function a11yProps(index) {
 }
 
 function AdminDashboard() {
+	const history = useHistory();
 	const [value, setValue] = useState(0);
+	const user = JSON.parse(localStorage.getItem("user"));
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
+	useEffect(() => {
+		if (user.role !== "admin") {
+			history.push(RouterURL.HOME);
+		}
+	});
 
 	return (
 		<Styled.Wrapper>
