@@ -263,7 +263,7 @@ function GradeTabOfTeacher(props) {
 				}
 			});
 			downloadArray[i - 1]["Total"] = totalGrade / 100;
-			return eachRow.push(totalGrade / 100);
+			return eachRow.push({ point: totalGrade / 100 });
 		});
 		setExportArray(downloadArray);
 		setGradeBoard(pointArray);
