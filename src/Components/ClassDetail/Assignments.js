@@ -19,10 +19,8 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import SaveIcon from "@mui/icons-material/Save";
 import store from "Redux/store";
 import { Role } from "Utils/constants";
-import {
-	updateAllAssignments,
-	getAssignments,
-} from "Redux/actions/assignments";
+import { getAssignments } from "Redux/actions/assignments";
+import { updateAllAssignments } from "Services/assignment.service";
 
 function Assignments(props) {
 	const { assignmentsList, id } = props;
@@ -67,9 +65,10 @@ function Assignments(props) {
 
 	function saveHandle() {
 		// eslint-disable-next-line no-unused-vars
-		const newAssignments = assignments.map(({ open, ...attr }, i) => ({
-			...attr,
-			classId: id,
+		const newAssignments = assignments.map((item, i) => ({
+			id: item.id ? item.id : "new",
+			title: item.title,
+			point: item.point,
 			order: i,
 		}));
 
@@ -79,7 +78,8 @@ function Assignments(props) {
 		};
 		expandCloseAll();
 		console.log("saveHandle", data);
-		props.updateAllAssignments(data);
+		//props.updateAllAssignments(data);
+		updateAllAssignments(data);
 	}
 
 	function onDragEnd(result) {

@@ -13,7 +13,6 @@ import { getAllPostsInClass } from "../../Redux/actions/posts";
 import {
 	ClassDetailWrapper,
 	ClassNameBox,
-	//ClassPost,
 	InputPost,
 	PostAvatar,
 } from "./ClassDetail.styled";
@@ -30,6 +29,10 @@ const Item = styled(Paper)(({ theme }) => ({
 function Stream(props) {
 	const [isInviteCodeModalOpen, setIsInviteCodeModalOpen] = useState(false);
 	const { role: role } = useSelector((state) => state.currentClass);
+	const { class: currentClass } = useSelector((state) => state.currentClass);
+	const { id, invite_id } = currentClass;
+	const linkJoin = `${window.location.origin}/join-class?classId=${id}&inviteId=${invite_id}`;
+
 	useEffect(() => {
 		props.getAllPostsInClass(props.id);
 	}, []);
@@ -41,7 +44,7 @@ function Stream(props) {
 			</ClassNameBox>
 			<Box sx={{ flexGrow: 1, mt: 2 }}>
 				<Grid container spacing={2}>
-					<Grid item xs={2}>
+					<Grid item xs={4} md={3} lg={2}>
 						<Item elevation={4}>
 							<div>
 								<Typography variant="subtitle2">
@@ -57,10 +60,10 @@ function Stream(props) {
 										}}
 									>
 										<Typography
-											variant="h6"
+											variant="body1"
 											color={"primary"}
 										>
-											code
+											{invite_id.substr(0, 7)}
 										</Typography>
 
 										<IconButton
@@ -79,7 +82,7 @@ function Stream(props) {
 							</div>
 						</Item>
 					</Grid>
-					<Grid item xs={10}>
+					<Grid item xs={8} md={9} lg={10}>
 						<Item elevation={4}>
 							<PostAvatar
 								src={
@@ -109,10 +112,11 @@ function Stream(props) {
 				/>
 			))}
 			<InviteCodeModal
-				code="code"
+				code={invite_id?.substr(0, 7)}
 				name={name}
 				onClose={() => setIsInviteCodeModalOpen(false)}
 				isOpen={isInviteCodeModalOpen}
+				inviteLink={linkJoin}
 			></InviteCodeModal>
 		</ClassDetailWrapper>
 	);

@@ -23,6 +23,10 @@ export const updateAssignments = async (id, data) => {
 	});
 };
 
+export const updateAllAssignments = async (data) => {
+	return authRequest.patch(`/assignments/all`, data);
+};
+
 export const updateStudentPoints = async ({
 	classId,
 	assignmentId,

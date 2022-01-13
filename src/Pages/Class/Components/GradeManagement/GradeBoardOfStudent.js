@@ -102,37 +102,51 @@ export default function StudentGradeBoard() {
 										)}
 									</TableCell>
 									<TableCell align="right">
-										{row.review ? (
-											row.review.finalGrade ? (
-												<Tooltip title="Review Completed">
-													<IconButton color="success">
-														<FactCheckIcon />
-													</IconButton>
-												</Tooltip>
+										{parseInt(row.achievedPoint) > 0 ? (
+											row.review ? (
+												row.review.finalGrade ? (
+													<Tooltip title="Review Completed">
+														<IconButton color="success">
+															<FactCheckIcon />
+														</IconButton>
+													</Tooltip>
+												) : (
+													<Tooltip title="Pending">
+														<IconButton
+															color="warning"
+															component={Link}
+															to={`/classes/${currentClass.id}/review-detail/${row.review.id}`}
+														>
+															<AutorenewIcon />
+														</IconButton>
+													</Tooltip>
+												)
 											) : (
-												<Tooltip title="Pending">
+												<Tooltip title="Request Review">
 													<IconButton
-														color="warning"
-														component={Link}
-														to={`/classes/${currentClass.id}/review-detail/${row.review.id}`}
+														color="primary"
+														onClick={() =>
+															openRequestReviewModel(
+																row.assignmentId
+															)
+														}
 													>
-														<AutorenewIcon />
+														<RateReviewIcon />
 													</IconButton>
 												</Tooltip>
 											)
 										) : (
-											<Tooltip title="Request Review">
-												<IconButton
-													color="primary"
-													onClick={() =>
-														openRequestReviewModel(
-															row.assignmentId
-														)
-													}
-												>
-													<RateReviewIcon />
-												</IconButton>
-											</Tooltip>
+											<IconButton
+												disabled
+												color="primary"
+												onClick={() =>
+													openRequestReviewModel(
+														row.assignmentId
+													)
+												}
+											>
+												<RateReviewIcon />
+											</IconButton>
 										)}
 									</TableCell>
 								</TableRow>

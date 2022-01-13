@@ -48,6 +48,12 @@ export const joinClass = async (data) => {
 	});
 };
 
+export const joinByCode = async (code) => {
+	return authRequest.get(`/classes/join-by-code`, {
+		params: { code },
+	});
+};
+
 export const joinByEmail = async (token) => {
 	return request.get(`/classes/join-by-email/${token}`);
 };
