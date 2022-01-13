@@ -22,6 +22,7 @@ import ForgotPasswordModal from "Components/ForgotPasswordModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "Redux/actions/auth";
 import { RouterURL } from "Utils/constants";
+import JoinByCodeModal from "Components/JoinByCodeModal";
 
 const propTypes = {
 	isDrawerOpen: PropTypes.bool,
@@ -42,6 +43,7 @@ function AppHeader(props) {
 	const [isOpenAddModal, setIsOpenAddModal] = useState(false);
 	const [isOpenSignInOrSignUpModal, setIsOpenSignInOrSignUpModal] =
 		useState(false);
+	const [isOpenJoinByCodeModal, setIsOpenJoinByCodeModal] = useState(false);
 	const [isOpenForgotPasswordModal, setIsOpenForgotPasswordModal] =
 		useState(false);
 	const [isSignUpModal, setIsSignUpModal] = useState(false);
@@ -68,6 +70,11 @@ function AppHeader(props) {
 		handleCloseClassMenu();
 	};
 
+	const openJoinByCodeModal = () => {
+		setIsOpenJoinByCodeModal(true);
+		handleCloseClassMenu();
+	};
+
 	const openSignInModal = () => {
 		setIsSignUpModal(false);
 		setIsOpenSignInOrSignUpModal(true);
@@ -80,6 +87,10 @@ function AppHeader(props) {
 
 	const closeSignInOrSignUpModal = () => {
 		setIsOpenSignInOrSignUpModal(false);
+	};
+
+	const closeJoinByCodeModal = () => {
+		setIsOpenJoinByCodeModal(false);
 	};
 
 	const closeForgotPasswordModal = () => {
@@ -165,6 +176,9 @@ function AppHeader(props) {
 									<MenuItem onClick={openAddModal}>
 										Create a class
 									</MenuItem>
+									<MenuItem onClick={openJoinByCodeModal}>
+										Join Class By Code
+									</MenuItem>
 								</Menu>
 								<Menu
 									anchorEl={accountMenuAnchorEl}
@@ -204,6 +218,11 @@ function AppHeader(props) {
 				setIsOpenModal={setIsOpenForgotPasswordModal}
 				onClose={closeForgotPasswordModal}
 			/>
+			<JoinByCodeModal
+				isOpenModal={isOpenJoinByCodeModal}
+				setIsOpenModal={setIsOpenJoinByCodeModal}
+				onClose={closeJoinByCodeModal}
+			></JoinByCodeModal>
 		</Box>
 	);
 }

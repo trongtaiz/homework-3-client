@@ -18,6 +18,7 @@ export const useSignInOrSignUpModal = () => {
 		// });
 
 		dispatch(login({ user }));
+		window.location.reload(false);
 	};
 
 	const signIn = async ({ email, password }, onSuccess, onFail) => {

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -9,18 +10,20 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { connect } from "react-redux";
-import { changeStudentId, fetchStudentId } from "../../Redux/actions/classes";
 import { useEffect } from "react";
+import * as classService from "Services/class.service";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
 	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 function MappingAccountIDModal(props) {
-	const { mapId, setOpenIdUpdate, open, user, currentClass } = props;
+	const { setOpenIdUpdate, open } = props;
 	const [studentId, setStudentId] = React.useState("");
+	const [prevStudentId, setPrevStudentId] = React.useState("");
 	const [alertSuccess, setAlertSuccess] = React.useState(false);
 	const [alertFailure, setAlertFailure] = React.useState(false);
+	const { user } = useSelector((state) => state.auth);
+	const { class: currentClass } = useSelector((state) => state.currentClass);
 	const handleCloseAlertSuccess = (event, reason) => {
 		if (reason === "clickaway") {
 			return;
@@ -36,22 +39,35 @@ function MappingAccountIDModal(props) {
 		setOpenIdUpdate(false);
 	};
 
-	useEffect(() => {
-		props.fetchStudentId(currentClass.class.id, user?.id);
+	useEffect(async () => {
+		const prevId = await classService.fetchStudentId(
+			currentClass?.id,
+			user?.id
+		);
+		console.log("prevId", prevId.data.data);
+		setPrevStudentId(prevId.data.data);
 	}, [user, currentClass]);
-
-	useEffect(() => {
-		if (mapId.success) setAlertSuccess(true);
-		if (mapId.success == false) setAlertFailure(true);
-	}, [mapId]);
 
 	const handleClose = () => {
 		setOpenIdUpdate(false);
 	};
 
-	const handleUpdate = () => {
-		if (studentId === mapId.studentId || studentId === "") handleClose();
-		else props.changeStudentId(currentClass.class.id, user?.id, studentId);
+	const handleUpdate = async () => {
+		if (studentId === prevStudentId || studentId === "") handleClose();
+		else {
+			try {
+				const res = await classService.changeStudentId(
+					currentClass.id,
+					user?.id,
+					studentId
+				);
+				console.log("res", res);
+				if (res.status == 200) setAlertSuccess(true);
+			} catch {
+				setAlertFailure(true);
+			}
+			//else setAlertFailure(true);
+		}
 	};
 
 	const handleOnChange = (e) => {
@@ -63,7 +79,7 @@ function MappingAccountIDModal(props) {
 				<DialogTitle>Update Student ID</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						To view your own gradings, please enter your student ID
+						To view your own grades, please enter your student ID
 						here.
 					</DialogContentText>
 					<TextField
@@ -72,9 +88,7 @@ function MappingAccountIDModal(props) {
 						id="name"
 						label="Student ID"
 						type="string"
-						defaultValue={
-							mapId.studentId == null ? "" : mapId.studentId
-						}
+						defaultValue={prevStudentId || ""}
 						fullWidth
 						variant="standard"
 						onChange={handleOnChange}
@@ -117,14 +131,4 @@ function MappingAccountIDModal(props) {
 	);
 }
 
-const mapStateToProps = (state) => {
-	return {
-		user: state.auth.user,
-		currentClass: state.currentClass,
-		mapId: state.mapId,
-	};
-};
-
-export default connect(mapStateToProps, { fetchStudentId, changeStudentId })(
-	MappingAccountIDModal
-);
+export default MappingAccountIDModal;
